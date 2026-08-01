@@ -14,6 +14,7 @@
 /// 3. The word contains the mandatory first seed letter (U).
 /// Valid words are scored, categorized, and sorted before printing.
 /// </summary>
+
 char[] letters = { 'U', 'X', 'A', 'L', 'T', 'N', 'E' };
 string filePath = @"C:\Users\msara\Downloads\words-List.txt";
 
@@ -40,9 +41,6 @@ foreach (var rawWord in words) {
 
 var sortedResult = result.OrderByDescending (item => item.score).ThenBy (item => item.word);
 
-Console.WriteLine ("Word .................... Score");
-Console.WriteLine ("--------------------------------");
-
 foreach (var item in sortedResult) {
    totalScore += item.score;
 
@@ -50,16 +48,15 @@ foreach (var item in sortedResult) {
       Console.ForegroundColor = ConsoleColor.Green;
    }
 
-   string formattedLine = $"{item.word,-20} ..... {item.score,3}";
-   Console.WriteLine (formattedLine);
+   Console.WriteLine ($"{item.score,2}. {item.word}");
 
    if (item.isPangram) {
       Console.ResetColor ();
    }
 }
 
-Console.WriteLine ("--------------------------------");
-Console.WriteLine ($"Total Score ............. {totalScore,3}");
+Console.WriteLine ("----");
+Console.WriteLine ($"{totalScore} is the total score");
 
 #region Implementations ---------------------------------------------------------------------------
 
