@@ -6,11 +6,12 @@
 // Implements a number guessing game
 
 #region Program -------------------------------------------------------------------------------------------------
-/// <summary>Summary for The script</summary>
+/// <summary>
 /// Generates a random target number and prompts the user to guess it within a given range
 /// And Comments about the users guess ( exact , Low , High )
 /// finally ends when the user guesses the answer Correctly.
-
+/// </summary>
+   
 int target = new Random ().Next (1, 101);
 int trials = 0;
 
