@@ -1,6 +1,7 @@
 *.tmp
 *.user
 *.rej
+*.ini
 *.tlb
 *.pdn
 *.bak
