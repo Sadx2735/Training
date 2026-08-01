@@ -35,7 +35,6 @@ foreach (var rawWord in words) {
 
    bool isPangram = IsPangram (word);
    int score = GetScore (word, isPangram);
-
    result.Add ((score, word, isPangram));
 }
 
@@ -44,15 +43,13 @@ var sortedResult = result.OrderByDescending (item => item.score).ThenBy (item =>
 foreach (var item in sortedResult) {
    totalScore += item.score;
 
-   if (item.isPangram) {
+   if (item.isPangram) 
       Console.ForegroundColor = ConsoleColor.Green;
-   }
 
    Console.WriteLine ($"{item.score,2}. {item.word}");
-
-   if (item.isPangram) {
+   
+   if (item.isPangram) 
       Console.ResetColor ();
-   }
 }
 
 Console.WriteLine ("----");
