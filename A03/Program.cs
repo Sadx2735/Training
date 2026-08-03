@@ -1,77 +1,58 @@
 ﻿// ------------------------------------------------------------------------------------------------
-// Training ~ A training program for new joinees at Metamation, Batch- July 2026.
+// Training ~ A training program for new joinees at Metamation, Batch - July 2026.
 // Copyright (c) Metamation India.
 // ------------------------------------------------------------------------------------------------
 // Program.cs
-// A program to help solve a New-York Times style Spelling Bee.
+// Solves a New York Times-style Spelling Bee puzzle.
+// ------------------------------------------------------------------------------------------------
 
-#region Program -----------------------------------------------------------------------------------
-
-/// <summary>
-/// Opens the file and iterates through every word. Criteria checked:
-/// 1. Word length is at least 4 letters.
-/// 2. All characters in the word belong to the allowed seed letters.
-/// 3. The word contains the mandatory first seed letter (U).
-/// Valid words are scored, categorized, and sorted before printing.
-/// </summary>
-
+#region Program -----------------------------------------------------
+/// <summary>Reads a word list file, filters valid Spelling Bee words, scores them, and displays 
+/// the sorted results.</summary>
 char[] letters = { 'U', 'X', 'A', 'L', 'T', 'N', 'E' };
-string filePath = @"C:\Users\msara\Downloads\words-List.txt";
-
+string filePath = @"C:\Work\Training\A03\WordsList.txt";
 if (!File.Exists (filePath)) {
-   Console.WriteLine ($"Error: Word list file not found at {filePath}");
+   Console.WriteLine ($"Error: Word list file not found at '{filePath}'.");
    return;
 }
-
 string[] words = File.ReadAllLines (filePath);
 List<(int score, string word, bool isPangram)> result = new ();
 int totalScore = 0;
-
 foreach (var rawWord in words) {
    string word = rawWord.Trim ().ToUpper ();
+   // Go to the next word if any of the below 3 conditions are met.
    if (word.Length < 4) continue;
    if (word.Any (c => !letters.Contains (c))) continue;
    if (!word.Contains (letters[0])) continue;
-
+   // If it's a valid word, then calculate its score.
    bool isPangram = IsPangram (word);
    int score = GetScore (word, isPangram);
    result.Add ((score, word, isPangram));
 }
-
 var sortedResult = result.OrderByDescending (item => item.score).ThenBy (item => item.word);
-
 foreach (var item in sortedResult) {
    totalScore += item.score;
-
-   if (item.isPangram) 
+   if (item.isPangram)
       Console.ForegroundColor = ConsoleColor.Green;
-
    Console.WriteLine ($"{item.score,2}. {item.word}");
-   
-   if (item.isPangram) 
+   if (item.isPangram)
       Console.ResetColor ();
 }
-
 Console.WriteLine ("----");
-Console.WriteLine ($"{totalScore} is the total score");
+Console.WriteLine ($"Total score: {totalScore}");
+#endregion
 
-#region Implementations ---------------------------------------------------------------------------
-
-/// <summary>
-/// Iterates through every character in the letters array to check if all of them are present in the word.
-/// </summary>
+#region Implementation ----------------------------------------------
+/// <summary>Checks whether all required seed letters are present in the word.</summary>
+/// <returns>Returns true if the word is a pangram; otherwise, false.</returns>
 bool IsPangram (string word) {
    return letters.All (character => word.Contains (character));
 }
 
-/// <summary>
-/// Assigns a score: 4-letter words score 1 point, longer words score their exact length.
-/// Additionally, if it is a pangram, 7 bonus points are added.
-/// </summary>
+/// <summary>Calculates the word score based on length and pangram bonus status.</summary>
+/// <returns>Returns the calculated score for the given word.</returns>
 int GetScore (string word, bool isPangram) {
    int baseScore = (word.Length == 4) ? 1 : word.Length;
    return baseScore + (isPangram ? 7 : 0);
 }
-
-#endregion
 #endregion
