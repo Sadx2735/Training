@@ -45,9 +45,7 @@ Console.WriteLine ($"Total score: {totalScore}");
 #region Implementation ----------------------------------------------
 /// <summary>Checks whether all required seed letters are present in the word.</summary>
 /// <returns>Returns true if the word is a pangram; otherwise, false.</returns>
-bool IsPangram (string word) {
-   return letters.All (character => word.Contains (character));
-}
+bool IsPangram (string word) => letters.All (character => word.Contains (character));
 
 /// <summary>Calculates the word score based on length and pangram bonus status.</summary>
 /// <returns>Returns the calculated score for the given word.</returns>
