@@ -24,7 +24,6 @@ foreach (var ch in content) {
    }
 }
 Console.WriteLine ("Printing top 7 elements:");
-foreach (var pair in freqTable.OrderByDescending (item => item.Value).Take (7)) {
+foreach (var pair in freqTable.OrderByDescending (item => item.Value).Take (7))
    Console.WriteLine ($"Character {pair.Key} was used {pair.Value} times.");
-}
 #endregion
