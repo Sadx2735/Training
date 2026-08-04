@@ -9,11 +9,7 @@
 #region Program -----------------------------------------------------
 /// <summary>Reads a word list file and displays the top 7 most frequent characters.</summary>
 Dictionary<char, int> freqTable = new ();
-string filePath = @"C:\Work\Training\A04\WordsList.txt";
-if (!File.Exists (filePath)) {
-   Console.WriteLine ($"Error: Word list file not found at '{filePath}'.");
-   return;
-}
+string filePath = "WordsList.txt";
 string content = File.ReadAllText (filePath);
 foreach (var ch in content) {
    if (ch is >= 'A' and <= 'Z') {
