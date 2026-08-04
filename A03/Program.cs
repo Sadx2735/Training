@@ -14,8 +14,9 @@ char[] letters = { 'U', 'X', 'A', 'L', 'T', 'N', 'E' };
 var assembly = Assembly.GetExecutingAssembly ();
 var resourceName = assembly.GetManifestResourceNames ()
    .First (name => name.EndsWith ("WordsList.txt"));
-var stream = assembly.GetManifestResourceStream (resourceName)!;
-string[] words = new StreamReader (stream).ReadToEnd ()
+using var stream = assembly.GetManifestResourceStream (resourceName)!;
+using var reader = new StreamReader (stream);
+string[] words = reader.ReadToEnd ()
    .Split (["\r\n", "\r", "\n"], StringSplitOptions.RemoveEmptyEntries);
 List<(int score, string word, bool isPangram)> result = [];
 int totalScore = 0;
