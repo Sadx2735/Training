@@ -11,7 +11,8 @@ using System.Reflection;
 /// <summary>Reads a word list file and displays the top 7 most frequent characters.</summary>
 Dictionary<char, int> freqTable = [];
 var assembly = Assembly.GetExecutingAssembly ();
-var resourceName = assembly.GetManifestResourceNames ().First (name => name.EndsWith ("WordsList.txt"));
+var resourceName = assembly.GetManifestResourceNames ()
+   .First (name => name.EndsWith ("WordsList.txt"));
 using var stream = assembly.GetManifestResourceStream (resourceName)!;
 using var reader = new StreamReader (stream);
 string content = reader.ReadToEnd ();
