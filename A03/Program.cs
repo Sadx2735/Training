@@ -10,13 +10,9 @@
 /// <summary>Reads a word list file, filters valid Spelling Bee words, scores them, and displays 
 /// the sorted results.</summary>
 char[] letters = { 'U', 'X', 'A', 'L', 'T', 'N', 'E' };
-string filePath = @"C:\Work\Training\A03\WordsList.txt";
-if (!File.Exists (filePath)) {
-   Console.WriteLine ($"Error: Word list file not found at '{filePath}'.");
-   return;
-}
+string filePath = "WordsList.txt";
 string[] words = File.ReadAllLines (filePath);
-List<(int score, string word, bool isPangram)> result = new ();
+List<(int score, string word, bool isPangram)> result = [];
 int totalScore = 0;
 foreach (var rawWord in words) {
    string word = rawWord.Trim ().ToUpper ();
@@ -30,12 +26,12 @@ foreach (var rawWord in words) {
    result.Add ((score, word, isPangram));
 }
 var sortedResult = result.OrderByDescending (item => item.score).ThenBy (item => item.word);
-foreach (var item in sortedResult) {
-   totalScore += item.score;
-   if (item.isPangram)
+foreach (var (score, word, isPangram) in sortedResult) {
+   totalScore += score;
+   if (isPangram)
       Console.ForegroundColor = ConsoleColor.Green;
-   Console.WriteLine ($"{item.score,2}. {item.word}");
-   if (item.isPangram)
+   Console.WriteLine ($"{score,2}. {word}");
+   if (isPangram)
       Console.ResetColor ();
 }
 Console.WriteLine ("----");
@@ -45,7 +41,7 @@ Console.WriteLine ($"Total score: {totalScore}");
 #region Implementation ----------------------------------------------
 /// <summary>Checks whether all required seed letters are present in the word.</summary>
 /// <returns>Returns true if the word is a pangram; otherwise, false.</returns>
-bool IsPangram (string word) => letters.All (character => word.Contains (character));
+bool IsPangram (string word) => letters.All (ch => word.Contains (ch));
 
 /// <summary>Calculates the word score based on length and pangram bonus status.</summary>
 /// <returns>Returns the calculated score for the given word.</returns>

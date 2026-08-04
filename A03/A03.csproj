@@ -8,7 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\..\..\Downloads\words-List.txt" Link="words-List.txt" />
+    <None Remove="WordsList.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="WordsList.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
