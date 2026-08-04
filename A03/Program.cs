@@ -5,13 +5,18 @@
 // Program.cs
 // Solves a New York Times-style Spelling Bee puzzle.
 // ------------------------------------------------------------------------------------------------
+using System.Reflection;
 
 #region Program -----------------------------------------------------
 /// <summary>Reads a word list file, filters valid Spelling Bee words, scores them, and displays 
 /// the sorted results.</summary>
 char[] letters = { 'U', 'X', 'A', 'L', 'T', 'N', 'E' };
-string filePath = "WordsList.txt";
-string[] words = File.ReadAllLines (filePath);
+var assembly = Assembly.GetExecutingAssembly ();
+var resourceName = assembly.GetManifestResourceNames ()
+   .First (name => name.EndsWith ("WordsList.txt"));
+var stream = assembly.GetManifestResourceStream (resourceName)!;
+string[] words = new StreamReader (stream).ReadToEnd ()
+   .Split (["\r\n", "\r", "\n"], StringSplitOptions.RemoveEmptyEntries);
 List<(int score, string word, bool isPangram)> result = [];
 int totalScore = 0;
 foreach (var rawWord in words) {
