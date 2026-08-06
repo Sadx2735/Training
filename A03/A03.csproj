@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-   <ItemGroup>
-      <EmbeddedResource Include="WordsList.txt" />
-   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WordsList.txt" />
+  </ItemGroup>
 </Project>
