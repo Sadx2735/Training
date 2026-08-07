@@ -107,7 +107,7 @@ public class NQueensSolver {
       while (true) {
          Write ("Press key to choose (A)ll or (U)nique solutions: ");
          var key = ReadKey (true);
-         if (key.Key == ConsoleKey.A || key.Key == ConsoleKey.U) {
+         if (key.Key is ConsoleKey.A or ConsoleKey.U) {
             WriteLine (key.KeyChar.ToString ().ToUpper ());
             return key.Key == ConsoleKey.A ? ESolType.AllSolutions : ESolType.UniqueOnly;
          }
