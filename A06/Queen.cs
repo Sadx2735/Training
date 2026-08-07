@@ -7,6 +7,7 @@
 // ------------------------------------------------------------------------------------------------
 using System.Text;
 using static System.Console;
+
 namespace NQueenSolver;
 
 #region Class NQueensSolver -----------------------------------------------------------------------
