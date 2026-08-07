@@ -28,16 +28,13 @@ public class NQueensSolver {
       OutputEncoding = Encoding.UTF8;
 
       List<bool[]> allSolns = Solve ();
-      List<bool[]> uniqueSolns = FilterUniqueSolutions (allSolns);
-
-      mSolType = PromptDisplayMode ();
-      List<bool[]> targetSolutions = mSolType == ESolType.AllSolutions ? allSolns : uniqueSolns;
-
-      if (targetSolutions.Count == 0) {
-         WriteLine ("\nNo solutions exist queens attack each other\n");
+      if (allSolns.Count == 0) {
+         WriteLine ("\nNo solutions exist; queens attack each other.\n");
          return;
       }
-
+      List<bool[]> uniqueSolns = FilterUniqueSolutions (allSolns);
+      mSolType = PromptDisplayMode ();
+      List<bool[]> targetSolutions = mSolType == ESolType.AllSolutions ? allSolns : uniqueSolns;
       int currentSolutionIndex = 0;
       Clear ();
 
