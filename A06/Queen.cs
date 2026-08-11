@@ -26,18 +26,24 @@ public class NQueensSolver {
    /// <summary>Runs the main user prompt and solution visualizer loop.</summary>
    public void Run () {
       OutputEncoding = Encoding.UTF8;
-
       List<bool[]> allSolns = Solve ();
       if (allSolns.Count == 0) {
          WriteLine ("\nNo solutions exist; queens attack each other.\n");
          return;
       }
+
       List<bool[]> uniqueSolns = FilterUniqueSolutions (allSolns);
       mSolType = PromptDisplayMode ();
+
+      Clear ();
+      SetCursorPosition (0, 0);
+
+      if (!IsConsoleSizeEnough ())
+         return;
+
       List<bool[]> targetSolutions = mSolType == ESolType.AllSolutions ? allSolns : uniqueSolns;
       int currentSolutionIndex = 0;
-      Clear ();
-
+      
       while (true) {
          SetCursorPosition (0, 0);
          WriteLine ($"Total solutions found: {allSolns.Count}");
@@ -61,6 +67,19 @@ public class NQueensSolver {
             case ConsoleKey.Escape:
                return;
          }
+      }
+
+      // Checks if the current console window is large enough to fit a given board size,
+      bool IsConsoleSizeEnough () {
+         int requiredHeight = (2 * mBoardSize) + 8;
+         int requiredWidth = Math.Max (46, (5 * mBoardSize) + 1);
+         if (WindowHeight < requiredHeight || WindowWidth < requiredWidth) {
+            WriteLine ();
+            WriteLine ("Console window is too small to display the board.");
+            WriteLine ("Please enlarge the console window and run the program again.");
+            return false;
+         }
+         return true;
       }
    }
 
@@ -138,19 +157,23 @@ public class NQueensSolver {
    /// <param name="solutions">The list of all valid solutions.</param>
    /// <returns>The list of unique board solutions.</returns>
    public List<bool[]> FilterUniqueSolutions (List<bool[]> solutions) {
-      List<bool[]> uniqueSolutions = [], knownSymmetries = [];
+      List<bool[]> uniqueSolutions = [];
+      HashSet<string> knownSymmetries = [];
       foreach (var map in solutions) {
-         if (knownSymmetries.All (m => !m.SequenceEqual (map))) {
+         if (!knownSymmetries.Contains (MapToString (map))) {
             uniqueSolutions.Add (map);
             bool[] current = map;
             for (int i = 0; i < 4; i++) {
-               knownSymmetries.Add (current);
-               knownSymmetries.Add (FlipHorizontally (current));
+               knownSymmetries.Add (MapToString (current));
+               knownSymmetries.Add (MapToString (FlipHorizontally (current)));
                current = Rotate90Degrees (current);
             }
          }
       }
       return uniqueSolutions;
+
+      // Returns a string representation of the array, where true is '1' and false is '0'.
+      string MapToString (bool[] map) => string.Join ("", map.Select (b => b ? '1' : '0'));
 
       // Returns a horizontally flipped version of the input board map.
       bool[] FlipHorizontally (bool[] map) {
