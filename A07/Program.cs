@@ -7,9 +7,9 @@
 // -------------------------------------------------------------------------------------------------
 
 #region Class Program -----------------------------------------------------------------------------
-internal class Program {
+class Program {
    #region Methods --------------------------------------------------
-   private static void Main (string[] args) {
+   static void Main (string[] args) {
       // Test Cases 
       string[] words = new string[] {
          "10.54E23.4E3", "-1.546234E-4", "0", "0.0", "12345", "0.00000325", "10.54E2",
