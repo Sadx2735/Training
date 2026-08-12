@@ -21,24 +21,13 @@ class Program {
       foreach (var rawInput in words) {
          // Sign, MainNumber, Exponent
          string userInput = rawInput.Trim ().ToLower ();
-         int signMain = 1;
-         int signExpo = 1;
-
-         double number = 0;
-         double exponent = 0;
-         double factor = 0.1;
+         int signMain = 1, signExpo = 1;
+         double number = 0, exponent = 0, factor = 0.1;
 
          // Condition flags to accept or reject inputs based on syntax rules
          // (e.g., exponent symbol 'e' must not appear before any digits).
-         bool hasNumber = false;
-         bool hasNumberAfterE = false;
-         bool hasNumberAfterD = false;
-
-         bool hasE = false;
-         bool hasD = false;
-
-         bool hasSign = false;
-         bool hasSignAfterE = false;
+         bool hasNumber = false, hasNumberAfterE = false, hasNumberAfterD = false;
+         bool hasE = false, hasD = false, hasSign = false, hasSignAfterE = false;
 
          // Overall execution control flag
          bool flag = true;
@@ -46,7 +35,7 @@ class Program {
          foreach (var ch in userInput) {
             // For a sign to be present, it must either be at the start 
             // or directly after 'e' before any exponent digits appear.
-            if ((ch == '+' || ch == '-') && (!hasSign || !hasSignAfterE) 
+            if ((ch == '+' || ch == '-') && (!hasSign || !hasSignAfterE)
                && (!hasNumber || (hasE && !hasNumberAfterE))) {
                if (!hasNumber && !hasSign) {
                   signMain = (ch == '+') ? 1 : -1;
@@ -97,7 +86,7 @@ class Program {
 
          Console.WriteLine ("----------");
          Console.WriteLine ($"For the input of {userInput}");
-         double customResult = Math.Round (signMain * number * 
+         double customResult = Math.Round (signMain * number *
             Math.Pow (10, signExpo * exponent), 3);
          Console.WriteLine ($"Via Custom Parse   : {(flag ? customResult : double.NaN)}");
          double builtInResult = double.TryParse (userInput, out double val) ? val : double.NaN;
