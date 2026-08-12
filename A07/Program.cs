@@ -46,7 +46,8 @@ internal class Program {
          foreach (var ch in userInput) {
             // For a sign to be present, it must either be at the start 
             // or directly after 'e' before any exponent digits appear.
-            if ((ch == '+' || ch == '-') && (!hasSign || !hasSignAfterE) && (!hasNumber || (hasE && !hasNumberAfterE))) {
+            if ((ch == '+' || ch == '-') && (!hasSign || !hasSignAfterE) 
+               && (!hasNumber || (hasE && !hasNumberAfterE))) {
                if (!hasNumber && !hasSign) {
                   signMain = (ch == '+') ? 1 : -1;
                   hasSign = true;
@@ -96,7 +97,8 @@ internal class Program {
 
          Console.WriteLine ("----------");
          Console.WriteLine ($"For the input of {userInput}");
-         double customResult = Math.Round (signMain * number * Math.Pow (10, signExpo * exponent), 3);
+         double customResult = Math.Round (signMain * number * 
+            Math.Pow (10, signExpo * exponent), 3);
          Console.WriteLine ($"Via Custom Parse   : {(flag ? customResult : double.NaN)}");
          double builtInResult = double.TryParse (userInput, out double val) ? val : double.NaN;
          Console.WriteLine ($"Via Built-In Parse : {builtInResult}");
