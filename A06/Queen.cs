@@ -16,7 +16,7 @@ public class NQueensSolver {
    /// <summary>Gets board size and initializes solver buffers.</summary>
    public NQueensSolver (int boardSize) {
       mBoardSize = boardSize;
-      mUsedRows = new bool[boardSize];
+      mUsedCols = new bool[boardSize];
       mDiag2 = new bool[(2 * boardSize) - 1];
       mDiag1 = new bool[(2 * boardSize) - 1];
    }
@@ -26,45 +26,43 @@ public class NQueensSolver {
    /// <summary>Runs the main user prompt and solution visualizer loop.</summary>
    public void Run () {
       OutputEncoding = Encoding.UTF8;
-      List<bool[]> allSolns = Solve ();
+      CursorVisible = false;
+
+      List<int[]> allSolns = Solve ();
       if (allSolns.Count == 0) {
-         WriteLine ("\nNo solutions exist; queens attack each other.\n");
+         WriteLine ("No solutions exist; queens attack each other.\n");
          return;
       }
-
-      List<bool[]> uniqueSolns = FilterUniqueSolutions (allSolns);
+      List<int[]> uniqueSolns = FilterUniqueSolutions (allSolns);
       mSolType = PromptDisplayMode ();
 
       Clear ();
       SetCursorPosition (0, 0);
-
       if (!IsConsoleSizeEnough ())
          return;
 
-      List<bool[]> targetSolutions = mSolType == ESolType.AllSolutions ? allSolns : uniqueSolns;
+      List<int[]> targetSolutions = mSolType == ESolType.AllSolutions ? allSolns : uniqueSolns;
       int currentSolutionIndex = 0;
-      
+
       while (true) {
          SetCursorPosition (0, 0);
+         if (!IsConsoleSizeEnough ())
+            return;
          WriteLine ($"Total solutions found: {allSolns.Count}");
          WriteLine ($"Unique solutions (excluding symmetries): {uniqueSolns.Count}");
          WriteLine ($"Showing {(mSolType == ESolType.AllSolutions ? "all" : "unique")}" +
             $" solution {currentSolutionIndex + 1} of {targetSolutions.Count}\n");
-
          DrawBoard (targetSolutions[currentSolutionIndex]);
-
          WriteLine ("\nControls: [→] Next | [←] Previous | [ESC] Exit");
-
          switch (ReadKey (true).Key) {
             case ConsoleKey.RightArrow when currentSolutionIndex < targetSolutions.Count - 1:
                currentSolutionIndex++;
                break;
-
             case ConsoleKey.LeftArrow when currentSolutionIndex > 0:
                currentSolutionIndex--;
                break;
-
             case ConsoleKey.Escape:
+               CursorVisible = true;
                return;
          }
       }
@@ -85,33 +83,30 @@ public class NQueensSolver {
 
    /// <summary>Recursively solves the N-Queens problem.</summary>
    /// <returns>All valid board configurations.</returns>
-   public List<bool[]> Solve () {
-      SolveRecursive (0, new bool[mBoardSize * mBoardSize]);
+   public List<int[]> Solve () {
+      mAllSolutions.Clear ();
+      SolveRecursive (0, new int[mBoardSize]);
       return mAllSolutions;
 
-      // Recursively attempts to place a queen in every column and saves valid configurations.
-      void SolveRecursive (int columnIndex, bool[] boardMap) {
-         if (columnIndex == mBoardSize) {
-            // If queens are placed across all columns, record this solution.
-            mAllSolutions.Add ((bool[])boardMap.Clone ());
+      // Recursively attempts to place a queen in every row and saves valid configurations.
+      void SolveRecursive (int row, int[] boardMap) {
+         if (row == mBoardSize) {
+            // If queens are placed across all rows, record this solution.
+            mAllSolutions.Add ((int[])boardMap.Clone ());
             return;
          }
 
-         // Check if placing a queen in the current column and row is valid.
-         for (int row = 0; row < mBoardSize; row++) {
-            int slashDiag = row + columnIndex;
-            int backslashDiag = row - columnIndex + mBoardSize - 1;
-
-            if (!mUsedRows[row] && !mDiag2[slashDiag] && !mDiag1[backslashDiag]) {
-               // Mark the row and diagonals as occupied by a queen.
-               mUsedRows[row] = mDiag2[slashDiag] =
-                  mDiag1[backslashDiag] = boardMap[To1D (row, columnIndex)] = true;
-
-               SolveRecursive (columnIndex + 1, boardMap);
-
-               // Backtrack by removing the queen to explore other configurations.
-               mUsedRows[row] = mDiag2[slashDiag] = mDiag1[backslashDiag] =
-                  boardMap[To1D (row, columnIndex)] = false;
+         // Check if placing a queen in the current row and column is valid.
+         for (int col = 0; col < mBoardSize; col++) {
+            int slashDiag = row + col;
+            int backslashDiag = row - col + mBoardSize - 1;
+            if (!mUsedCols[col] && !mDiag2[slashDiag] && !mDiag1[backslashDiag]) {
+               // Mark the column and diagonals as occupied by a queen.
+               mUsedCols[col] = mDiag2[slashDiag] = mDiag1[backslashDiag] = true;
+               boardMap[row] = col;
+               SolveRecursive (row + 1, boardMap);
+               // removing the queen to explore other configurations.
+               mUsedCols[col] = mDiag2[slashDiag] = mDiag1[backslashDiag] = false;
             }
          }
       }
@@ -121,7 +116,7 @@ public class NQueensSolver {
    /// <returns>The selected display mode.</returns>
    public ESolType PromptDisplayMode () {
       while (true) {
-         Write ("Press key to choose (A)ll or (U)nique solutions: ");
+         WriteLine("Press key to choose (A)ll or (U)nique solutions: ");
          var key = ReadKey (true);
          if (key.Key is ConsoleKey.A or ConsoleKey.U) {
             WriteLine (key.KeyChar.ToString ().ToUpper ());
@@ -132,7 +127,7 @@ public class NQueensSolver {
 
    /// <summary>Draws the board configuration to the console.</summary>
    /// <param name="map">The board map containing queen positions.</param>
-   public void DrawBoard (bool[] map) {
+   public void DrawBoard (int[] map) {
       PrintOuter (TOPPATTERN);
       for (int r = 0; r < mBoardSize; r++) {
          PrintInternal (r, map);
@@ -146,9 +141,9 @@ public class NQueensSolver {
          .Repeat (HORILINE, mBoardSize))}{pattern[2]}");
 
       // Prints cell contents based on the presence of a queen.
-      void PrintInternal (int rowId, bool[] map) {
+      void PrintInternal (int rowId, int[] map) {
          var cells = Enumerable.Range (0, mBoardSize)
-             .Select (c => map[To1D (rowId, c)] ? QUEEN : EMPTY);
+             .Select (c => map[rowId] == c ? QUEEN : EMPTY);
          WriteLine ($"{VERTLINE}{string.Join (VERTLINE, cells)}{VERTLINE}");
       }
    }
@@ -156,13 +151,13 @@ public class NQueensSolver {
    /// <summary>Filters out symmetrical solutions to leave only unique solutions.</summary>
    /// <param name="solutions">The list of all valid solutions.</param>
    /// <returns>The list of unique board solutions.</returns>
-   public List<bool[]> FilterUniqueSolutions (List<bool[]> solutions) {
-      List<bool[]> uniqueSolutions = [];
+   public List<int[]> FilterUniqueSolutions (List<int[]> solutions) {
+      List<int[]> uniqueSolutions = [];
       HashSet<string> knownSymmetries = [];
       foreach (var map in solutions) {
          if (!knownSymmetries.Contains (MapToString (map))) {
             uniqueSolutions.Add (map);
-            bool[] current = map;
+            int[] current = map;
             for (int i = 0; i < 4; i++) {
                knownSymmetries.Add (MapToString (current));
                knownSymmetries.Add (MapToString (FlipHorizontally (current)));
@@ -172,37 +167,27 @@ public class NQueensSolver {
       }
       return uniqueSolutions;
 
-      // Returns a string representation of the array, where true is '1' and false is '0'.
-      string MapToString (bool[] map) => string.Join ("", map.Select (b => b ? '1' : '0'));
+      // Returns a string representation of the array.
+      string MapToString (int[] map) => string.Join (",", map);
 
       // Returns a horizontally flipped version of the input board map.
-      bool[] FlipHorizontally (bool[] map) {
-         bool[] flipped = new bool[map.Length];
-         for (int i = 0; i < map.Length; i++) {
-            var (row, col) = To2D (i);
-            flipped[To1D (row, mBoardSize - 1 - col)] = map[i];
+      int[] FlipHorizontally (int[] map) {
+         int[] flipped = new int[map.Length];
+         for (int r = 0; r < map.Length; r++) {
+            flipped[r] = mBoardSize - 1 - map[r];
          }
          return flipped;
       }
 
       // Returns a 90-degree rotated version of the input board map.
-      bool[] Rotate90Degrees (bool[] map) {
-         bool[] rotated = new bool[map.Length];
-         for (int i = 0; i < map.Length; i++) {
-            var (row, col) = To2D (i);
-            rotated[To1D (col, mBoardSize - 1 - row)] = map[i];
+      int[] Rotate90Degrees (int[] map) {
+         int[] rotated = new int[map.Length];
+         for (int r = 0; r < map.Length; r++) {
+            rotated[map[r]] = mBoardSize - 1 - r;
          }
          return rotated;
       }
    }
-   #endregion
-
-   #region Implementation -------------------------------------------
-   // Converts a 1D index to a 2D grid position (row, column).
-   (int Row, int Col) To2D (int index) => (index / mBoardSize, index % mBoardSize);
-
-   // Converts a 2D grid position (row, column) to a 1D index in the flattened board array.
-   int To1D (int row, int col) => (row * mBoardSize) + col;
    #endregion
 
    #region Constants ------------------------------------------------
@@ -218,10 +203,10 @@ public class NQueensSolver {
    #region Fields ---------------------------------------------------
    int mBoardSize;
    ESolType mSolType;
-   readonly bool[] mUsedRows;
+   readonly bool[] mUsedCols;
    readonly bool[] mDiag2;
    readonly bool[] mDiag1;
-   readonly List<bool[]> mAllSolutions = [];
+   readonly List<int[]> mAllSolutions = [];
    #endregion
 
    #region Enumerations ---------------------------------------------
