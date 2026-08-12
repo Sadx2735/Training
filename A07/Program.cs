@@ -7,11 +7,10 @@
 // ------------------------------------------------------------------------------------------------
 
 #region Class Program -----------------------------------------------------------------------------
-
 /// <summary>Implements a custom Parse method converting a string to a double.</summary>
 class Program {
-   #region Methods --------------------------------------------------------------------------------
 
+   #region Methods --------------------------------------------------------------------------------
    /// <summary>Iterates through each word and converts them into double</summary>
    static void Main (string[] args) {
       // Test cases covering valid, invalid inputs
