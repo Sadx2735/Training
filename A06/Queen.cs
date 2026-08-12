@@ -116,7 +116,7 @@ public class NQueensSolver {
    /// <returns>The selected display mode.</returns>
    public ESolType PromptDisplayMode () {
       while (true) {
-         WriteLine("Press key to choose (A)ll or (U)nique solutions: ");
+         WriteLine ("Press key to choose (A)ll or (U)nique solutions: ");
          var key = ReadKey (true);
          if (key.Key is ConsoleKey.A or ConsoleKey.U) {
             WriteLine (key.KeyChar.ToString ().ToUpper ());
