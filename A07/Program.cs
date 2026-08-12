@@ -5,10 +5,6 @@
 // Program.cs
 // Custom Parser to convert string to Double
 // -------------------------------------------------------------------------------------------------
-using System;
-using System.Globalization;
-
-namespace NumberParserApp;
 
 #region Class Program -----------------------------------------------------------------------------
 internal class Program {
