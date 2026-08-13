@@ -10,7 +10,7 @@
 /// <summary>Implements a custom Parse method converting a string to a double.</summary>
 class Program {
 
-   #region Implementation ------------------------------------------------------------------------
+   #region Implementation -------------------------------------------------------------------------
    /// <summary>Iterates through each word and converts them into double</summary>
    static void Main () {
       // Test cases covering valid, invalid inputs
@@ -86,8 +86,8 @@ class Program {
       if (!(iNumber && (!iD || iNumberAfterD) && (!iE || iNumberAfterE)))
          iFlag = false;
       // Return result if valid, else NaN
-      return iFlag ? Math.Round (((signMain * number) / factor) * Math.Pow (10, signExpo * exponent), 3)
-         : double.NaN;
+      return iFlag ? Math.Round (((signMain * number) / factor) 
+         * Math.Pow (10, signExpo * exponent), 3) : double.NaN;
    }
    #endregion
 }
