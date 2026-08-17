@@ -48,10 +48,9 @@ class Evaluator {
             break;
          case TOperator op:
             op.Priority += BasePriority;
-            while (mOperators.Count > 0 && 
-               ((op is TUnary or TOpFunction) ? 
-               mOperators.Peek ().Priority > op.Priority: 
-               mOperators.Peek ().Priority >= op.Priority))
+            bool isLeftAssoc = op is TOpArithmetic { Op: '+' or '-' or '*' or '/' };
+            while (mOperators.Count > 0 &&
+                  (isLeftAssoc ? mOperators.Peek ().Priority >= op.Priority : mOperators.Peek ().Priority > op.Priority)) 
                ApplyOperator ();
             mOperators.Push (op);
             break;
