@@ -24,7 +24,7 @@ class Program {
          string userInput = rawInput.Trim ();
          double customResult = Parse (userInput);
          Console.WriteLine ("--------------------------------------------------");
-         Console.WriteLine ($"For the Input of {userInput}");
+         Console.WriteLine ($"Input              : {userInput}");
          Console.WriteLine ($"Via Custom Parse   : {customResult}");
          double builtInResult = double.TryParse (userInput, out double val) ? val : double.NaN;
          Console.WriteLine ($"Via Built-In Parse : {builtInResult}");
@@ -57,11 +57,9 @@ class Program {
             }
          }
          // Decimal point must appear after integer digits and before 'e'
-         else if (ch == '.' && !iD && iNumber && !iE)
-            iD = true;
+         else if (ch == '.' && !iD && iNumber && !iE) iD = true;
          // 'e' must appear after digits or after valid fractional part
-         else if ((ch == 'e' || ch == 'E') && !iE && (iNumber || (iD && iNumberAfterD)))
-            iE = true;
+         else if ((ch == 'e' || ch == 'E') && !iE && (iNumber || (iD && iNumberAfterD))) iE = true;
          // Accumulate numerical digits based on current state (integer, fraction, or exponent)
          else if (ch is >= '0' and <= '9') {
             if (iE) {
@@ -83,10 +81,9 @@ class Program {
          }
       }
       // check for required digits after '.' and 'e'
-      if (!(iNumber && (!iD || iNumberAfterD) && (!iE || iNumberAfterE)))
-         iFlag = false;
+      if (!(iNumber && (!iD || iNumberAfterD) && (!iE || iNumberAfterE))) iFlag = false;
       // Return result if valid, else NaN
-      return iFlag ? Math.Round (((signMain * number) / factor) 
+      return iFlag ? Math.Round (((signMain * number) / factor)
          * Math.Pow (10, signExpo * exponent), 3) : double.NaN;
    }
    #endregion
