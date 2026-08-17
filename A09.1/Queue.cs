@@ -55,9 +55,8 @@ public class CustomQ<T> {
    void Shrink () {
       int count = Count;
       var tempArray = new T[mCapacity / 2];
-      if (mHead < mTail) {
-         Array.Copy (mBuffer, mHead, tempArray, 0, count);
-      } else {
+      if (mHead < mTail) Array.Copy (mBuffer, mHead, tempArray, 0, count);
+      else {
          Array.Copy (mBuffer, mHead, tempArray, 0, mCapacity - mHead);
          Array.Copy (mBuffer, 0, tempArray, mCapacity - mHead, mTail);
       }
