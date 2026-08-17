@@ -3,4 +3,5 @@
   <Project Path="A04/A04.csproj" />
   <Project Path="A02/A02.csproj" />
   <Project Path="A07/A07.csproj" />
+  <Project Path="A09.1/A09.1.csproj" />
 </Solution>
