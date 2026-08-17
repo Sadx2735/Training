@@ -14,7 +14,7 @@ class Program {
    #region Methods --------------------------------------------------
    /// <summary>Runs the test to check whether CustomQ matches the built-in queue.</summary>
    static void Main () {
-      bool isSame = RunTest (100, 0.25);
+      bool isSame = RunTest (100, 0.50);
       if (isSame) {
          Console.ForegroundColor = ConsoleColor.Green;
          Console.WriteLine ("Passed the test! Both implementations work identically.");
