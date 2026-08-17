@@ -8,6 +8,9 @@ class EvalException : Exception {
 
 class Evaluator {
    public double Evaluate (string text) {
+      mOperands.Clear ();
+      mOperators.Clear ();
+      BasePriority = 0;
       List<Token> tokens = new ();
       var tokenizer = new Tokenizer (this, text);
       for (; ; ) {
@@ -44,7 +47,11 @@ class Evaluator {
             mOperands.Push (num.Value);
             break;
          case TOperator op:
-            while (mOperators.Count > 0 && mOperators.Peek ().Priority > op.Priority)
+            op.Priority += BasePriority;
+            while (mOperators.Count > 0 && 
+               ((op is TUnary or TOpFunction) ? 
+               mOperators.Peek ().Priority > op.Priority: 
+               mOperators.Peek ().Priority >= op.Priority))
                ApplyOperator ();
             mOperators.Push (op);
             break;
@@ -60,11 +67,20 @@ class Evaluator {
 
    void ApplyOperator () {
       var op = mOperators.Pop ();
-      var f1 = mOperands.Pop ();
-      if (op is TOpFunction func) mOperands.Push (func.Evaluate (f1));
-      else if (op is TOpArithmetic arith) {
-         var f2 = mOperands.Pop ();
-         mOperands.Push (arith.Evaluate (f2, f1));
+      var f2 = mOperands.Pop ();
+      switch (op) {
+         case TOpFunction fn:
+            mOperands.Push (fn.Evaluate (f2));
+            break;
+         case TUnary u:
+            mOperands.Push (u.Evaluate (f2));
+            break;
+         case TOpArithmetic arith:
+            var f1 = mOperands.Pop ();
+            mOperands.Push (arith.Evaluate (f1, f2));
+            break;
+         default:
+            throw new EvalException ($"Unsupported operator type: {op.GetType ().Name}");
       }
    }
 }

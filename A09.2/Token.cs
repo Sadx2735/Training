@@ -24,19 +24,24 @@ class TVariable : TNumber {
 
 abstract class TOperator : Token {
    protected TOperator (Evaluator eval) => mEval = eval;
-   public abstract int Priority { get; }
+   public abstract int Priority { get; set; }
    readonly protected Evaluator mEval;
 }
 
 class TOpArithmetic : TOperator {
-   public TOpArithmetic (Evaluator eval, char ch) : base (eval) => Op = ch;
+   public TOpArithmetic (Evaluator eval, char ch) : base (eval) {
+      Op = ch;
+      mPriority = sPriority[ch];
+   }
    public char Op { get; private set; }
    public override string ToString () => $"op:{Op}:{Priority}";
-   public override int Priority => sPriority[Op] + mEval.BasePriority;
+   public override int Priority { get => mPriority; set => mPriority = value; }
+   
+   int mPriority;
+   
    static Dictionary<char, int> sPriority = new () {
       ['+'] = 1, ['-'] = 1, ['*'] = 2, ['/'] = 2, ['^'] = 3, ['='] = 4,
    };
-
    public double Evaluate (double a, double b) {
       return Op switch {
          '+' => a + b,
@@ -53,7 +58,9 @@ class TOpFunction : TOperator {
    public TOpFunction (Evaluator eval, string name) : base (eval) => Func = name;
    public string Func { get; private set; }
    public override string ToString () => $"func:{Func}:{Priority}";
-   public override int Priority => 4 + mEval.BasePriority;
+
+   int mPriority = 5;
+   public override int Priority { get => mPriority; set => mPriority = value; }
 
    public double Evaluate (double f) {
       return Func switch {
@@ -74,10 +81,26 @@ class TOpFunction : TOperator {
    }
 }
 
+class TUnary : TOperator {
+   public TUnary (Evaluator eval, string name) : base (eval) => Uname = name;
+   public string Uname { get; private set; }
+   public override string ToString () => $"func:{Uname}:{Priority}";
+   int mPriority = 4;
+   public override int Priority { get => mPriority; set => mPriority = value; }
+
+   public double Evaluate (double f) {
+      return Uname switch {
+         "u+" => +f,
+         "u-" => -f,
+         _ => throw new EvalException ($"Unknown function: {Uname}")
+      };
+   }
+}
+
 class TPunctuation : Token {
    public TPunctuation (char ch) => Punct = ch;
    public char Punct { get; private set; }
-   public override string ToString () => $"punct:{Punct}";
+   public override string ToString () => $"Punct:{Punct}";
 }
 
 class TEnd : Token {
