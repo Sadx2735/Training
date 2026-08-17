@@ -12,6 +12,7 @@ using Cqueue;
 /// <summary>Tests the CustomQ implementation against System.Collections.Generic.Queue.</summary>
 class Program {
    #region Methods --------------------------------------------------
+   /// <summary>Runs the test to check whether CustomQ matches the built-in queue.</summary>
    static void Main () {
       bool isSame = RunTest (100, 0.25);
       if (isSame) {
@@ -27,7 +28,7 @@ class Program {
    /// <summary>Runs random Enqueue/Dequeue operations to verify output parity.</summary>
    /// <param name="times">The total number of test iterations to execute.</param>
    /// <param name="ratio">The probability threshold for triggering a Dequeue operation.</param>
-   /// <returns>True if both queues gives identical outputs else false.</returns>
+   /// <returns>True if both queues yield identical outputs; otherwise, false.</returns>
    static bool RunTest (int times, double ratio) {
       bool same = true;
       for (int i = 0; i < times; i++) {
