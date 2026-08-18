@@ -19,8 +19,7 @@ class Program {
    static int PromptBoardSize () {
       while (true) {
          Write ("Enter your board size: ");
-         if (int.TryParse (ReadLine (), out int result) &&
-            result > 0) return result;
+         if (int.TryParse (ReadLine (), out int result) && result > 0) return result;
          WriteLine ("Please enter a valid positive number.");
       }
    }
