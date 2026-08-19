@@ -18,11 +18,12 @@ public class CustomQ<T> {
    #region Methods --------------------------------------------------
    /// <summary>Returns and removes the top element in the queue.</summary>
    /// <returns>The top element (first inserted value).</returns>
+   /// <exception cref="InvalidOperationException">Thrown when the queue is empty.</exception>
    public T Dequeue () {
-      if (IsEmpty) throw new InvalidOperationException ("Queue is empty!");
+      if (Count == 0) throw new InvalidOperationException ("Queue is empty!");
       T item = mBuffer[mHead];
-      mHead = WrapIndex (mHead);
-      if (Count < mCapacity / 2 && mCapacity > MINSIZE) Shrink ();
+      mHead = WrapIndex (mHead + 1);
+      if (Count < mCapacity / 4 && mCapacity > MINSIZE) Resize (mCapacity / 2);
       return item;
    }
 
@@ -30,43 +31,30 @@ public class CustomQ<T> {
    /// <param name="data">The element to add.</param>
    public void Enqueue (T data) {
       mBuffer[mTail] = data;
-      mTail = WrapIndex (mTail);
-      if (mTail == mHead) Extend ();
+      mTail = WrapIndex (mTail + 1);
+      if (mTail == mHead) Resize (mCapacity * 2);
    }
 
-   /// <summary>Returns the top element in the queue without removing it.</summary>
+   /// <summary>Returns and removes the top element in the queue.</summary>
    /// <returns>The top element (first inserted value).</returns>
+   /// <exception cref="InvalidOperationException">Thrown when the queue is empty.</exception>
    public T Peek () {
-      if (IsEmpty) throw new InvalidOperationException ("Queue is empty!");
+      if (Count == 0) throw new InvalidOperationException ("Queue is empty!");
       return mBuffer[mHead];
    }
    #endregion
 
-   #region Implementations ------------------------------------------
-   /// <summary>Creates a larger array and copies the content of the old buffer into it.</summary>
-   void Extend () {
-      var tempArray = new T[mCapacity * 2];
-      Array.Copy (mBuffer, mHead, tempArray, 0, mCapacity - mHead);
-      Array.Copy (mBuffer, 0, tempArray, mCapacity - mHead, mTail);
-      (mHead, mTail, mBuffer, mCapacity) = (0, mCapacity, tempArray, mCapacity * 2);
+   #region Implementation -------------------------------------------
+   // Resizes the buffer array and re-aligns elements starting from index 0.
+   void Resize (int newCapacity) {
+      int count = newCapacity > mCapacity ? mCapacity : Count;
+      var newBuffer = new T[newCapacity];
+      for (int i = 0; i < count; i++) newBuffer[i] = mBuffer[WrapIndex (mHead + i)];
+      (mHead, mTail, mBuffer, mCapacity) = (0, count, newBuffer, newCapacity);
    }
 
-   /// <summary>Reduces array capacity by half when element count drops significantly.</summary>
-   void Shrink () {
-      int count = Count;
-      var tempArray = new T[mCapacity / 2];
-      if (mHead < mTail) Array.Copy (mBuffer, mHead, tempArray, 0, count);
-      else {
-         Array.Copy (mBuffer, mHead, tempArray, 0, mCapacity - mHead);
-         Array.Copy (mBuffer, 0, tempArray, mCapacity - mHead, mTail);
-      }
-      (mHead, mTail, mBuffer, mCapacity) = (0, count, tempArray, mCapacity / 2);
-   }
-
-   /// <summary>Performs circular indexing.</summary>
-   /// <param name="ptr">The index of the pointer.</param>
-   /// <returns>The wrapped value of the index.</returns>
-   int WrapIndex (int ptr) => (ptr + 1) & (mCapacity - 1);
+   // Performs circular indexing.
+   int WrapIndex (int ptr) => ptr & (mCapacity - 1);
    #endregion
 
    #region Properties -----------------------------------------------
@@ -75,9 +63,6 @@ public class CustomQ<T> {
 
    /// <summary>Gets the number of elements in the queue.</summary>
    public int Count => (mTail - mHead + mCapacity) % mCapacity;
-
-   /// <summary>Gets a value indicating whether the queue is empty.</summary>
-   public bool IsEmpty => mHead == mTail;
    #endregion
 
    #region Fields ---------------------------------------------------
