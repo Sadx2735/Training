@@ -27,7 +27,7 @@ class Program {
    #region Implementation -------------------------------------------
    // Runs random Enqueue/Dequeue operations to verify output parity.
    static bool RunTest (int times, double ratio) {
-      bool hasPassed = true;
+      bool iPassed = true;
       Queue<int> builtinQ = new ();
       MyQueue<int> customQ = new ();
       Random rand = new ();
@@ -47,7 +47,7 @@ class Program {
                Console.ForegroundColor = ConsoleColor.Red;
                Console.WriteLine ($"Step {i} : Test Failed.");
                Console.WriteLine ($"Queue: {res1} | MyQueue: {res2}");
-               hasPassed = false;
+               iPassed = false;
             }
             Console.ResetColor ();
          } else {
@@ -56,7 +56,7 @@ class Program {
             customQ.Enqueue (r);
          }
       }
-      return hasPassed;
+      return iPassed;
    }
    #endregion
 }

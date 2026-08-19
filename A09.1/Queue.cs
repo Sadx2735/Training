@@ -16,6 +16,14 @@ public class MyQueue<T> {
    public MyQueue () => mBuffer = new T[mCapacity];
    #endregion
 
+   #region Properties -----------------------------------------------
+   /// <summary>Gets the current capacity of the queue buffer.</summary>
+   public int Capacity => mCapacity;
+
+   /// <summary>Gets the number of elements in the queue.</summary>
+   public int Count => (mTail - mHead + mCapacity) % mCapacity;
+   #endregion
+
    #region Methods --------------------------------------------------
    /// <summary>Returns and removes the top element in the queue.</summary>
    /// <returns>The top element (first inserted value).</returns>
@@ -36,7 +44,7 @@ public class MyQueue<T> {
       if (mTail == mHead) Resize (mCapacity * 2);
    }
 
-   /// <summary>Returns and removes the top element in the queue.</summary>
+   /// <summary>Returns the top element in the queue.</summary>
    /// <returns>The top element (first inserted value).</returns>
    /// <exception cref="InvalidOperationException">Thrown when the queue is empty.</exception>
    public T Peek () {
@@ -58,19 +66,11 @@ public class MyQueue<T> {
    int WrapIndex (int ptr) => ptr & (mCapacity - 1);
    #endregion
 
-   #region Properties -----------------------------------------------
-   /// <summary>Gets the current capacity of the queue buffer.</summary>
-   public int Capacity => mCapacity;
-
-   /// <summary>Gets the number of elements in the queue.</summary>
-   public int Count => (mTail - mHead + mCapacity) % mCapacity;
-   #endregion
-
    #region Fields ---------------------------------------------------
-   const int MINSIZE = 4;
-   int mHead, mTail;
-   int mCapacity = MINSIZE;
    T[] mBuffer;
+   int mCapacity = 4;
+   int mHead, mTail;
+   const int MINSIZE = 4;
    #endregion
 }
 #endregion
