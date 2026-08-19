@@ -6,7 +6,7 @@
 // For testing the custom DeQueue implementation against System.Collections.Generic.LinkedList.
 // ------------------------------------------------------------------------------------------------
 
-using DQueue;
+using CustomDeQueue;
 
 #region Class Program -----------------------------------------------------------------------------
 /// <summary>Tests the custom DeQueue implementation against LinkedList.</summary>
@@ -35,7 +35,7 @@ class Program {
       for (int i = 0; i < iterations; i++) {
          // Verify state integrity (Count & IsEmpty) before each operation
          if (sReferenceQ.Count != sCustomQ.Count
-            || (sReferenceQ.Count == 0) != sCustomQ.IsEmpty ()) {
+            || (sReferenceQ.Count == 0) != sCustomQ.IsEmpty) {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine ($"State Mismatch at step {i}! " +
                $"Ref Count: {sReferenceQ.Count}, Custom Count: {sCustomQ.Count}");
@@ -106,7 +106,7 @@ class Program {
 
    #region Fields ---------------------------------------------------
    static LinkedList<int> sReferenceQ = new ();
-   static DeQueue<int> sCustomQ = new ();
+   static MyDeQueue<int> sCustomQ = new ();
    static Random sRand = new ();
    #endregion
 }
