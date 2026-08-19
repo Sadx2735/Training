@@ -6,64 +6,58 @@
 // For testing the custom queue implementation against the built-in Queue.
 // ------------------------------------------------------------------------------------------------
 
-using Cqueue;
+using CustomQueue;
 
 #region Class Program -----------------------------------------------------------------------------
 /// <summary>Tests the CustomQ implementation against System.Collections.Generic.Queue.</summary>
 class Program {
-   #region Methods --------------------------------------------------
    /// <summary>Runs the test to check whether CustomQ matches the built-in queue.</summary>
    static void Main () {
-      bool isSame = RunTest (100, 0.50);
-      if (isSame) {
+      bool iSame = RunTest (100, 0.50);
+      if (iSame) {
          Console.ForegroundColor = ConsoleColor.Green;
-         Console.WriteLine ("Passed the test! Both implementations work identically.");
+         Console.WriteLine ("Passed the test!");
       } else {
          Console.ForegroundColor = ConsoleColor.Red;
-         Console.WriteLine ("Failed! The custom implementation and built-in queue do not match.");
+         Console.WriteLine ("Test Failed!");
       }
       Console.ResetColor ();
    }
 
-   /// <summary>Runs random Enqueue/Dequeue operations to verify output parity.</summary>
-   /// <param name="times">The total number of test iterations to execute.</param>
-   /// <param name="ratio">The probability threshold for triggering a Dequeue operation.</param>
-   /// <returns>True if both queues yield identical outputs; otherwise, false.</returns>
+   #region Implementation -------------------------------------------
+   // Runs random Enqueue/Dequeue operations to verify output parity.
    static bool RunTest (int times, double ratio) {
-      bool same = true;
+      bool hasPassed = true;
+      Queue<int> builtinQ = new ();
+      MyQueue<int> customQ = new ();
+      Random rand = new ();
       for (int i = 0; i < times; i++) {
-         double value = sRand.NextDouble ();
+         double value = rand.NextDouble ();
          // Perform Dequeue if ratio condition is met and queues contain elements
-         if (value < ratio && sBuiltinQ.Count > 0) {
-            int res1 = sBuiltinQ.Dequeue ();
-            int res2 = sCustomQ.Dequeue ();
+         if (value < ratio && builtinQ.Count > 0) {
+            int res1 = builtinQ.Dequeue ();
+            int res2 = customQ.Dequeue ();
             if (res1 == res2) {
                Console.WriteLine ("----------");
                Console.ForegroundColor = ConsoleColor.Green;
-               Console.WriteLine ($"Passed test step {i}! Both work identically.");
-               Console.WriteLine ($"Expected: {res1} | Got: {res2}");
+               Console.WriteLine ($"Step {i} : Test passed.");
+               Console.WriteLine ($"Queue: {res1} | MyQueue: {res2}");
             } else {
                Console.WriteLine ("----------");
                Console.ForegroundColor = ConsoleColor.Red;
-               Console.WriteLine ($"Failed test step {i}! Outputs differ.");
-               Console.WriteLine ($"Expected {res1}, but got {res2}.");
-               same = false;
+               Console.WriteLine ($"Step {i} : Test Failed.");
+               Console.WriteLine ($"Queue: {res1} | MyQueue: {res2}");
+               hasPassed = false;
             }
             Console.ResetColor ();
          } else {
-            int r = sRand.Next (1, 100);
-            sBuiltinQ.Enqueue (r);
-            sCustomQ.Enqueue (r);
+            int r = rand.Next (1, 100);
+            builtinQ.Enqueue (r);
+            customQ.Enqueue (r);
          }
       }
-      return same;
+      return hasPassed;
    }
-   #endregion
-
-   #region Fields ---------------------------------------------------
-   static Queue<int> sBuiltinQ = new ();
-   static CustomQ<int> sCustomQ = new ();
-   static Random sRand = new ();
    #endregion
 }
 #endregion

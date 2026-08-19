@@ -6,14 +6,14 @@
 // Custom queue implementation with circular buffer.
 // ------------------------------------------------------------------------------------------------
 
-namespace Cqueue;
+namespace CustomQueue;
 
-#region Class CustomQ -----------------------------------------------------------------------------
+#region Class MyQueue -----------------------------------------------------------------------------
 /// <summary>Implements a custom queue that adds and removes elements in FIFO order.</summary>
-public class CustomQ<T> {
+public class MyQueue<T> {
    #region Constructors ---------------------------------------------
    /// <summary>Initializes the buffer array.</summary>
-   public CustomQ () => mBuffer = new T[mCapacity];
+   public MyQueue () => mBuffer = new T[mCapacity];
    #endregion
 
    #region Methods --------------------------------------------------
