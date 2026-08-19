@@ -27,6 +27,7 @@ public class NQueensSolver {
    public void Run () {
       OutputEncoding = Encoding.UTF8;
       CursorVisible = false;
+      if (!IsConsoleSizeEnough ()) return;
       // Displaying a temporary message
       WriteLine ("Processing...");
       // Clearing the line once the processing is done
@@ -39,7 +40,6 @@ public class NQueensSolver {
       List<int[]> uniqueSolns = FilterUniqueSolns (allSolns);
       var solType = PromptDisplayMode ();
       Clear (); SetCursorPosition (0, 0);
-      if (!IsConsoleSizeEnough ()) return;
       bool showAllSolns = solType == ESolType.AllSolns;
       List<int[]> targetSolns = showAllSolns ? allSolns : uniqueSolns;
       int currentIndex = 0, allCount = allSolns.Count, uniqueCount = uniqueSolns.Count,
