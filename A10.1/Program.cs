@@ -1,18 +1,14 @@
-﻿// "A-B-C-D........E-D....E........F-G.."
-// "C : \ PROGRAMS \ DATA \ README . TXT"
+﻿using static State;
 
-using System;
-using System.Runtime.Intrinsics.X86;
-using static State;
-
+/// See documentation in <see href="Diagram.png">the local readme file</see>
 namespace FileParser {
    class Parser {
       static void Main () {
          var testPaths = new[] {
-             @"Cz:\abc\def\r.txt", @"C:\abc\def\r.txt", @"C:\Readme.txt", @"C:\abc\.bcf",
+             @"Cz:\abc\def\r.txt", @"C:\abc\def\readme.txt", @"C:\Readme.txt", @"C:\abc\.bcf",
              @"C:\abc\bcf.", @"Readme.txt", @"C:\abc\def", @"C:\abc d", @"\abcd\Readme.txt", " ",
              @"C:\ab.c\def\r.txt", @"C:\abc:d", @".\abc", ".abc", "abc", @"C:\abc6\def\r.txt",
-             @"C:\abc\def\r.txt.txt", @"C:\work\r.txt", @"C:\\work~\\r.txt~"
+             @"C:\abc\def\r.txt.txt", @"C:\work\r.txt", @"C:\\work~\\r.txt~",  @"C:\\work~\\r..txt~"
          };
 
          for(int i=0;i<testPaths.Length;i++) {
@@ -49,8 +45,12 @@ namespace FileParser {
                todo (ch);
             }
             Console.WriteLine ($"For Path... {i}, {st}");
-            if (st is J) Console.WriteLine ($"{Drive,-10},{Directory,-35},{Extension,-5}");
-            else Console.WriteLine ("Wrong Path");
+            if (st is J) {
+               var items = Directory.Split('\\');
+               string Filename = items[items.Length - 1];
+               Directory = string.Join ("/", items.SkipLast (1));
+               Console.WriteLine ($"{Drive,-10},{Directory,-35},{Filename},{Extension,-5}");
+            } else Console.WriteLine ("Wrong Path");
          }
       }
    }
