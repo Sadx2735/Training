@@ -25,20 +25,16 @@ public class MyDeQueue<T> {
    #endregion
 
    #region Methods --------------------------------------------------
-   /// <summary>Inserts an element at the front of the deque.</summary>
-   /// <param name="element">The item to push to the front.</param>
-   public void PushFront (T element) {
-      mHead = WrapIndex (mHead - 1);
-      mBuffer[mHead] = element;
-      if (mHead == mTail) Resize (mCapacity * 2);
+   /// <summary>Returns the element at the front of the deque without removing it.</summary>
+   public T PeekLeft () {
+      if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
+      return mBuffer[mHead];
    }
 
-   /// <summary>Inserts an element at the back of the deque.</summary>
-   /// <param name="element">The item to push to the back.</param>
-   public void PushBack (T element) {
-      mBuffer[mTail] = element;
-      mTail = WrapIndex (mTail + 1);
-      if (mTail == mHead) Resize (mCapacity * 2);
+   /// <summary>Returns the element at the back of the deque without removing it.</summary>
+   public T PeekRight () {
+      if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
+      return mBuffer[WrapIndex (mTail - 1)];
    }
 
    /// <summary>Removes and returns the element at the front of the deque.</summary>
@@ -63,16 +59,20 @@ public class MyDeQueue<T> {
       return value;
    }
 
-   /// <summary>Returns the element at the front of the deque without removing it.</summary>
-   public T PeekLeft () {
-      if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
-      return mBuffer[mHead];
+   /// <summary>Inserts an element at the back of the deque.</summary>
+   /// <param name="element">The item to push to the back.</param>
+   public void PushBack (T element) {
+      mBuffer[mTail] = element;
+      mTail = WrapIndex (mTail + 1);
+      if (mTail == mHead) Resize (mCapacity * 2);
    }
 
-   /// <summary>Returns the element at the back of the deque without removing it.</summary>
-   public T PeekRight () {
-      if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
-      return mBuffer[WrapIndex (mTail - 1)];
+   /// <summary>Inserts an element at the front of the deque.</summary>
+   /// <param name="element">The item to push to the front.</param>
+   public void PushFront (T element) {
+      mHead = WrapIndex (mHead - 1);
+      mBuffer[mHead] = element;
+      if (mHead == mTail) Resize (mCapacity * 2);
    }
    #endregion
 

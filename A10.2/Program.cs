@@ -11,103 +11,96 @@ using CustomDeQueue;
 #region Class Program -----------------------------------------------------------------------------
 /// <summary>Tests the custom DeQueue implementation against LinkedList.</summary>
 class Program {
-   #region Methods --------------------------------------------------
    /// <summary>Runs the test suite to verify DeQueue behavior against LinkedList.</summary>
    static void Main () {
       bool isSame = RunTest (100);
       if (isSame) {
          Console.ForegroundColor = ConsoleColor.Green;
-         Console.WriteLine ("\nPassed all tests!" +
-            " Custom DeQueue and LinkedList behave identically.");
+         Console.WriteLine ("Passed all tests!");
       } else {
          Console.ForegroundColor = ConsoleColor.Red;
-         Console.WriteLine ("\nFailed! " +
-            "Output mismatch detected between DeQueue and LinkedList.");
+         Console.WriteLine ("Failed!");
       }
       Console.ResetColor ();
    }
 
-   /// <summary>Executes probabilistic operations and validates state consistency.</summary>
-   /// <param name="iterations">The total number of test operations to execute.</param>
-   /// <returns>True if both containers yield identical results; otherwise, false.</returns>
+   #region Implementation -------------------------------------------
+   /// Executes operations and validates consistency.
    static bool RunTest (int iterations) {
-      bool same = true;
+      bool iSame = true;
+      LinkedList<int> ReferenceQ = new ();
+      MyDeQueue<int> CustomQ = new ();
+      Random rand = new ();
       for (int i = 0; i < iterations; i++) {
          // Verify state integrity (Count & IsEmpty) before each operation
-         if (sReferenceQ.Count != sCustomQ.Count
-            || (sReferenceQ.Count == 0) != sCustomQ.IsEmpty) {
+         if (ReferenceQ.Count != CustomQ.Count
+            || (ReferenceQ.Count == 0) != CustomQ.IsEmpty()) {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine ($"State Mismatch at step {i}! " +
-               $"Ref Count: {sReferenceQ.Count}, Custom Count: {sCustomQ.Count}");
+            Console.WriteLine ($"State Mismatch at step {i}!");
             Console.ResetColor ();
             return false;
          }
 
-         double prob = sRand.NextDouble ();
+         double prob = rand.NextDouble ();
          // probability is less than 0.25 do left append / add
          if (prob < 0.25) {
-            int val = sRand.Next (1, 100);
-            sReferenceQ.AddFirst (val);
-            sCustomQ.PushFront (val);
+            int val = rand.Next (1, 100);
+            ReferenceQ.AddFirst (val);
+            CustomQ.PushFront (val);
          }
          // probability is less than 0.50 do right append / add
          else if (prob < 0.50) {
-            int val = sRand.Next (1, 100);
-            sReferenceQ.AddLast (val);
-            sCustomQ.PushBack (val);
+            int val = rand.Next (1, 100);
+            ReferenceQ.AddLast (val);
+            CustomQ.PushBack (val);
          }
          // probability is less than 0.70 do left pop / remove
-         else if (prob < 0.70 && sReferenceQ.Count > 0) {
-            int refVal = sReferenceQ.First.Value;
-            sReferenceQ.RemoveFirst ();
-            int customVal = sCustomQ.PopFront ();
-            same = Verify ("PopFront", i, refVal, customVal);
+         else if (prob < 0.70 && ReferenceQ.Count > 0) {
+            int refVal = ReferenceQ.First.Value;
+            ReferenceQ.RemoveFirst ();
+            int customVal = CustomQ.PopFront ();
+            iSame = Verify ("PopFront", i, refVal, customVal);
          }
          // probability is less than 0.90 do right pop / remove
-         else if (prob < 0.90 && sReferenceQ.Count > 0) {
-            int refVal = sReferenceQ.Last.Value;
-            sReferenceQ.RemoveLast ();
-            int customVal = sCustomQ.PopBack ();
-            same = Verify ("PopBack", i, refVal, customVal);
+         else if (prob < 0.90 && ReferenceQ.Count > 0) {
+            int refVal = ReferenceQ.Last.Value;
+            ReferenceQ.RemoveLast ();
+            int customVal = CustomQ.PopBack ();
+            iSame = Verify ("PopBack", i, refVal, customVal);
          }
          // when more than 0.90 check if peek works correctly this doesnt need that much of 
          // checking as the pop checks this in a more appropriate manner
-         else if (sReferenceQ.Count > 0) {
+         else if (ReferenceQ.Count > 0) {
             if (prob < 0.95) {
-               int refVal = sReferenceQ.First.Value;
-               int customVal = sCustomQ.PeekLeft ();
-               same = Verify ("PeekLeft", i, refVal, customVal);
+               int refVal = ReferenceQ.First.Value;
+               int customVal = CustomQ.PeekLeft ();
+               iSame = Verify ("PeekLeft", i, refVal, customVal);
             } else {
-               int refVal = sReferenceQ.Last.Value;
-               int customVal = sCustomQ.PeekRight ();
-               same = Verify ("PeekRight", i, refVal, customVal);
+               int refVal = ReferenceQ.Last.Value;
+               int customVal = CustomQ.PeekRight ();
+               iSame = Verify ("PeekRight", i, refVal, customVal);
             }
          }
-         if (!same) break;
+         if (!iSame) break;
       }
-      return same;
+      return iSame;
    }
 
    /// <summary>Compares expected and actual outputs for an operation.</summary>
-   static bool Verify (string op, int step, int expected, int actual) {
+   static bool Verify (string op,int step, int expected, int actual) {
       if (expected == actual) {
          Console.ForegroundColor = ConsoleColor.Green;
-         Console.WriteLine ($"[{step}] {op} Passed -> Expected: {expected} | Got: {actual}");
+         Console.WriteLine ($"At {step,5} {op,-3} : Test passed.");
+         Console.WriteLine ($"LinkedList: {expected,3} | MyDeQueue: {actual,3}");
          Console.ResetColor ();
          return true;
       }
-
       Console.ForegroundColor = ConsoleColor.Red;
-      Console.WriteLine ($"[{step}] {op} FAILED -> Expected: {expected} | Got: {actual}");
+      Console.WriteLine ($"At {step,5} {op,-8} : Test Failed.");
+      Console.WriteLine ($"LinkedList: {expected,3} | MyDeQueue: {actual,3}");
       Console.ResetColor ();
       return false;
    }
-   #endregion
-
-   #region Fields ---------------------------------------------------
-   static LinkedList<int> sReferenceQ = new ();
-   static MyDeQueue<int> sCustomQ = new ();
-   static Random sRand = new ();
    #endregion
 }
 #endregion
