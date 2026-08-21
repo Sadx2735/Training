@@ -55,11 +55,11 @@ public class MyQueue<T> {
 
    #region Implementation -------------------------------------------
    // Resizes the buffer array and re-aligns elements starting from index 0.
-   void Resize (int newCapacity) {
-      int count = newCapacity > mCapacity ? mCapacity : Count;
-      var newBuffer = new T[newCapacity];
+   void Resize (int newcapacity) {
+      int count = newcapacity > mCapacity ? mCapacity : Count;
+      var newBuffer = new T[newcapacity];
       for (int i = 0; i < count; i++) newBuffer[i] = mBuffer[WrapIndex (mHead + i)];
-      (mHead, mTail, mBuffer, mCapacity) = (0, count, newBuffer, newCapacity);
+      (mHead, mTail, mBuffer, mCapacity) = (0, count, newBuffer, newcapacity);
    }
 
    // Performs circular indexing.
