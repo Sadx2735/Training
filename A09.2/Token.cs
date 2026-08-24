@@ -36,9 +36,9 @@ class TOpArithmetic : TOperator {
    public char Op { get; private set; }
    public override string ToString () => $"op:{Op}:{Priority}";
    public override int Priority { get => mPriority; set => mPriority = value; }
-   
+
    int mPriority;
-   
+
    static Dictionary<char, int> sPriority = new () {
       ['+'] = 1, ['-'] = 1, ['*'] = 2, ['/'] = 2, ['^'] = 3, ['='] = 4,
    };
@@ -59,7 +59,7 @@ class TOpFunction : TOperator {
    public string Func { get; private set; }
    public override string ToString () => $"func:{Func}:{Priority}";
 
-   int mPriority = 5;
+   int mPriority = 4;
    public override int Priority { get => mPriority; set => mPriority = value; }
 
    public double Evaluate (double f) {

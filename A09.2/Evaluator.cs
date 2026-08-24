@@ -19,7 +19,6 @@ class Evaluator {
          if (token is TError err) throw new EvalException (err.Message);
          tokens.Add (token);
       }
-
       // Check if this is a variable assignment
       TVariable? tVariable = null;
       if (tokens.Count > 2 && tokens[0] is TVariable tvar && tokens[1] is TOpArithmetic { Op: '=' }) {

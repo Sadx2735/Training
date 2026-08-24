@@ -16,9 +16,9 @@ class Tokenizer {
          switch (ch) {
             case ' ' or '\t': continue;
             case (>= '0' and <= '9') or '.': return GetNumber ();
-            case '(' or ')': return new TPunctuation (ch); 
+            case '(' or ')': return new TPunctuation (ch);
             case '+' or '-' or '*' or '/' or '^' or '=':
-               bool isOperandEnd = mPrev is TNumber 
+               bool isOperandEnd = mPrev is TNumber
                   || (mPrev is TPunctuation tp && tp.Punct == ')');
                bool isUnary = (ch is '+' or '-') && !isOperandEnd;
                string oper = (ch == '+') ? "u+" : "u-";
@@ -42,7 +42,7 @@ class Tokenizer {
       if (mFuncs.Contains (sub)) return new TOpFunction (mEval, sub);
       else return new TVariable (mEval, sub);
    }
-   readonly string[] mFuncs = { "sin", "cos", "tan", "sqrt", "log", 
+   readonly string[] mFuncs = { "sin", "cos", "tan", "sqrt", "log",
       "exp", "asin", "acos", "atan" };
 
    Token GetNumber () {
@@ -52,7 +52,6 @@ class Tokenizer {
          if (ch is (>= '0' and <= '9') or '.') continue;
          mN--; break;
       }
-      // Now, mN points to the first character of mText that is not part of the number
       string sub = mText[start..mN];
       if (double.TryParse (sub, out double f)) return new TLiteral (f);
       return new TError ($"Invalid number: {sub}");
