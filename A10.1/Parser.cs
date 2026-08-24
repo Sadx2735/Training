@@ -20,6 +20,7 @@ class Parser {
       var st = A;
       Action<char> none = (char a) => { }, todo;
       string drive = "", directory = "", extension = "";
+      /// State Diagram: docs/Diagram.png
       foreach (var ch in input.ToUpper () + '~') {
          todo = none;
          (st, todo) = (st, ch) switch {
