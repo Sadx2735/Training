@@ -47,7 +47,7 @@ class Test {
       } catch (InvalidOperationException) {
          iPassed = true;
       }
-      PrintStatus ("Dequeue from empty queue", iPassed);
+      PrintStatus ("Empty Dequeue exception", iPassed);
    }
 
    // 2. Checks for Peek on empty queue throwing exception
@@ -59,7 +59,7 @@ class Test {
       } catch (InvalidOperationException) {
          iPassed = true;
       }
-      PrintStatus ("Peek from empty queue", iPassed);
+      PrintStatus ("Empty Peek exception", iPassed);
    }
 
    // 3. Checks for Count property transitions on Enqueue and Dequeue
@@ -70,7 +70,7 @@ class Test {
       iPassed &= (queue.Count == 1);
       queue.Dequeue ();
       iPassed &= (queue.Count == 0);
-      PrintStatus ("Count transitions on Enqueue/Dequeue", iPassed);
+      PrintStatus ("Count property transitions", iPassed);
    }
 
    // 4. Checks for ordering of elements when mTail < mHead (Wrapped state)
@@ -84,7 +84,7 @@ class Test {
 
       var res = new List<int> ();
       while (queue.Count > 0) res.Add (queue.Dequeue ());
-      PrintStatus ("Ordering of elements when mTail < mHead", res.SequenceEqual ([2, 3, 4, 5]));
+      PrintStatus ("Order (mTail < mHead)", res.SequenceEqual ([2, 3, 4, 5]));
    }
 
    // 5. Checks for ordering of elements when mTail > mHead (Linear state)
@@ -93,7 +93,7 @@ class Test {
       for (int i = 0; i < 4; i++) queue.Enqueue (i);
       var res = new List<int> ();
       while (queue.Count > 0) res.Add (queue.Dequeue ());
-      PrintStatus ("Ordering of elements when mTail > mHead", res.SequenceEqual ([0, 1, 2, 3]));
+      PrintStatus ("Order (mTail > mHead)", res.SequenceEqual ([0, 1, 2, 3]));
    }
 
    // 6. Checks for ordering after resize when mTail < mHead (Wrapped state resize)
@@ -106,7 +106,7 @@ class Test {
       queue.Enqueue (6);
       var res = new List<int> ();
       while (queue.Count > 0) res.Add (queue.Dequeue ());
-      PrintStatus ("Order after resize when mTail < mHead", res.SequenceEqual ([1, 2, 3, 4, 5, 6]));
+      PrintStatus ("Resize order (mTail < mHead)", res.SequenceEqual ([1, 2, 3, 4, 5, 6]));
    }
 
    // 7. Checks for ordering after resize when mTail > mHead (Linear state resize)
@@ -115,7 +115,7 @@ class Test {
       for (int i = 0; i < 6; i++) queue.Enqueue (i);
       var res = new List<int> ();
       while (queue.Count > 0) res.Add (queue.Dequeue ());
-      PrintStatus ("Order after resize when mTail > mHead", res.SequenceEqual ([0, 1, 2, 3, 4, 5]));
+      PrintStatus ("Resize order (mTail > mHead)", res.SequenceEqual ([0, 1, 2, 3, 4, 5]));
    }
 
    // 8. Checks for Peek return values across state changes
@@ -128,7 +128,7 @@ class Test {
       queue.Enqueue (5);
       for (int i = 0; i < 5; i++) queue.Dequeue ();
       iPassed &= (queue.Peek () == 5);
-      PrintStatus ("Peek return values across state changes", iPassed);
+      PrintStatus ("Peek value consistency", iPassed);
    }
    #endregion
 }
