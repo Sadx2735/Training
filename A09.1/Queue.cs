@@ -11,17 +11,9 @@ namespace CustomQueue;
 #region Class MyQueue -----------------------------------------------------------------------------
 /// <summary>Implements a custom queue that adds and removes elements in FIFO order.</summary>
 public class MyQueue<T> {
-   #region Constructors ---------------------------------------------
-   /// <summary>Initializes the buffer array.</summary>
-   public MyQueue () => mBuffer = new T[mCapacity];
-   #endregion
-
    #region Properties -----------------------------------------------
-   /// <summary>Gets the current capacity of the queue buffer.</summary>
-   public int Capacity => mCapacity;
-
    /// <summary>Gets the number of elements in the queue.</summary>
-   public int Count => (mTail - mHead + mCapacity) % mCapacity;
+   public int Count { get; private set; }
    #endregion
 
    #region Methods --------------------------------------------------
@@ -31,17 +23,19 @@ public class MyQueue<T> {
    public T Dequeue () {
       if (Count == 0) throw new InvalidOperationException ("Queue is empty!");
       T item = mBuffer[mHead];
+      mBuffer[mHead] = default;
       mHead = WrapIndex (mHead + 1);
-      if (Count < mCapacity / 4 && mCapacity > MINSIZE) Resize (mCapacity / 2);
+      Count--;
       return item;
    }
 
    /// <summary>Adds an element to the queue.</summary>
    /// <param name="data">The element to add.</param>
    public void Enqueue (T data) {
+      if (Count == mBuffer.Length) Resize ();
       mBuffer[mTail] = data;
       mTail = WrapIndex (mTail + 1);
-      if (mTail == mHead) Resize (mCapacity * 2);
+      Count++;
    }
 
    /// <summary>Returns the top element in the queue.</summary>
@@ -55,22 +49,19 @@ public class MyQueue<T> {
 
    #region Implementation -------------------------------------------
    // Resizes the buffer array and re-aligns elements starting from index 0.
-   void Resize (int newCapacity) {
-      int count = newCapacity > mCapacity ? mCapacity : Count;
-      var newBuffer = new T[newCapacity];
-      for (int i = 0; i < count; i++) newBuffer[i] = mBuffer[WrapIndex (mHead + i)];
-      (mHead, mTail, mBuffer, mCapacity) = (0, count, newBuffer, newCapacity);
+   void Resize () {
+      var newBuffer = new T[mBuffer.Length * 2];
+      for (int i = 0; i < Count; i++) newBuffer[i] = mBuffer[WrapIndex (mHead + i)];
+      (mHead, mTail, mBuffer) = (0, Count, newBuffer);
    }
 
    // Performs circular indexing.
-   int WrapIndex (int ptr) => ptr & (mCapacity - 1);
+   int WrapIndex (int ptr) => ptr % mBuffer.Length;
    #endregion
 
    #region Fields ---------------------------------------------------
-   T[] mBuffer;
-   int mCapacity = 4;
+   T[] mBuffer = new T[4];
    int mHead, mTail;
-   const int MINSIZE = 4;
    #endregion
 }
 #endregion
