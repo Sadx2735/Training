@@ -5,6 +5,7 @@
 // Program.cs
 // For testing the custom file parser program.
 // ------------------------------------------------------------------------------------------------
+
 using Parse;
 
 #region Class Program -----------------------------------------------------------------------------
@@ -24,7 +25,7 @@ class Program {
       Console.WriteLine (new string ('_', 100));
       foreach (var path in testPaths) {
          var (drive, directory, filename, ext) = Parser.Evaluate (path);
-         // check if every part of the path is present
+         // Check if any part of the path is present.
          bool iPassed = !string.IsNullOrEmpty (drive) || !string.IsNullOrEmpty (directory)
                         || !string.IsNullOrEmpty (filename) || !string.IsNullOrEmpty (ext);
          string driveStr = iPassed && !string.IsNullOrEmpty (drive) ? drive : "-";

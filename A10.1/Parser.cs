@@ -1,16 +1,25 @@
-﻿
-
+﻿// ------------------------------------------------------------------------------------------------
+// Training ~ A training program for new joiners at Metamation, Batch - July 2026.
+// Copyright (c) Metamation India.
+// ------------------------------------------------------------------------------------------------
+// Parser.cs
+// Implementation of a custom file parser.
+// ------------------------------------------------------------------------------------------------
 namespace Parse;
 
-using static State;
+using static Parser.EState;
+
+#region Class Parser ------------------------------------------------------------------------------
+/// <summary> Implements a custom file parser. </summary>
 class Parser {
+   #region Methods --------------------------------------------------
+   /// <summary> Evaluates the given input file path using a state machine. </summary>
+   /// <param name="input"> The input file path string to parse. </param>
+   /// <returns> A tuple containing (drive, folder, filename, extension). </returns>
    public static (string, string, string, string) Evaluate (string input) {
       var st = A;
-      Action<char> none = (char a) => { };
-      Action<char> todo;
-      string drive = "";
-      string directory = "";
-      string extension = "";
+      Action<char> none = (char a) => { }, todo;
+      string drive = "", directory = "", extension = "";
       foreach (var ch in input.ToUpper () + '~') {
          todo = none;
          (st, todo) = (st, ch) switch {
@@ -30,11 +39,29 @@ class Parser {
       }
       if (st is J) {
          var items = directory.Split ('\\');
-         string Filename = items[^1];
+         string filename = items[^1];
          directory = string.Join ("/", items.SkipLast (1));
-         return (drive, directory, Filename, extension);
+         return (drive, directory, filename, extension);
       }
       return (string.Empty, string.Empty, string.Empty, string.Empty);
    }
+   #endregion
+
+   #region Enum EState ----------------------------------------------
+   /// <summary> Represents the parser states for evaluating file paths. </summary>
+   public enum EState {
+      A, // Starting state of the parser.
+      B, // Drive letter.
+      C, // Colon (:) after the drive letter.
+      D, // Backslash (\) after the colon.
+      E, // Primary folder name.
+      F, // Directory backslash (\) delimiter.
+      G, // Subfolder or file name.
+      H, // Extension dot (.) separator.
+      I, // File extension.
+      J, // Success / terminal end state.
+      Z  // Error state.
+   }
+   #endregion
 }
-enum State { A, B, C, D, E, F, G, H, I, J, Z }
+#endregion
