@@ -7,8 +7,11 @@
 // ------------------------------------------------------------------------------------------------
 
 namespace CustomQueue;
-/// <summary>Tests the CustomQ implementation for various edge cases.</summary>
+
+#region Class Program -----------------------------------------------------------------------------
+/// <summary>Tests the CustomQueue implementation for various edge cases.</summary>
 class Program {
-   /// <summary>Runs all unit tests.</summary>
+   /// <summary>Runs all tests.</summary>
    static void Main () => Test.Run ();
 }
+#endregion
