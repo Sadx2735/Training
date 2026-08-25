@@ -3,37 +3,30 @@
 // Copyright (c) Metamation India.
 // ------------------------------------------------------------------------------------------------
 // TestCases.cs
-// For testing the custom Double ended Queue implementation.
+// For testing the custom double-ended queue implementation.
 // ------------------------------------------------------------------------------------------------
-
-using System.Collections;
 
 namespace CustomDeQueue;
 
 #region Class Test --------------------------------------------------------------------------------
-/// <summary>Tests the custom Double ended Queue implementation over various edge cases.</summary>
+/// <summary>Tests the custom double-ended queue implementation over various edge cases.</summary>
 class Test {
    #region Methods --------------------------------------------------
    /// <summary>Runs all unit test cases sequentially.</summary>
    public static void Run () {
       // Exception tests 
       Test1 (); Test2 ();
-      
       // When resize doesnt happen
-      Test3 (4); Test4 (4); 
+      Test3 (4); Test4 (4);
       Test5 (4); Test6 (4);
-
       // When resize occurs
       Test7 (12); Test8 (12);
       Test9 (12); Test10 (12);
-
       // Check for Peek , Count
       Test11 (); Test12 ();
       Test13 (); Test14 ();
-
       // Mixed up States
       Test15 ();
-
    }
    #endregion
 
@@ -82,7 +75,8 @@ class Test {
       for (int i = 0; i < N; i++) { myDeQueue.PushBack (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
-      PrintStatus ("( mHead < mTail ) Push : Back, Ret : Front", res.SequenceEqual ([0, 1, 2, 3]));
+      PrintStatus ("(mHead < mTail) Push: Back, Pop: Front",
+         res.SequenceEqual ([0, 1, 2, 3]));
    }
 
    // 4. Order when mHead > mTail ( Wrapped Condition )
@@ -91,7 +85,8 @@ class Test {
       for (int i = 0; i < N; i++) { myDeQueue.PushFront (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
-      PrintStatus ("( mHead > mTail ) Push : Front, Ret : Back", res.SequenceEqual (Enumerable.Range (0, N).ToList ()));
+      PrintStatus ("(mHead > mTail) Push: Front, Pop: Back",
+         res.SequenceEqual (Enumerable.Range (0, N).ToList ()));
    }
 
    // 5. Order when mHead < mTail ( Linear Condition )
@@ -100,7 +95,8 @@ class Test {
       for (int i = 0; i < N; i++) { myDeQueue.PushBack (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
-      PrintStatus ("( mHead < mTail ) Push : Back, Ret : Back", res.SequenceEqual (Enumerable.Range (0, N).Reverse().ToList ()));
+      PrintStatus ("(mHead < mTail) Push: Back, Pop: Back",
+         res.SequenceEqual (Enumerable.Range (0, N).Reverse ().ToList ()));
    }
 
    // 6. Order when mHead > mTail ( Wrapped Condition )
@@ -109,7 +105,8 @@ class Test {
       for (int i = 0; i < N; i++) { myDeQueue.PushFront (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
-      PrintStatus ("( mHead > mTail ) Push : Front, Ret : Front", res.SequenceEqual (Enumerable.Range (0, N).Reverse ().ToList ()));
+      PrintStatus ("(mHead > mTail) Push: Front, Pop: Front",
+         res.SequenceEqual (Enumerable.Range (0, N).Reverse ().ToList ()));
    }
 
    // 7. Order when mHead < mTail & Resized ( Linear Condition )
@@ -118,7 +115,8 @@ class Test {
       for (int i = 0; i < N; i++) { myDeQueue.PushBack (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
-      PrintStatus ("( mHead < mTail ) Push : Back, Ret : Front", res.SequenceEqual (Enumerable.Range (0, N).ToList ()));
+      PrintStatus ("(mHead < mTail) Resized Push: Back, Pop: Front",
+         res.SequenceEqual (Enumerable.Range (0, N).ToList ()));
    }
 
    // 8. Order when mHead > mTail & Resized ( Wrapped Condition )
@@ -127,7 +125,8 @@ class Test {
       for (int i = 0; i < N; i++) { myDeQueue.PushFront (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
-      PrintStatus ("( mHead > mTail ) & Resized Push : Front, Ret : Back", res.SequenceEqual (Enumerable.Range (0, N).ToList ()));
+      PrintStatus ("(mHead > mTail) Resized Push: Front, Pop: Back",
+         res.SequenceEqual (Enumerable.Range (0, N).ToList ()));
    }
 
    // 9. Order when mHead < mTail & Resized ( Linear Condition )
@@ -136,7 +135,8 @@ class Test {
       for (int i = 0; i < N; i++) { myDeQueue.PushBack (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
-      PrintStatus ("( mHead < mTail ) & Resized Push : Back, Ret : Back", res.SequenceEqual (Enumerable.Range (0, N).Reverse ().ToList ()));
+      PrintStatus ("(mHead < mTail) Resized Push: Back, Pop: Back",
+         res.SequenceEqual (Enumerable.Range (0, N).Reverse ().ToList ()));
    }
 
    // 10. Order when mHead > mTail & Resized ( Wrapped Condition )
@@ -145,10 +145,11 @@ class Test {
       for (int i = 0; i < N; i++) { myDeQueue.PushFront (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
-      PrintStatus ("( mHead > mTail ) & Resized Push : Front, Ret : Front", res.SequenceEqual (Enumerable.Range (0, N).Reverse ().ToList ()));
+      PrintStatus ("(mHead > mTail) Resized Push: Front, Pop: Front",
+         res.SequenceEqual (Enumerable.Range (0, N).Reverse ().ToList ()));
    }
 
-   // 11. Consistancy of Peek for Resized
+   // 11. PeekFront on empty deque
    static void Test11 () {
       bool iPassed = true;
       var myDeQueue = new MyDeQueue<int> ();
@@ -158,10 +159,10 @@ class Test {
       } catch (InvalidOperationException) {
          iPassed = true;
       }
-      PrintStatus ("Empty Dequeue exception when PeekFront", iPassed);
+      PrintStatus ("PeekLeft on empty deque exception", iPassed);
    }
 
-   // 12. PopBack over empty Deque
+   // 12. PeekBack on empty deque
    static void Test12 () {
       bool iPassed = true;
       var myDeQueue = new MyDeQueue<int> ();
@@ -171,10 +172,10 @@ class Test {
       } catch (InvalidOperationException) {
          iPassed = true;
       }
-      PrintStatus ("Empty Dequeue exception when PeekBack", iPassed);
+      PrintStatus ("PeekRight on empty deque exception", iPassed);
    }
 
-   // 13. Transition of Count when not resized
+   // 13. Transition of Count without resize
    static void Test13 () {
       bool iPassed = true;
       var myDeQueue = new MyDeQueue<int> ();
@@ -182,10 +183,10 @@ class Test {
       iPassed &= (myDeQueue.Count == 2);
       myDeQueue.PushBack (3); myDeQueue.PushBack (4);
       iPassed &= (myDeQueue.Count == 4);
-      PrintStatus ("Count when not resized", iPassed);
+      PrintStatus ("Count transition when not resized", iPassed);
    }
 
-   // 14. Transition of Count when resized
+   // 14. Transition of Count with resize
    static void Test14 () {
       bool iPassed = true;
       var myDeQueue = new MyDeQueue<int> ();
@@ -195,10 +196,10 @@ class Test {
       iPassed &= (myDeQueue.Count == 4);
       myDeQueue.PushFront (5); myDeQueue.PushBack (6);
       iPassed &= (myDeQueue.Count == 6);
-      PrintStatus ("Count when resized", iPassed);
+      PrintStatus ("Count transition when resized", iPassed);
    }
 
-   // 15. For Mixed up state transitions
+   // 15. Mixed-up state transitions
    static void Test15 () {
       bool iPassed = true;
       var myDeQueue = new MyDeQueue<int> ();
@@ -206,15 +207,15 @@ class Test {
       iPassed &= (myDeQueue.Count == 2);
       iPassed &= (myDeQueue.PeekBack () == 2);
       iPassed &= (myDeQueue.PeekFront () == 1);
-      myDeQueue.PushBack (3); myDeQueue.PushBack (4);
-      iPassed &= (myDeQueue.Count == 4);
-      iPassed &= (myDeQueue.PeekBack () == 4);
-      iPassed &= (myDeQueue.PeekFront () == 1);
-      myDeQueue.PushFront (5); myDeQueue.PushBack (5);
-      iPassed &= (myDeQueue.Count == 6);
+      myDeQueue.PushBack (3); myDeQueue.PopFront ();
+      iPassed &= (myDeQueue.Count == 2);
+      iPassed &= (myDeQueue.PeekBack () == 3);
+      iPassed &= (myDeQueue.PeekFront () == 2);
+      myDeQueue.PopBack (); myDeQueue.PushBack (5);
+      iPassed &= (myDeQueue.Count == 2);
       iPassed &= (myDeQueue.PeekBack () == 5);
-      iPassed &= (myDeQueue.PeekFront () == 5);
-      PrintStatus ("Mixed Up", iPassed);
+      iPassed &= (myDeQueue.PeekFront () == 2);
+      PrintStatus ("Mixed-up state transitions", iPassed);
    }
    #endregion
 }

@@ -3,15 +3,15 @@
 // Copyright (c) Metamation India.
 // ------------------------------------------------------------------------------------------------
 // Program.cs
-// Entry point for testing the custom DeQueue implementation.
+// Entry point for testing the custom double-ended queue implementation.
 // ------------------------------------------------------------------------------------------------
 
 namespace CustomDeQueue;
 
 #region Class Program -----------------------------------------------------------------------------
-/// <summary>Tests the CustomQueue implementation for various edge cases.</summary>
+/// <summary>Tests the custom double-ended queue implementation.</summary>
 class Program {
-   /// <summary>Runs all tests.</summary>
+   /// <summary>Runs all unit tests.</summary>
    static void Main () => Test.Run ();
 }
 #endregion

@@ -17,13 +17,13 @@ public class MyDeQueue<T> {
    #endregion
 
    #region Methods --------------------------------------------------
-   /// <summary>Returns the element at the front of the deque without removing it.</summary>
+   /// <summary>Returns the element at the front of the deque.</summary>
    public T PeekFront () {
       if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
       return mBuffer[mHead];
    }
 
-   /// <summary>Returns the element at the back of the deque without removing it.</summary>
+   /// <summary>Returns the element at the back of the deque.</summary>
    public T PeekBack () {
       if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
       return mBuffer[WrapIndex (mTail - 1)];
