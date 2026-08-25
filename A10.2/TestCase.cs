@@ -16,7 +16,7 @@ class Test {
    public static void Run () {
       // Exception tests 
       Test1 (); Test2 ();
-      // When resize doesnt happen
+      // When resize does not happen
       Test3 (4); Test4 (4);
       Test5 (4); Test6 (4);
       // When resize occurs

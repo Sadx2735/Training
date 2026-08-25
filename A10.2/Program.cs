@@ -11,7 +11,7 @@ namespace CustomDeQueue;
 #region Class Program -----------------------------------------------------------------------------
 /// <summary>Tests the custom double-ended queue implementation.</summary>
 class Program {
-   /// <summary>Runs all unit tests.</summary>
+   /// <summary>Runs all tests.</summary>
    static void Main () => Test.Run ();
 }
 #endregion
