@@ -23,7 +23,7 @@ public class MyQueue<T> {
    public T Dequeue () {
       if (Count == 0) throw new InvalidOperationException ("Queue is empty!");
       T item = mBuffer[mHead];
-      mBuffer[mHead] = default;
+      mBuffer[mHead] = default!;
       mHead = WrapIndex (mHead + 1);
       Count--;
       return item;
