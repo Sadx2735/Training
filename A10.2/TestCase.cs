@@ -26,6 +26,14 @@ class Test {
       // When resize occurs
       Test7 (12); Test8 (12);
       Test9 (12); Test10 (12);
+
+      // Check for Peek , Count
+      Test11 (); Test12 ();
+      Test13 (); Test14 ();
+
+      // Mixed up States
+      Test15 ();
+
    }
    #endregion
 
@@ -140,16 +148,74 @@ class Test {
       PrintStatus ("( mHead > mTail ) & Resized Push : Front, Ret : Front", res.SequenceEqual (Enumerable.Range (0, N).Reverse ().ToList ()));
    }
 
-   // 11. Mixed Up operation without Resize
+   // 11. Consistancy of Peek for Resized
+   static void Test11 () {
+      bool iPassed = true;
+      var myDeQueue = new MyDeQueue<int> ();
+      try {
+         myDeQueue.PeekFront ();
+         iPassed = false;
+      } catch (InvalidOperationException) {
+         iPassed = true;
+      }
+      PrintStatus ("Empty Dequeue exception when PeekFront", iPassed);
+   }
 
+   // 12. PopBack over empty Deque
+   static void Test12 () {
+      bool iPassed = true;
+      var myDeQueue = new MyDeQueue<int> ();
+      try {
+         myDeQueue.PeekBack ();
+         iPassed = false;
+      } catch (InvalidOperationException) {
+         iPassed = true;
+      }
+      PrintStatus ("Empty Dequeue exception when PeekBack", iPassed);
+   }
 
-   // 12. Mixed Up operations with Resize
+   // 13. Transition of Count when not resized
+   static void Test13 () {
+      bool iPassed = true;
+      var myDeQueue = new MyDeQueue<int> ();
+      myDeQueue.PushFront (1); myDeQueue.PushFront (2);
+      iPassed &= (myDeQueue.Count == 2);
+      myDeQueue.PushBack (3); myDeQueue.PushBack (4);
+      iPassed &= (myDeQueue.Count == 4);
+      PrintStatus ("Count when not resized", iPassed);
+   }
 
-   // 13. Consistancy of Peek for Resized
+   // 14. Transition of Count when resized
+   static void Test14 () {
+      bool iPassed = true;
+      var myDeQueue = new MyDeQueue<int> ();
+      myDeQueue.PushFront (1); myDeQueue.PushFront (2);
+      iPassed &= (myDeQueue.Count == 2);
+      myDeQueue.PushBack (3); myDeQueue.PushBack (4);
+      iPassed &= (myDeQueue.Count == 4);
+      myDeQueue.PushFront (5); myDeQueue.PushBack (6);
+      iPassed &= (myDeQueue.Count == 6);
+      PrintStatus ("Count when resized", iPassed);
+   }
 
-   // 14. Consistency of Peek for UnResized
-
-   // 15. Consistancy for Count..
+   // 15. For Mixed up state transitions
+   static void Test15 () {
+      bool iPassed = true;
+      var myDeQueue = new MyDeQueue<int> ();
+      myDeQueue.PushFront (1); myDeQueue.PushBack (2);
+      iPassed &= (myDeQueue.Count == 2);
+      iPassed &= (myDeQueue.PeekBack () == 2);
+      iPassed &= (myDeQueue.PeekFront () == 1);
+      myDeQueue.PushBack (3); myDeQueue.PushBack (4);
+      iPassed &= (myDeQueue.Count == 4);
+      iPassed &= (myDeQueue.PeekBack () == 4);
+      iPassed &= (myDeQueue.PeekFront () == 1);
+      myDeQueue.PushFront (5); myDeQueue.PushBack (5);
+      iPassed &= (myDeQueue.Count == 6);
+      iPassed &= (myDeQueue.PeekBack () == 5);
+      iPassed &= (myDeQueue.PeekFront () == 5);
+      PrintStatus ("Mixed Up", iPassed);
+   }
    #endregion
 }
 #endregion

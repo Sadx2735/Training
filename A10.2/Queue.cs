@@ -18,13 +18,13 @@ public class MyDeQueue<T> {
 
    #region Methods --------------------------------------------------
    /// <summary>Returns the element at the front of the deque without removing it.</summary>
-   public T PeekLeft () {
+   public T PeekFront () {
       if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
       return mBuffer[mHead];
    }
 
    /// <summary>Returns the element at the back of the deque without removing it.</summary>
-   public T PeekRight () {
+   public T PeekBack () {
       if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
       return mBuffer[WrapIndex (mTail - 1)];
    }
