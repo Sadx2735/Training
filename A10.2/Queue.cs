@@ -17,11 +17,8 @@ public class MyDeQueue<T> {
    #endregion
 
    #region Methods --------------------------------------------------
-   /// <summary>Returns the element at the front of the deque.</summary>
-   public T PeekFront () {
-      if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
-      return mBuffer[mHead];
-   }
+   // Determines whether the deque contains no elements.
+   public bool IsEmpty () => Count == 0;
 
    /// <summary>Returns the element at the back of the deque.</summary>
    public T PeekBack () {
@@ -29,16 +26,10 @@ public class MyDeQueue<T> {
       return mBuffer[WrapIndex (mTail - 1)];
    }
 
-   /// <summary>Removes and returns the element at the front of the deque.</summary>
-   /// <returns>The element removed from the front.</returns>
-   /// <exception cref="InvalidOperationException">Thrown when the dequeue is empty.</exception>
-   public T PopFront () {
+   /// <summary>Returns the element at the front of the deque.</summary>
+   public T PeekFront () {
       if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
-      T value = mBuffer[mHead];
-      mBuffer[mHead] = default!;
-      mHead = WrapIndex (mHead + 1);
-      Count--;
-      return value;
+      return mBuffer[mHead];
    }
 
    /// <summary>Removes and returns the element at the back of the deque.</summary>
@@ -49,6 +40,18 @@ public class MyDeQueue<T> {
       mTail = WrapIndex (mTail - 1);
       T value = mBuffer[mTail];
       mBuffer[mTail] = default!;
+      Count--;
+      return value;
+   }
+
+   /// <summary>Removes and returns the element at the front of the deque.</summary>
+   /// <returns>The element removed from the front.</returns>
+   /// <exception cref="InvalidOperationException">Thrown when the dequeue is empty.</exception>
+   public T PopFront () {
+      if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
+      T value = mBuffer[mHead];
+      mBuffer[mHead] = default!;
+      mHead = WrapIndex (mHead + 1);
       Count--;
       return value;
    }
@@ -73,9 +76,6 @@ public class MyDeQueue<T> {
    #endregion
 
    #region Implementation -------------------------------------------
-   // Determines whether the deque contains no elements.
-   public bool IsEmpty () => Count == 0;
-
    // Resizes the buffer array and re-aligns elements starting from index 0.
    void Resize () {
       var newBuffer = new T[mBuffer.Length * 2];
