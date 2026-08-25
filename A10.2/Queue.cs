@@ -5,6 +5,7 @@
 // DeQueue.cs
 // Custom double-ended queue implementation using a circular buffer.
 // ------------------------------------------------------------------------------------------------
+
 namespace CustomDeQueue;
 
 #region Class DeQueue -----------------------------------------------------------------------------
