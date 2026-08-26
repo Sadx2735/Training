@@ -31,13 +31,11 @@ abstract class TOperator : Token {
 class TOpArithmetic : TOperator {
    public TOpArithmetic (Evaluator eval, char ch) : base (eval) {
       Op = ch;
-      mPriority = sPriority[ch];
+      Priority = sPriority[ch];
    }
    public char Op { get; private set; }
    public override string ToString () => $"op:{Op}:{Priority}";
-   public override int Priority { get => mPriority; set => mPriority = value; }
-
-   int mPriority;
+   public override int Priority { get; set; } 
 
    static Dictionary<char, int> sPriority = new () {
       ['+'] = 1, ['-'] = 1, ['*'] = 2, ['/'] = 2, ['^'] = 3, ['='] = 4,

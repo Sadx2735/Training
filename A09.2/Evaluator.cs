@@ -70,11 +70,9 @@ class Evaluator {
    readonly Stack<TOperator> mOperators = new ();
 
    void ApplyOperator () {
-      if (mOperators.Count == 0)
-         throw new EvalException ("Too few operators.");
-      if (mOperands.Count == 0)
-         throw new EvalException ("Too few operands.");
-      var op = mOperators.Pop ();
+      if (mOperators.Count == 0) throw new EvalException ("Too few operators.");
+      if (mOperands.Count == 0) throw new EvalException ("Too few operands.");
+      var op = mOperators.Pop (); 
       var f2 = mOperands.Pop ();
       switch (op) {
          case TOpFunction fnFunc:
