@@ -51,10 +51,10 @@ class TLiteral : TNumber {
 }
 #endregion
 
-#region Class TNumber ----------------------------------------------------------------------------
+#region abstract Class TNumber --------------------------------------------------------------------
 /// <summary>Abstract base class for numeric tokens.</summary>
 abstract class TNumber : Token {
-   #region Properties -----------------------------------------------
+   #region abstract Properties --------------------------------------
    public abstract double Value { get; }
    #endregion
 }
@@ -143,14 +143,14 @@ class TOpFunction : TOperator {
 }
 #endregion
 
-#region Class TOperator ---------------------------------------------------------------------------
+#region abstract Class TOperator ------------------------------------------------------------------
 /// <summary>Abstract base class for operator tokens.</summary>
 abstract class TOperator : Token {
    #region Constructors ---------------------------------------------
    protected TOperator (Evaluator eval) => mEval = eval;
    #endregion
 
-   #region Properties -----------------------------------------------
+   #region abstract Properties --------------------------------------
    public abstract int Priority { get; set; }
    #endregion
 
