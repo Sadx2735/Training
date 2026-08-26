@@ -1,15 +1,30 @@
-﻿namespace Eval;
+﻿// ------------------------------------------------------------------------------------------------
+// Training ~ A training program for new joinees at Metamation, Batch - July 2026.
+// Copyright (c) Metamation India.
+// ------------------------------------------------------------------------------------------------
+// Tokenizer.cs
+// Tokenizes input text into discrete tokens.
+// ------------------------------------------------------------------------------------------------
 
+namespace Eval;
+
+#region Class Tokenizer ---------------------------------------------------------------------------
+/// <summary>Tokenizes an input expression string into individual tokens.</summary>
 class Tokenizer {
+   #region Constructors ---------------------------------------------
    public Tokenizer (Evaluator eval, string text) {
       mText = text; mN = 0; mEval = eval;
    }
-   readonly Evaluator mEval;
-   readonly string mText;
-   int mN;
+   #endregion
 
+   #region Methods --------------------------------------------------
+   /// <summary>Advances the pointer and retrieves the next token from the input.</summary>
+   /// <returns>The next parsed token.</returns>
    public Token Next () => mPrev = FetchNext ();
+   #endregion
 
+   #region Implementations ------------------------------------------
+   // Fetches the next available token from the current position in the text.
    Token FetchNext () {
       while (mN < mText.Length) {
          char ch = char.ToLower (mText[mN++]);
@@ -31,6 +46,7 @@ class Tokenizer {
       return new TEnd ();
    }
 
+   // Parses a variable name or built-in function identifier.
    Token GetIdentifier () {
       int start = mN - 1;
       while (mN < mText.Length) {
@@ -42,9 +58,8 @@ class Tokenizer {
       if (mFuncs.Contains (sub)) return new TOpFunction (mEval, sub);
       else return new TVariable (mEval, sub);
    }
-   readonly string[] mFuncs = { "sin", "cos", "tan", "sqrt", "log",
-      "exp", "asin", "acos", "atan" };
 
+   // Parses a numeric literal from the current position.
    Token GetNumber () {
       int start = mN - 1;
       while (mN < mText.Length) {
@@ -56,5 +71,15 @@ class Tokenizer {
       if (double.TryParse (sub, out double f)) return new TLiteral (f);
       return new TError ($"Invalid number: {sub}");
    }
-   Token mPrev = null;
+   #endregion
+
+   #region Fields ---------------------------------------------------
+   readonly Evaluator mEval;
+   readonly string[] mFuncs = { "sin", "cos", "tan", "sqrt", "log",
+                                "exp", "asin", "acos", "atan" };
+   int mN;
+   Token? mPrev = null;
+   readonly string mText;
+   #endregion
 }
+#endregion
