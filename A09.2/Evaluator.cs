@@ -85,7 +85,7 @@ class Evaluator {
             break;
          case TOpArithmetic arith:
             if (mOperands.Count == 0)
-               throw new EvalException ("Too few mOperands");
+               throw new EvalException ("Too few operands");
             var f1 = mOperands.Pop ();
             mOperands.Push (arith.Evaluate (f1, f2));
             break;
