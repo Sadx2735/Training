@@ -55,12 +55,10 @@ class TOpArithmetic : TOperator {
 }
 
 class TOpFunction : TOperator {
-   public TOpFunction (Evaluator eval, string name) : base (eval) => Func = name;
+   public TOpFunction (Evaluator eval, string name) : base (eval) { Func = name;Priority = 4; }
    public string Func { get; private set; }
    public override string ToString () => $"func:{Func}:{Priority}";
-
-   int mPriority = 4;
-   public override int Priority { get => mPriority; set => mPriority = value; }
+   public override int Priority { get; set; }
 
    public double Evaluate (double f) {
       return Func switch {
@@ -81,12 +79,11 @@ class TOpFunction : TOperator {
    }
 }
 
-class TUnary : TOperator {
-   public TUnary (Evaluator eval, string name) : base (eval) => Uname = name;
+class TOpUnary : TOperator {
+   public TOpUnary (Evaluator eval, string name) : base (eval) { Uname = name; Priority = 4; }
    public string Uname { get; private set; }
    public override string ToString () => $"func:{Uname}:{Priority}";
-   int mPriority = 4;
-   public override int Priority { get => mPriority; set => mPriority = value; }
+   public override int Priority { get; set; }
 
    public double Evaluate (double f) {
       return Uname switch {

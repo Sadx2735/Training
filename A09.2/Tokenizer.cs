@@ -22,7 +22,7 @@ class Tokenizer {
                   || (mPrev is TPunctuation tp && tp.Punct == ')');
                bool isUnary = (ch is '+' or '-') && !isOperandEnd;
                string oper = (ch == '+') ? "u+" : "u-";
-               if (isUnary) return new TUnary (mEval, oper);
+               if (isUnary) return new TOpUnary (mEval, oper);
                return new TOpArithmetic (mEval, ch);
             case >= 'a' and <= 'z': return GetIdentifier ();
             default: return new TError ($"Unknown symbol: {ch}");

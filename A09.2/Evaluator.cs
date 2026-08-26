@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Eval;
+﻿namespace Eval;
 
 class EvalException : Exception {
    public EvalException (string message) : base (message) { }
@@ -21,13 +19,18 @@ class Evaluator {
       }
       // Check if this is a variable assignment
       TVariable? tVariable = null;
-      if (tokens.Count > 2 && tokens[0] is TVariable tvar && tokens[1] is TOpArithmetic { Op: '=' }) {
+      if (tokens.Count > 2 && tokens[0] is TVariable tvar
+                           && tokens[1] is TOpArithmetic { Op: '=' }) {
          tVariable = tvar;
          tokens.RemoveRange (0, 2);
       }
       foreach (var t in tokens) Process (t);
       while (mOperators.Count > 0) ApplyOperator ();
       double f = mOperands.Pop ();
+      // Ideal case must have 0 for all the three that are down.
+      if (mOperators.Count > 0) throw new EvalException ("Too few operands.");
+      if (mOperands.Count > 0) throw new EvalException ("Too few operators.");
+      if (BasePriority > 0) throw new EvalException ("Missing closing parenthesis.");
       if (tVariable != null) mVars[tVariable.Name] = f;
       return f;
    }
@@ -47,14 +50,17 @@ class Evaluator {
             break;
          case TOperator op:
             op.Priority += BasePriority;
-            bool isLeftAssoc = op is TOpArithmetic { Op: '+' or '-' or '*' or '/' };
-            while (mOperators.Count > 0 &&
-                  (isLeftAssoc ? mOperators.Peek ().Priority >= op.Priority : mOperators.Peek ().Priority > op.Priority)) 
+            bool iRightAssoc = op is TOpUnary
+               || op is TOpFunction || (op is TOpArithmetic opArith && opArith.Op == '^');
+            while (mOperators.Count > 0 && (iRightAssoc
+                  ? mOperators.Peek ().Priority > op.Priority
+                  : mOperators.Peek ().Priority >= op.Priority))
                ApplyOperator ();
             mOperators.Push (op);
             break;
          case TPunctuation p:
             BasePriority += p.Punct == '(' ? 10 : -10;
+            if (BasePriority < 0) throw new EvalException ("Too many closing parentheses.");
             break;
          default:
             throw new EvalException ($"Unknown token: {token}");
@@ -64,16 +70,22 @@ class Evaluator {
    readonly Stack<TOperator> mOperators = new ();
 
    void ApplyOperator () {
+      if (mOperators.Count == 0)
+         throw new EvalException ("Too few operators.");
+      if (mOperands.Count == 0)
+         throw new EvalException ("Too few operands.");
       var op = mOperators.Pop ();
       var f2 = mOperands.Pop ();
       switch (op) {
-         case TOpFunction fn:
-            mOperands.Push (fn.Evaluate (f2));
+         case TOpFunction fnFunc:
+            mOperands.Push (fnFunc.Evaluate (f2));
             break;
-         case TUnary u:
-            mOperands.Push (u.Evaluate (f2));
+         case TOpUnary fnUnary:
+            mOperands.Push (fnUnary.Evaluate (f2));
             break;
          case TOpArithmetic arith:
+            if (mOperands.Count == 0)
+               throw new EvalException ("Too few mOperands");
             var f1 = mOperands.Pop ();
             mOperands.Push (arith.Evaluate (f1, f2));
             break;
