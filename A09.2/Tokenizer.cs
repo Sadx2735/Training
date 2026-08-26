@@ -33,11 +33,11 @@ class Tokenizer {
             case (>= '0' and <= '9') or '.': return GetNumber ();
             case '(' or ')': return new TPunctuation (ch);
             case '+' or '-' or '*' or '/' or '^' or '=':
-               bool isOperandEnd = mPrev is TNumber
+               bool iOperandEnd = mPrev is TNumber
                   || (mPrev is TPunctuation tp && tp.Punct == ')');
-               bool isUnary = (ch is '+' or '-') && !isOperandEnd;
+               bool iUnary = (ch is '+' or '-') && !iOperandEnd;
                string oper = (ch == '+') ? "u+" : "u-";
-               if (isUnary) return new TOpUnary (mEval, oper);
+               if (iUnary) return new TOpUnary (mEval, oper);
                return new TOpArithmetic (mEval, ch);
             case >= 'a' and <= 'z': return GetIdentifier ();
             default: return new TError ($"Unknown symbol: {ch}");

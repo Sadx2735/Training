@@ -105,7 +105,7 @@ class TOpArithmetic : TOperator {
 #endregion
 
 #region Class TOpFunction -------------------------------------------------------------------------
-/// <summary>Represents mathematical function operator tokens.</summary>
+/// <summary>Represents function operator tokens.</summary>
 class TOpFunction : TOperator {
    #region Constructors ---------------------------------------------
    public TOpFunction (Evaluator eval, string name) : base (eval) {

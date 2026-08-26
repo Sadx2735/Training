@@ -18,7 +18,7 @@ class EvalException : Exception {
 #endregion
 
 #region Class Evaluator ---------------------------------------------------------------------------
-/// <summary>Evaluates mathematical expressions and variable assignments.</summary>
+/// <summary>Evaluates expressions and variable assignments.</summary>
 class Evaluator {
    #region Properties -----------------------------------------------
    public int BasePriority { get; private set; }
@@ -26,7 +26,7 @@ class Evaluator {
 
    #region Methods --------------------------------------------------
    /// <summary>Breaks the input string into tokens and evaluates the expression.</summary>
-   /// <param name="text">The raw mathematical expression or assignment statement.</param>
+   /// <param name="text">The raw expression or assignment statement.</param>
    /// <returns>The resulting numerical value of the evaluated expression.</returns>
    /// <exception cref="EvalException">Thrown when the input contains errors.</exception>
    public double Evaluate (string text) {
