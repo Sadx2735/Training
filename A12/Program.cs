@@ -8,7 +8,12 @@ class Program {
    const int WORDSIZE = 5;
    const int TRIES = 6;
 
-   const string EXPECTED = "MANGO";
+   static Random r = new Random ();
+   static string[] available = File.ReadAllLines (@"C:\\Work\\Training\\A12\\puzzle-5.txt");
+   static string[] dictionary = File.ReadAllLines (@"C:\\Work\\Training\\A12\\dict-5.txt");
+
+   static int L = available.Length;
+   static string EXPECTED = available[r.Next (1, L) - 1];
 
    static char[][] MemBuffer = new char[6][];
    static int[] MemBufferColor = new int[30];
@@ -21,11 +26,36 @@ class Program {
       for (int i = 0; i < TRIES; i++)
          MemBuffer[i] = new char[5];
       for (; ; ) {
-         if (mRow <= 6) {
+         if (mRow < 6) {
             ProcessRow (mRow);
             mRow++;
          }
+         else {
+            PrintLoss ();
+         }
       }
+   }
+
+   static void PrintLoss () {
+      Console.ForegroundColor = ConsoleColor.Red;
+      Console.WriteLine ("\nYou have lost !!, press any key to exit");
+      Console.ResetColor ();
+      Console.ReadKey (true);
+      Environment.Exit (0);
+   }
+
+   static void PrintWon () {
+      Console.ForegroundColor = ConsoleColor.Green;
+      Console.WriteLine ("\nYou have guessed!!, press any key to exit");
+      Console.ResetColor ();
+      Console.ReadKey (true);
+      Environment.Exit (0);
+   }
+
+   static void Dosomething () {
+      Console.ForegroundColor = ConsoleColor.Yellow;
+      Console.WriteLine ("\nWord Not in the Dictionary!!");
+      Console.ResetColor ();
    }
 
    static void ProcessRow (int rval) {
@@ -35,13 +65,11 @@ class Program {
          var output = ProcessKey (key);
          switch (output) {
             case State.IDLE: continue;
+            case State.NOTINROW: Dosomething (); continue;
             case State.NEXTROW: return;
-            case State.OVER: PrintWon ();return;
+            case State.OVER: mRow++; DisplayBoard (); PrintWon (); return;
             default: return;
          }
-      }
-
-      void PrintWon() { 
       }
 
       State ProcessKey (ConsoleKeyInfo k) {
@@ -62,13 +90,12 @@ class Program {
                mCursor--;
             }
          } else if (k.Key is ConsoleKey.Enter && mCursor == (rval + 1) * WORDSIZE) {
-            Console.WriteLine ($"User Guess is {string.Join('.', MemBuffer[rval])}");
-            return (ProcessGuess ()) ? State.OVER:State.NEXTROW;
+            return ProcessGuess ();
          }
          return State.IDLE;
       }
 
-      bool ProcessGuess() {
+      State ProcessGuess() {
          HashSet<char> Seen = [];
          int[] cBuffer = Enumerable.Repeat (1, 5).ToArray ();
          for (int i = 0; i < WORDSIZE; i++) {
@@ -77,16 +104,25 @@ class Program {
                Seen.Add (MemBuffer[rval][i]);
             }
          }
-         for(int i=0;i<WORDSIZE;i++) {
-            if (cBuffer[i]!=3 && !Seen.Contains(MemBuffer[rval][i])) {
-               cBuffer[i] = (EXPECTED.Contains (MemBuffer[rval][i])) ? 2 : 1;
-               Seen.Add (MemBuffer[rval][i]);
+
+         var guessed = new string(MemBuffer[rval]);
+         if (guessed == EXPECTED) { FillColorInfo (); return State.OVER; }
+         else if (dictionary.Contains (guessed)) { FillColorInfo (); return State.NEXTROW; } 
+         else if (!dictionary.Contains (guessed)) { return State.NOTINROW; } else return State.IDLE;
+
+         void FillColorInfo () {
+            for (int i = 0; i < WORDSIZE; i++) {
+               if (cBuffer[i] != 3 && !Seen.Contains (MemBuffer[rval][i])) {
+                  cBuffer[i] = (EXPECTED.Contains (MemBuffer[rval][i])) ? 2 : 1;
+                  Seen.Add (MemBuffer[rval][i]);
+               }
+            }
+            for (int idx = 0; idx < WORDSIZE; idx++) {
+               MemBufferColor[idx + (mRow * WORDSIZE)] = cBuffer[idx];
+               var index = MemBuffer[rval][idx] - 'A';
+               KeyBuffer[index] = int.Max (KeyBuffer[index], cBuffer[idx]);
             }
          }
-         for (int i = 0; i < WORDSIZE; i++) {
-            MemBufferColor[i+(mRow*WORDSIZE)] = cBuffer[i];
-         }
-         return cBuffer.Count (3) == WORDSIZE;
       }
 
    }
@@ -147,5 +183,5 @@ class Program {
       }
    }
 
-   public enum State { IDLE,NEXTROW,OVER};
+   public enum State { IDLE,NOTINROW,NEXTROW,OVER};
 }
