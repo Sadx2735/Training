@@ -7,6 +7,8 @@ class Program {
    static int mCursor = 0;
    const int WORDSIZE = 5;
    const int TRIES = 6;
+   static int GridStart = (Console.WindowWidth - 21) / 2;
+   static int KeyStart = (Console.WindowWidth - 36) / 2;
 
    static Random r = new Random ();
    static string[] available = File.ReadAllLines (@"C:\\Work\\Training\\A12\\puzzle-5.txt");
@@ -31,43 +33,54 @@ class Program {
             mRow++;
          }
          else {
-            PrintLoss ();
+            DisplayBoard ();
+            PrintLoss ($"{EXPECTED} IS THE WORD! , PLEASE TRY AGAIN!");
          }
       }
    }
 
-   static void PrintLoss () {
+   static void PrintLoss (string message) {
       Console.ForegroundColor = ConsoleColor.Red;
-      Console.WriteLine ("\nYou have lost !!, press any key to exit");
+      Console.WriteLine ('\n');
+      var MesStart = (Console.WindowWidth - message.Length) / 2;
+      Console.SetCursorPosition (MesStart, Console.CursorTop);
+      Console.WriteLine (message);
       Console.ResetColor ();
       Console.ReadKey (true);
       Environment.Exit (0);
    }
 
-   static void PrintWon () {
+   static void PrintWon (string message) {
       Console.ForegroundColor = ConsoleColor.Green;
-      Console.WriteLine ("\nYou have guessed!!, press any key to exit");
+      Console.WriteLine ('\n');
+      var MesStart = (Console.WindowWidth - message.Length) / 2;
+      Console.SetCursorPosition (MesStart, Console.CursorTop);
+      Console.WriteLine (message);
       Console.ResetColor ();
       Console.ReadKey (true);
       Environment.Exit (0);
    }
 
-   static void Dosomething () {
+   static void Dosomething (string message) {
       Console.ForegroundColor = ConsoleColor.Yellow;
-      Console.WriteLine ("\nWord Not in the Dictionary!!");
+      Console.WriteLine ('\n');
+      var MesStart = (Console.WindowWidth - message.Length) / 2;
+      Console.SetCursorPosition (MesStart, Console.CursorTop);
+      Console.WriteLine (message);
       Console.ResetColor ();
    }
 
    static void ProcessRow (int rval) {
+      DisplayBoard ();
       for (; ; ) {
-         DisplayBoard ();
          var key = Console.ReadKey (true);
          var output = ProcessKey (key);
+         DisplayBoard ();
          switch (output) {
             case State.IDLE: continue;
-            case State.NOTINROW: Dosomething (); continue;
+            case State.NOTINROW: Dosomething ("WORD IS NOT IN THE DICTIONARY!"); continue;
             case State.NEXTROW: return;
-            case State.OVER: mRow++; DisplayBoard (); PrintWon (); return;
+            case State.OVER: mRow++; DisplayBoard (); PrintWon ("YOU GUESSED IT CORRECTLY!"); return;
             default: return;
          }
       }
@@ -128,8 +141,9 @@ class Program {
    }
 
    static void DisplayBoard () {
-      Console.SetCursorPosition(0,0);
+      Console.Clear ();
       DisplayMainboard ();
+      Console.SetCursorPosition (GridStart, Console.CursorTop);
       Console.WriteLine (string.Join ("*", Enumerable.Range (1, 12).Select (ch => '-')));
       Console.Write ('\n');
       DisplayKeyboard ();
@@ -137,6 +151,7 @@ class Program {
 
    static void DisplayMainboard () {
       for (int row = 0; row < 6; row++) {
+         Console.SetCursorPosition (GridStart, Console.CursorTop);
          for (int col = 0; col < 5; col++) {
             if (mCursor / 5 == row && mCursor % 5 == col && mCursor<((mRow+1)*WORDSIZE)) 
                DrawUnAllocPt ('◌');
@@ -169,6 +184,7 @@ class Program {
       }
    }
    static void DisplayKeyboard () {
+      Console.SetCursorPosition (KeyStart, Console.CursorTop);
       for (int i = 1; i <= 26; i++) {
          switch (KeyBuffer[i - 1]) {
             case 0: Console.ForegroundColor = ConsoleColor.White; break;
@@ -179,7 +195,10 @@ class Program {
          }
          Console.Write ($"{(char)(i + 64),-5}");
          Console.ResetColor ();
-         if (i % 5 == 0) { Console.Write ("\n\n"); }
+         if (i % 8 == 0) { 
+            Console.Write ("\n\n");
+            Console.SetCursorPosition (KeyStart, Console.CursorTop); 
+         }
       }
    }
 
