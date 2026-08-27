@@ -24,7 +24,7 @@ public class MyQueue<T> {
       if (Count == 0) throw new InvalidOperationException ("Queue is empty!");
       T item = mBuffer[mHead];
       mBuffer[mHead] = default!;
-      mHead = WrapIndex (mHead + 1);
+      mHead = (mHead + 1) % mBuffer.Length;
       Count--;
       return item;
    }
@@ -34,7 +34,7 @@ public class MyQueue<T> {
    public void Enqueue (T data) {
       if (Count == mBuffer.Length) Resize ();
       mBuffer[mTail] = data;
-      mTail = WrapIndex (mTail + 1);
+      mTail = (mTail + 1) % mBuffer.Length;
       Count++;
    }
 
@@ -51,12 +51,9 @@ public class MyQueue<T> {
    // Resizes the buffer array and re-aligns elements starting from index 0.
    void Resize () {
       var newBuffer = new T[mBuffer.Length * 2];
-      for (int i = 0; i < Count; i++) newBuffer[i] = mBuffer[WrapIndex (mHead + i)];
+      for (int i = 0; i < Count; i++) newBuffer[i] = mBuffer[(mHead + i) % mBuffer.Length];
       (mHead, mTail, mBuffer) = (0, Count, newBuffer);
    }
-
-   // Performs circular indexing.
-   int WrapIndex (int ptr) => ptr % mBuffer.Length;
    #endregion
 
    #region Fields ---------------------------------------------------
