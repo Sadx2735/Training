@@ -17,13 +17,10 @@ public class MyDeQueue<T> {
    #endregion
 
    #region Methods --------------------------------------------------
-   // Determines whether the deque contains no elements.
-   public bool IsEmpty () => Count == 0;
-
    /// <summary>Returns the element at the back of the deque.</summary>
    public T PeekBack () {
       if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
-      return mBuffer[WrapIndex (mTail - 1)];
+      return mBuffer[((mTail - 1) + mBuffer.Length) % mBuffer.Length];
    }
 
    /// <summary>Returns the element at the front of the deque.</summary>
@@ -37,7 +34,7 @@ public class MyDeQueue<T> {
    /// <exception cref="InvalidOperationException">Thrown when the dequeue is empty.</exception>
    public T PopBack () {
       if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
-      mTail = WrapIndex (mTail - 1);
+      mTail = ((mTail - 1) + mBuffer.Length) % mBuffer.Length;
       T value = mBuffer[mTail];
       mBuffer[mTail] = default!;
       Count--;
@@ -51,7 +48,7 @@ public class MyDeQueue<T> {
       if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
       T value = mBuffer[mHead];
       mBuffer[mHead] = default!;
-      mHead = WrapIndex (mHead + 1);
+      mHead = ((mHead + 1) + mBuffer.Length) % mBuffer.Length;
       Count--;
       return value;
    }
@@ -61,7 +58,7 @@ public class MyDeQueue<T> {
    public void PushBack (T element) {
       if (Count == mBuffer.Length) Resize ();
       mBuffer[mTail] = element;
-      mTail = WrapIndex (mTail + 1);
+      mTail = ((mTail + 1) + mBuffer.Length) % mBuffer.Length;
       Count++;
    }
 
@@ -69,7 +66,7 @@ public class MyDeQueue<T> {
    /// <param name="element">The item to push to the front.</param>
    public void PushFront (T element) {
       if (Count == mBuffer.Length) Resize ();
-      mHead = WrapIndex (mHead - 1);
+      mHead = ((mHead - 1) + mBuffer.Length) % mBuffer.Length;
       mBuffer[mHead] = element;
       Count++;
    }
@@ -79,12 +76,10 @@ public class MyDeQueue<T> {
    // Resizes the buffer array and re-aligns elements starting from index 0.
    void Resize () {
       var newBuffer = new T[mBuffer.Length * 2];
-      for (int i = 0; i < Count; i++) newBuffer[i] = mBuffer[WrapIndex (mHead + i)];
+      for (int i = 0; i < Count; i++) 
+         newBuffer[i] = mBuffer[((mHead + i) + mBuffer.Length) % mBuffer.Length];
       (mHead, mTail, mBuffer) = (0, Count, newBuffer);
    }
-
-   // Performs circular indexing.
-   int WrapIndex (int ptr) => (ptr + mBuffer.Length) % mBuffer.Length;
    #endregion
 
    #region Fields ---------------------------------------------------
