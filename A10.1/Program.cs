@@ -6,7 +6,7 @@
 // For testing the custom file parser program.
 // ------------------------------------------------------------------------------------------------
 
-using Parse;
+namespace Parse;
 
 #region Class Program -----------------------------------------------------------------------------
 /// <summary> Tests the program against various test cases and prints their output. </summary>

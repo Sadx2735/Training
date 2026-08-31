@@ -5,6 +5,7 @@
 // Parser.cs
 // Implementation of a custom file parser.
 // ------------------------------------------------------------------------------------------------
+
 namespace Parse;
 
 using static Parser.EState;
