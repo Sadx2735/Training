@@ -76,7 +76,7 @@ class Test {
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
       PrintStatus ("(mHead < mTail) Push: Back, Pop: Front",
-         res.SequenceEqual ([0, 1, 2, 3]));
+         res.SequenceEqual (Enumerable.Range (0, N).ToList ()));
    }
 
    // 4. Order when mHead > mTail ( Wrapped Condition )
