@@ -1,6 +1,6 @@
 ﻿// ------------------------------------------------------------------------------------------------
 // Training ~ A training program for new joiners at Metamation, Batch - July 2026.
-// Copyright (c) Metamation India.
+// Copyright (c) TRUMPF Metamation India.
 // ------------------------------------------------------------------------------------------------
 // Program.cs
 // For testing the custom file parser program.
@@ -25,8 +25,8 @@ class Program {
       Console.WriteLine (new string ('_', 100));
       foreach (var path in testPaths) {
          var (drive, directory, filename, ext) = Parser.Evaluate (path);
-         bool iPassed = !string.IsNullOrEmpty (drive) || !string.IsNullOrEmpty (directory)
-                        || !string.IsNullOrEmpty (filename) || !string.IsNullOrEmpty (ext);
+         bool iPassed = drive is { Length: > 0 } && directory is { Length: > 0 }
+                        && filename is { Length: > 0 } && ext is { Length: > 0 };
          string driveStr = iPassed && !string.IsNullOrEmpty (drive) ? drive : "-";
          string folderStr = iPassed && !string.IsNullOrEmpty (directory) ? directory : "|-";
          string fileStr = iPassed && !string.IsNullOrEmpty (filename) ? "|" + filename : "|-";
