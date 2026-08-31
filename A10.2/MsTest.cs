@@ -8,10 +8,8 @@
 
 using CustomDeQueue;
 
-#region Class MyDeQueueTests ----------------------------------------------------------------------
 [TestClass]
 public class MyDeQueueTests {
-   #region Methods --------------------------------------------------
    [TestMethod]
    public void Test1 () {
       var myDeQueue = new MyDeQueue<int> ();
