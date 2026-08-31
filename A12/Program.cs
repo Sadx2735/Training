@@ -1,4 +1,11 @@
-﻿using System;
+﻿// ------------------------------------------------------------------------------------------------
+// Training ~ A training program for new joinees at Metamation, Batch - July 2026.
+// Copyright (c) TRUMPF Metamation India.
+// ------------------------------------------------------------------------------------------------
+// Program.cs
+// Entry point for the wordle game.
+// ------------------------------------------------------------------------------------------------
+
 using System.Text;
 
 namespace WordleGame;
@@ -16,7 +23,7 @@ class Program {
          var game = new Wordle (bank);
          game.Run ();
       } catch (Exception ex) {
-         Console.WriteLine ($"Error loading game files: {ex.Message}");
+         Console.WriteLine ($"Error loading files: {ex.Message}");
       }
    }
 }
