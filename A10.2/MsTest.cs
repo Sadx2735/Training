@@ -1,7 +1,17 @@
-﻿namespace CustomDeQueue;
+﻿// ------------------------------------------------------------------------------------------------
+// Training ~ A training program for new joinees at Metamation, Batch - July 2026.
+// Copyright (c) TRUMPF Metamation India.
+// ------------------------------------------------------------------------------------------------
+// MsTest.cs
+// Tests the custom double-ended queue implementation.
+// ------------------------------------------------------------------------------------------------
 
+using CustomDeQueue;
+
+#region Class MyDeQueueTests ----------------------------------------------------------------------
 [TestClass]
-public class DeQueueTest {
+public class MyDeQueueTests {
+   #region Methods --------------------------------------------------
    [TestMethod]
    public void Test1 () {
       var myDeQueue = new MyDeQueue<int> ();
@@ -53,7 +63,7 @@ public class DeQueueTest {
       for (int i = 0; i < 12; i++) { myDeQueue.PushFront (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
-      CollectionAssert.AreEqual (Enumerable.Range (0, 12).ToList (),res);
+      CollectionAssert.AreEqual (Enumerable.Range (0, 12).ToList (), res);
    }
 
    [TestMethod]
@@ -62,11 +72,11 @@ public class DeQueueTest {
       for (int i = 0; i < 12; i++) { myDeQueue.PushFront (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
-      CollectionAssert.AreEqual (Enumerable.Range (0, 12).Reverse().ToList (), res);
+      CollectionAssert.AreEqual (Enumerable.Range (0, 12).Reverse ().ToList (), res);
    }
 
    [TestMethod]
-   public void Test8() {
+   public void Test8 () {
       var myDeQueue = new MyDeQueue<int> ();
       for (int i = 0; i < 12; i++) { myDeQueue.PushBack (i); }
       var res = new List<int> ();
@@ -100,7 +110,7 @@ public class DeQueueTest {
       iPassed &= (myDeQueue.Count == 2);
       myDeQueue.PushBack (3); myDeQueue.PushBack (4);
       iPassed &= (myDeQueue.Count == 4);
-      Assert.AreEqual (true,iPassed);
+      Assert.AreEqual (true, iPassed);
    }
 
    [TestMethod]
@@ -134,4 +144,6 @@ public class DeQueueTest {
       iPassed &= (myDeQueue.PeekFront () == 2);
       Assert.AreEqual (true, iPassed);
    }
+   #endregion
 }
+#endregion
