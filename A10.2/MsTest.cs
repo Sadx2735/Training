@@ -3,7 +3,6 @@
 [TestClass]
 public class DeQueueTest {
    [TestMethod]
-   /// <summary>Checks if all the exceptions work correctly!</summary>
    public void Test1 () {
       var myDeQueue = new MyDeQueue<int> ();
       Assert.ThrowsExactly<InvalidOperationException> (() => myDeQueue.PopFront ());
@@ -13,7 +12,6 @@ public class DeQueueTest {
    }
 
    [TestMethod]
-   /// <summary>Checks when mHead<mTail ( Linear Condition )</summary>
    public void Test2 () {
       var myQueue = new MyDeQueue<int> ();
       for (int i = 0; i < 4; i++) myQueue.PushBack (i);
@@ -23,7 +21,6 @@ public class DeQueueTest {
    }
 
    [TestMethod]
-   /// <summary>Checks when mHead < mTail ( Linear Condition )</summary>
    public void Test4 () {
       var myQueue = new MyDeQueue<int> ();
       for (int i = 0; i < 4; i++) myQueue.PushBack (i);
@@ -33,7 +30,6 @@ public class DeQueueTest {
    }
 
    [TestMethod]
-   /// <summary>Checks when mHead > mTail ( Wrapped condition )</summary>
    public void Test3 () {
       var myQueue = new MyDeQueue<int> ();
       for (int i = 0; i < 4; i++) myQueue.PushFront (i);
@@ -43,7 +39,6 @@ public class DeQueueTest {
    }
 
    [TestMethod]
-   /// <summary>Checks when mHead > mTail ( Wrapped Condition )</summary>
    public void Test5 () {
       var myQueue = new MyDeQueue<int> ();
       for (int i = 0; i < 4; i++) myQueue.PushFront (i);
@@ -53,7 +48,6 @@ public class DeQueueTest {
    }
 
    [TestMethod]
-   /// <summary>Checks when mHead < mTail & Resized </summary>
    public void Test6 () {
       var myDeQueue = new MyDeQueue<int> ();
       for (int i = 0; i < 12; i++) { myDeQueue.PushFront (i); }
@@ -63,7 +57,6 @@ public class DeQueueTest {
    }
 
    [TestMethod]
-   /// <summary>Checks when mHead < mTail & Resized </summary>
    public void Test7 () {
       var myDeQueue = new MyDeQueue<int> ();
       for (int i = 0; i < 12; i++) { myDeQueue.PushFront (i); }
@@ -73,7 +66,6 @@ public class DeQueueTest {
    }
 
    [TestMethod]
-   /// <summary>Checks when mHead < mTail & Resized </summary>
    public void Test8() {
       var myDeQueue = new MyDeQueue<int> ();
       for (int i = 0; i < 12; i++) { myDeQueue.PushBack (i); }
@@ -83,7 +75,6 @@ public class DeQueueTest {
    }
 
    [TestMethod]
-   /// <summary>Checks when mHead < mTail & Resized </summary>
    public void Test9 () {
       var myDeQueue = new MyDeQueue<int> ();
       for (int i = 0; i < 12; i++) { myDeQueue.PushBack (i); }
@@ -93,7 +84,6 @@ public class DeQueueTest {
    }
 
    [TestMethod]
-   /// <summary>Checks when mHead < mTail & Resized </summary>
    public void Test10 () {
       var myDeQueue = new MyDeQueue<int> ();
       for (int i = 0; i < 12; i++) { myDeQueue.PushBack (i); }
@@ -103,7 +93,6 @@ public class DeQueueTest {
    }
 
    [TestMethod]
-   /// <summary>Checks transition of Count without resize</summary>
    public void Test11 () {
       bool iPassed = true;
       var myDeQueue = new MyDeQueue<int> ();
@@ -115,7 +104,6 @@ public class DeQueueTest {
    }
 
    [TestMethod]
-   /// <summary>Checks transition of Count with resize</summary>
    public void Test12 () {
       bool iPassed = true;
       var myDeQueue = new MyDeQueue<int> ();
@@ -129,7 +117,6 @@ public class DeQueueTest {
    }
 
    [TestMethod]
-   /// <summary>Mixed-up state transitions</summary>
    public void Test13 () {
       bool iPassed = true;
       var myDeQueue = new MyDeQueue<int> ();
