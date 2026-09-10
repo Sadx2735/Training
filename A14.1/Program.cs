@@ -6,8 +6,6 @@
 // Groups and displays anagrams from a text file.
 // ------------------------------------------------------------------------------------------------
 
-using System.Diagnostics;
-
 namespace Anagram;
 
 #region Program  ----------------------------------------------------------------------------------
@@ -15,7 +13,6 @@ namespace Anagram;
 class Program {
    /// <summary>Groups anagrams from the word file and outputs them to the console.</summary>
    static void Main () {
-      Stopwatch stopwatch = Stopwatch.StartNew ();
       var anagrams = File.ReadAllLines ("words.txt")
          .GroupBy (word => {
             Span<char> chars = stackalloc char[word.Length];
@@ -27,9 +24,6 @@ class Program {
          .OrderByDescending (group => group.Length);
       foreach (var group in anagrams)
          Console.WriteLine ($"{group.Length} {string.Join (" ", group)}");
-      stopwatch.Stop ();
-      Console.WriteLine ($"Execution time : {stopwatch.Elapsed.TotalSeconds:F3} sec");
-
    }
 }
 #endregion
