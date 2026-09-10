@@ -14,11 +14,10 @@ class Program {
    /// <summary>Groups anagrams from the word file and outputs them to the console.</summary>
    static void Main () {
       var anagrams = File.ReadAllLines ("words.txt")
-         .GroupBy (word => {
-            Span<char> chars = stackalloc char[word.Length];
-            word.CopyTo (chars); chars.Sort ();
-            return new string (chars);
-         })
+         .GroupBy (word => string.Create (word.Length, word, (span, state) => {
+            state.CopyTo (span);
+            span.Sort ();
+         }))
          .Where (group => group.Skip (1).Any ())
          .Select (group => group.ToArray ())
          .OrderByDescending (group => group.Length);
