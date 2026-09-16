@@ -5,6 +5,7 @@
 // PriorityQueue.cs
 // Custom PriorityQueue implementation.
 // ------------------------------------------------------------------------------------------------
+
 namespace CustomPriorityQueue;
 
 #region Class MyPriorityQueue ---------------------------------------------------------------------
@@ -16,16 +17,16 @@ class MyPriorityQueue<T> where T : IComparable<T> {
    #endregion
 
    #region Methods --------------------------------------------------
-   /// <summary>Adds an element to the queue.</summary>
+   /// <summary>Adds an element to the priority queue.</summary>
    /// <param name="value">The item to add.</param>
    public void Enqueue (T value) {
       mHeap.Add (value);
       SiftUp ();
    }
 
-   /// <summary>Removes and returns the smallest element.</summary>
-   /// <returns>The minimum element in the queue.</returns>
-   /// <exception cref="InvalidOperationException">Thrown when the queue is empty.</exception>
+   /// <summary>Removes and returns the smallest element from the priority queue.</summary>
+   /// <returns>The minimum element in the priority queue.</returns>
+   /// <exception cref="InvalidOperationException">Thrown if priority queue is empty.</exception>
    public T Dequeue () {
       if (IsEmpty) throw new InvalidOperationException ("Queue is empty.");
       var minValue = mHeap[0];

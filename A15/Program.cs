@@ -1,8 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// ------------------------------------------------------------------------------------------------
+// Training ~ A training program for new joinees at Metamation, Batch - July 2026.
+// Copyright (c) TRUMPF Metamation India.
+// ------------------------------------------------------------------------------------------------
+// Program.cs
+// Entry point for testing the custom PriorityQueue implementation.
+// ------------------------------------------------------------------------------------------------
 
-namespace A15 {
-   internal class Program {
-   }
+namespace CustomPriorityQueue;
+
+#region Class Program -----------------------------------------------------------------------------
+/// <summary>Tests the CustomPriorityQueue implementation for various edge cases.</summary>
+class Program {
+   /// <summary>Runs all tests.</summary>
+   static void Main () => Test.Run ();
 }
+
+#endregion
