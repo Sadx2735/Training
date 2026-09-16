@@ -77,7 +77,7 @@ public class MyDeQueue<T> {
    void Resize () {
       var newBuffer = new T[mBuffer.Length * 2];
       for (int i = 0; i < Count; i++)
-         newBuffer[i] = mBuffer[((mHead + i) + mBuffer.Length) % mBuffer.Length];
+         newBuffer[i] = mBuffer[(mHead + i) % mBuffer.Length];
       (mHead, mTail, mBuffer) = (0, Count, newBuffer);
    }
    #endregion

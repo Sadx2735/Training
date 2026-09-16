@@ -71,7 +71,7 @@ class Test {
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
       PrintStatus ("(mHead < mTail) Push: Back, Pop: Front",
-         res.SequenceEqual (Enumerable.Range (0, N).ToList ()));
+         res.SequenceEqual (Enumerable.Range (0, N)));
    }
 
    // 4. Order when mHead > mTail ( Wrapped Condition )
@@ -81,7 +81,7 @@ class Test {
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
       PrintStatus ("(mHead > mTail) Push: Front, Pop: Back",
-         res.SequenceEqual (Enumerable.Range (0, N).ToList ()));
+         res.SequenceEqual (Enumerable.Range (0, N)));
    }
 
    // 5. Order when mHead < mTail ( Linear Condition )
@@ -91,7 +91,7 @@ class Test {
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
       PrintStatus ("(mHead < mTail) Push: Back, Pop: Back",
-         res.SequenceEqual (Enumerable.Range (0, N).Reverse ().ToList ()));
+         res.SequenceEqual (Enumerable.Range (0, N).Reverse ()));
    }
 
    // 6. Order when mHead > mTail ( Wrapped Condition )
@@ -101,7 +101,7 @@ class Test {
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
       PrintStatus ("(mHead > mTail) Push: Front, Pop: Front",
-         res.SequenceEqual (Enumerable.Range (0, N).Reverse ().ToList ()));
+         res.SequenceEqual (Enumerable.Range (0, N).Reverse ()));
    }
 
    // 7. Order when mHead < mTail & Resized ( Linear Condition )
@@ -111,7 +111,7 @@ class Test {
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
       PrintStatus ("(mHead < mTail) Resized Push: Back, Pop: Front",
-         res.SequenceEqual (Enumerable.Range (0, N).ToList ()));
+         res.SequenceEqual (Enumerable.Range (0, N)));
    }
 
    // 8. Order when mHead > mTail & Resized ( Wrapped Condition )
@@ -121,7 +121,7 @@ class Test {
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
       PrintStatus ("(mHead > mTail) Resized Push: Front, Pop: Back",
-         res.SequenceEqual (Enumerable.Range (0, N).ToList ()));
+         res.SequenceEqual (Enumerable.Range (0, N)));
    }
 
    // 9. Order when mHead < mTail & Resized ( Linear Condition )
@@ -131,7 +131,7 @@ class Test {
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
       PrintStatus ("(mHead < mTail) Resized Push: Back, Pop: Back",
-         res.SequenceEqual (Enumerable.Range (0, N).Reverse ().ToList ()));
+         res.SequenceEqual (Enumerable.Range (0, N).Reverse ()));
    }
 
    // 10. Order when mHead > mTail & Resized ( Wrapped Condition )
@@ -141,7 +141,7 @@ class Test {
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
       PrintStatus ("(mHead > mTail) Resized Push: Front, Pop: Front",
-         res.SequenceEqual (Enumerable.Range (0, N).Reverse ().ToList ()));
+         res.SequenceEqual (Enumerable.Range (0, N).Reverse ()));
    }
 
    // 11. PeekFront on empty deque
