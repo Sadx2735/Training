@@ -73,7 +73,7 @@ class Test {
       }
       var result = new List<int> ();
       while (!res2.IsEmpty) { result.Add (res2.Dequeue ()); }
-      PrintStatus ("Random elements ordering", res1.SequenceEqual (result));
+      PrintStatus ("Random elements ordering", res1.Order().SequenceEqual (result));
    }
    #endregion
 }
