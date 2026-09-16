@@ -3,46 +3,62 @@
 // Copyright (c) TRUMPF Metamation India.
 // ------------------------------------------------------------------------------------------------
 // TestCases.cs
-// For testing the custom CustomPriorityQueue implementation.
+// Unit tests for MyPriorityQueue.
 // ------------------------------------------------------------------------------------------------
 
-using CustomPriorityQueue;
-
-namespace CustomQueue;
+namespace CustomPriorityQueue;
 
 #region Class Test --------------------------------------------------------------------------------
-/// <summary>Tests the Custom PriorityQueue implementation over various edge cases.</summary>
+/// <summary>Tests the MyPriorityQueue implementation across essential edge cases.</summary>
 class Test {
    #region Methods --------------------------------------------------
    /// <summary>Runs all unit test cases sequentially.</summary>
    public static void Run () {
       Test1 ();
+      Test2 ();
+      Test3 ();
    }
    #endregion
 
    #region Implementation -------------------------------------------
-   // Formats and prints based on the result
    static void PrintStatus (string name, bool passed) {
-      if (passed) {
-         Console.ForegroundColor = ConsoleColor.Green;
-         Console.WriteLine ($"[PASS] {name}");
-      } else {
-         Console.ForegroundColor = ConsoleColor.Red;
-         Console.WriteLine ($"[FAIL] {name}");
-      }
+      Console.ForegroundColor = passed ? ConsoleColor.Green : ConsoleColor.Red;
+      Console.WriteLine ($"[{(passed ? "PASS" : "FAIL")}] {name}");
       Console.ResetColor ();
    }
 
-   // 1. Checks for Dequeue on empty Priority Queue throwing exception
+   // 1. Exception thrown on empty dequeue
    static void Test1 () {
-      var priorityQueue = new MyPriorityQueue<int> ();
-      bool iPassed = false;
+      var pq = new MyPriorityQueue<int> ();
+      bool passed = false;
       try {
-         priorityQueue.Dequeue ();
+         pq.Dequeue ();
       } catch (InvalidOperationException) {
-         iPassed = true;
+         passed = true;
       }
-      PrintStatus ("Dequeue from empty priority queue", iPassed);
+      PrintStatus ("Dequeue from empty priority queue throws exception", passed);
+   }
+
+   // 2. Min-heap sorting.
+   static void Test2 () {
+      var data = new List<int> { 30, 10, 50, 20, 5, 40, 1 };
+      var pq = new MyPriorityQueue<int> ();
+      foreach (var item in data) pq.Enqueue (item);
+      var result = new List<int> ();
+      while (!pq.IsEmpty) result.Add (pq.Dequeue ());
+      data.Sort ();
+      PrintStatus ("Elements dequeued in ascending order", data.SequenceEqual (result));
+   }
+
+   // 3. Handles duplicate priority values correctly
+   static void Test3 () {
+      var data = new List<int> { 5, 1, 5, 2, 1 };
+      var pq = new MyPriorityQueue<int> ();
+      foreach (var item in data) pq.Enqueue (item);
+      var result = new List<int> ();
+      while (!pq.IsEmpty) result.Add (pq.Dequeue ());
+      data.Sort ();
+      PrintStatus ("Handles duplicate elements correctly", data.SequenceEqual (result));
    }
    #endregion
 }

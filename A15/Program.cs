@@ -14,5 +14,4 @@ class Program {
    /// <summary>Runs all tests.</summary>
    static void Main () => Test.Run ();
 }
-
 #endregion
