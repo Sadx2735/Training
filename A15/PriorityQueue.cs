@@ -29,10 +29,7 @@ class MyPriorityQueue<T> where T : IComparable<T> {
 
    /// <summary>Adds an element to the priority queue.</summary>
    /// <param name="value">The item to add.</param>
-   public void Enqueue (T value) {
-      mHeap.Add (value);
-      SiftUp ();
-   }
+   public void Enqueue (T value) { mHeap.Add (value); SiftUp (); }
    #endregion
 
    #region Implementation -------------------------------------------
@@ -63,9 +60,7 @@ class MyPriorityQueue<T> where T : IComparable<T> {
    }
 
    // Performs swapping of elements at the given two indices.
-   void SwapIndex (int index1, int index2) {
-      (mHeap[index1], mHeap[index2]) = (mHeap[index2], mHeap[index1]);
-   }
+   void SwapIndex (int idx1, int idx2) => (mHeap[idx1], mHeap[idx2]) = (mHeap[idx2], mHeap[idx1]);
    #endregion
 
    #region Fields ---------------------------------------------------

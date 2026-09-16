@@ -25,7 +25,7 @@ public class MyPQTests {
       var result = new List<int> ();
       while (!pq.IsEmpty) result.Add (pq.Dequeue ());
       data.Sort ();
-      CollectionAssert.AreEqual (data, result);
+      Assert.AreSequenceEqual (data, result);
    }
 
    [TestMethod]
@@ -36,6 +36,21 @@ public class MyPQTests {
       var result = new List<int> ();
       while (!pq.IsEmpty) result.Add (pq.Dequeue ());
       data.Sort ();
-      CollectionAssert.AreEqual (data, result);
+      Assert.AreSequenceEqual (data, result);
+   }
+
+   [TestMethod]
+   public void Test4 () {
+      var res1 = new List<int> ();
+      var res2 = new MyPriorityQueue<int> ();
+      var random = new Random ();
+      for (int i = 0; i < 100; i++) {
+         var item = random.Next ();
+         res1.Add (item);
+         res2.Enqueue (item);
+      }
+      var result = new List<int> ();
+      while (!res2.IsEmpty) { result.Add (res2.Dequeue ()); }
+      Assert.AreSequenceEqual (res1.Order (), result);
    }
 }

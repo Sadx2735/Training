@@ -60,6 +60,20 @@ class Test {
       data.Sort ();
       PrintStatus ("Handles duplicate elements correctly", data.SequenceEqual (result));
    }
+
+   // 4. Random elements order.
+   static void Test4 () {
+      var res1 = new List<int> ();
+      var res2 = new MyPriorityQueue<int> ();
+      var random = new Random ();
+      for (int i = 0; i < 100; i++) {
+         var item = random.Next ();
+         res1.Add (item); res2.Enqueue (item);
+      }
+      var result = new List<int> ();
+      while (!res2.IsEmpty) { result.Add (res2.Dequeue ()); }
+      PrintStatus ("Random elements ordering", res1.SequenceEqual (result));
+   }
    #endregion
 }
 #endregion
