@@ -25,7 +25,7 @@ public class MyDeQueueTests {
       for (int i = 0; i < 4; i++) myQueue.PushBack (i);
       var res = new List<int> ();
       while (myQueue.Count > 0) res.Add (myQueue.PopFront ());
-      CollectionAssert.AreEqual (Enumerable.Range (0, 4).ToList (), res);
+      Assert.AreSequenceEqual (Enumerable.Range (0, 4).ToList (), res);
    }
 
    [TestMethod]
@@ -34,7 +34,7 @@ public class MyDeQueueTests {
       for (int i = 0; i < 4; i++) myQueue.PushBack (i);
       var res = new List<int> ();
       while (myQueue.Count > 0) res.Add (myQueue.PopBack ());
-      CollectionAssert.AreEqual (Enumerable.Range (0, 4).Reverse ().ToList (), res);
+      Assert.AreSequenceEqual (Enumerable.Range (0, 4).Reverse ().ToList (), res);
    }
 
    [TestMethod]
@@ -43,7 +43,7 @@ public class MyDeQueueTests {
       for (int i = 0; i < 4; i++) myQueue.PushFront (i);
       var res = new List<int> ();
       while (myQueue.Count > 0) res.Add (myQueue.PopBack ());
-      CollectionAssert.AreEqual (Enumerable.Range (0, 4).ToList (), res);
+      Assert.AreSequenceEqual (Enumerable.Range (0, 4).ToList (), res);
    }
 
    [TestMethod]
@@ -52,7 +52,7 @@ public class MyDeQueueTests {
       for (int i = 0; i < 4; i++) myQueue.PushFront (i);
       var res = new List<int> ();
       while (myQueue.Count > 0) res.Add (myQueue.PopFront ());
-      CollectionAssert.AreEqual (Enumerable.Range (0, 4).Reverse ().ToList (), res);
+      Assert.AreSequenceEqual (Enumerable.Range (0, 4).Reverse ().ToList (), res);
    }
 
    [TestMethod]
@@ -61,7 +61,7 @@ public class MyDeQueueTests {
       for (int i = 0; i < 12; i++) { myDeQueue.PushFront (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
-      CollectionAssert.AreEqual (Enumerable.Range (0, 12).ToList (), res);
+      Assert.AreSequenceEqual (Enumerable.Range (0, 12).ToList (), res);
    }
 
    [TestMethod]
@@ -70,7 +70,7 @@ public class MyDeQueueTests {
       for (int i = 0; i < 12; i++) { myDeQueue.PushFront (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
-      CollectionAssert.AreEqual (Enumerable.Range (0, 12).Reverse ().ToList (), res);
+      Assert.AreSequenceEqual (Enumerable.Range (0, 12).Reverse ().ToList (), res);
    }
 
    [TestMethod]
@@ -79,7 +79,7 @@ public class MyDeQueueTests {
       for (int i = 0; i < 12; i++) { myDeQueue.PushBack (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
-      CollectionAssert.AreEqual (Enumerable.Range (0, 12).ToList (), res);
+      Assert.AreSequenceEqual (Enumerable.Range (0, 12).ToList (), res);
    }
 
    [TestMethod]
@@ -88,7 +88,7 @@ public class MyDeQueueTests {
       for (int i = 0; i < 12; i++) { myDeQueue.PushBack (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
-      CollectionAssert.AreEqual (Enumerable.Range (0, 12).Reverse ().ToList (), res);
+      Assert.AreSequenceEqual (Enumerable.Range (0, 12).Reverse ().ToList (), res);
    }
 
    [TestMethod]
@@ -97,7 +97,7 @@ public class MyDeQueueTests {
       for (int i = 0; i < 12; i++) { myDeQueue.PushBack (i); }
       var res = new List<int> ();
       while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
-      CollectionAssert.AreEqual (Enumerable.Range (0, 12).Reverse ().ToList (), res);
+      Assert.AreSequenceEqual (Enumerable.Range (0, 12).Reverse ().ToList (), res);
    }
 
    [TestMethod]
@@ -108,7 +108,7 @@ public class MyDeQueueTests {
       iPassed &= (myDeQueue.Count == 2);
       myDeQueue.PushBack (3); myDeQueue.PushBack (4);
       iPassed &= (myDeQueue.Count == 4);
-      Assert.AreEqual (true, iPassed);
+      Assert.IsTrue (iPassed);
    }
 
    [TestMethod]
@@ -121,7 +121,7 @@ public class MyDeQueueTests {
       iPassed &= (myDeQueue.Count == 4);
       myDeQueue.PushFront (5); myDeQueue.PushBack (6);
       iPassed &= (myDeQueue.Count == 6);
-      Assert.AreEqual (true, iPassed);
+      Assert.IsTrue (iPassed);
    }
 
    [TestMethod]
@@ -140,6 +140,6 @@ public class MyDeQueueTests {
       iPassed &= (myDeQueue.Count == 2);
       iPassed &= (myDeQueue.PeekBack () == 5);
       iPassed &= (myDeQueue.PeekFront () == 2);
-      Assert.AreEqual (true, iPassed);
+      Assert.IsTrue (iPassed);
    }
 }

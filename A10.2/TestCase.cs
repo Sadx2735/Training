@@ -33,13 +33,8 @@ class Test {
    #region Implementation -------------------------------------------
    // Formats and prints based on the result
    static void PrintStatus (string name, bool passed) {
-      if (passed) {
-         Console.ForegroundColor = ConsoleColor.Green;
-         Console.WriteLine ($"[PASS] {name}");
-      } else {
-         Console.ForegroundColor = ConsoleColor.Red;
-         Console.WriteLine ($"[FAIL] {name}");
-      }
+      Console.ForegroundColor = passed ? ConsoleColor.Green : ConsoleColor.Red;
+      Console.WriteLine (passed ? $"[PASS] {name}" : $"[FAIL] {name}");
       Console.ResetColor ();
    }
 
