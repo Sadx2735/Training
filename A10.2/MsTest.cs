@@ -142,6 +142,4 @@ public class MyDeQueueTests {
       iPassed &= (myDeQueue.PeekFront () == 2);
       Assert.AreEqual (true, iPassed);
    }
-   #endregion
 }
-#endregion
