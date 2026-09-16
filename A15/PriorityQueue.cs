@@ -33,7 +33,6 @@ class MyPriorityQueue<T> where T : IComparable<T> {
       mHeap.Add (value);
       SiftUp ();
    }
-
    #endregion
 
    #region Implementation -------------------------------------------
@@ -47,8 +46,8 @@ class MyPriorityQueue<T> where T : IComparable<T> {
          if (rightChild < mHeap.Count && mHeap[rightChild].CompareTo (mHeap[leftChild]) < 0)
             minIndex = rightChild;
          if (mHeap[currentIndex].CompareTo (mHeap[minIndex]) <= 0) break;
-         (mHeap[currentIndex], mHeap[minIndex]) = (mHeap[minIndex], mHeap[currentIndex]);
-         (currentIndex , leftChild) = (minIndex, 2 * minIndex + 1);
+         SwapIndex (currentIndex, minIndex);
+         (currentIndex, leftChild) = (minIndex, 2 * minIndex + 1);
       }
    }
 
@@ -58,9 +57,14 @@ class MyPriorityQueue<T> where T : IComparable<T> {
       while (childIndex > 0) {
          int parentIndex = (childIndex - 1) / 2;
          if (mHeap[childIndex].CompareTo (mHeap[parentIndex]) >= 0) break;
-         (mHeap[childIndex], mHeap[parentIndex]) = (mHeap[parentIndex], mHeap[childIndex]);
+         SwapIndex (parentIndex, childIndex);
          childIndex = parentIndex;
       }
+   }
+
+   // Performs swapping of elements at the given two indices.
+   void SwapIndex (int index1, int index2) {
+      (mHeap[index1], mHeap[index2]) = (mHeap[index2], mHeap[index1]);
    }
    #endregion
 
