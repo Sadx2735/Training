@@ -32,13 +32,8 @@ class Program {
          string fileStr = iPassed && !string.IsNullOrEmpty (filename) ? "|" + filename : "|-";
          string extStr = iPassed && !string.IsNullOrEmpty (ext) ? "|." + ext : "|-";
          Console.Write ($"{path,-38}{driveStr,-12}{folderStr,-20}{fileStr,-12}{extStr,-11}");
-         if (iPassed) {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine ("|Passed");
-         } else {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine ("|Failed");
-         }
+         Console.ForegroundColor = iPassed ? ConsoleColor.Green : ConsoleColor.Red;
+         Console.WriteLine (iPassed ? "|Passed" : "|Failed");
          Console.ResetColor ();
       }
    }
