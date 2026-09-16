@@ -94,9 +94,9 @@ public class MyDeQueueTests {
    [TestMethod]
    public void Test10 () {
       var myDeQueue = new MyDeQueue<int> ();
-      for (int i = 0; i < 12; i++) { myDeQueue.PushBack (i); }
+      for (int i = 0; i < 12; i++) { myDeQueue.PushFront (i); }
       var res = new List<int> ();
-      while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
+      while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
       Assert.AreSequenceEqual (Enumerable.Range (0, 12).Reverse ().ToList (), res);
    }
 
