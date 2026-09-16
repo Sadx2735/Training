@@ -48,7 +48,7 @@ public class MyDeQueue<T> {
       if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
       T value = mBuffer[mHead];
       mBuffer[mHead] = default!;
-      mHead = ((mHead + 1) + mBuffer.Length) % mBuffer.Length;
+      mHead = (mHead + 1) % mBuffer.Length;
       Count--;
       return value;
    }
@@ -58,7 +58,7 @@ public class MyDeQueue<T> {
    public void PushBack (T element) {
       if (Count == mBuffer.Length) Resize ();
       mBuffer[mTail] = element;
-      mTail = ((mTail + 1) + mBuffer.Length) % mBuffer.Length;
+      mTail = (mTail + 1) % mBuffer.Length;
       Count++;
    }
 
