@@ -17,6 +17,16 @@ class MyPriorityQueue<T> where T : IComparable<T> {
    #endregion
 
    #region Methods --------------------------------------------------
+   /// <summary>Removes and returns the smallest element from the priority queue.</summary>
+   /// <returns>The minimum element in the priority queue.</returns>
+   /// <exception cref="InvalidOperationException">Thrown if priority queue is empty.</exception>
+   public T Dequeue () {
+      if (IsEmpty) throw new InvalidOperationException ("Priority queue is empty.");
+      var minValue = mHeap[0];
+      SiftDown ();
+      return minValue;
+   }
+
    /// <summary>Adds an element to the priority queue.</summary>
    /// <param name="value">The item to add.</param>
    public void Enqueue (T value) {
@@ -24,20 +34,11 @@ class MyPriorityQueue<T> where T : IComparable<T> {
       SiftUp ();
    }
 
-   /// <summary>Removes and returns the smallest element from the priority queue.</summary>
-   /// <returns>The minimum element in the priority queue.</returns>
-   /// <exception cref="InvalidOperationException">Thrown if priority queue is empty.</exception>
-   public T Dequeue () {
-      if (IsEmpty) throw new InvalidOperationException ("Queue is empty.");
-      var minValue = mHeap[0];
-      SiftDown ();
-      return minValue;
-   }
    #endregion
 
    #region Implementation -------------------------------------------
    // Restores heap property by moving the root element down.
-   private void SiftDown () {
+   void SiftDown () {
       mHeap[0] = mHeap[^1];
       mHeap.RemoveAt (mHeap.Count - 1);
       var (currentIndex, leftChild) = (0, 1);
@@ -52,7 +53,7 @@ class MyPriorityQueue<T> where T : IComparable<T> {
    }
 
    // Restores heap property by moving the last element up.
-   private void SiftUp () {
+   void SiftUp () {
       int childIndex = mHeap.Count - 1;
       while (childIndex > 0) {
          int parentIndex = (childIndex - 1) / 2;
