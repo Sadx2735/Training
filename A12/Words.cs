@@ -15,31 +15,26 @@ class WordBank {
    /// <summary>Loads all the words in the variables</summary>
    /// <param name="puzzlePath">Name of the file from with the random word be taken</param>
    /// <param name="dictPath">Name of the file in which the user guess is checked for valid</param>
-   public WordBank (string puzzlePath, string dictPath) {
-      availableWords = File.ReadAllLines (puzzlePath);
-      dictionaryWords = File.ReadAllLines (dictPath);
+   public WordBank () {
+      mWords = File.ReadAllLines ("puzzle-5.txt");
+      mDictWords = File.ReadAllLines ("dict-5.txt");
    }
    #endregion
 
    #region Methods --------------------------------------------------
    /// <summary>Generates a random word from the dictionary</summary>
    /// <returns>The generated random word</returns>
-   public string GetRandomWord () {
-      int index = randomizer.Next (availableWords.Length);
-      return availableWords[index];
-   }
+   public string GetRandomWord () => mWords[Random.Shared.Next (mWords.Length)];
+
    /// <summary>Tells if the particular user input is valid or not</summary>
    /// <param name="word">given by the user</param>
    /// <returns>true if the word exist , false if it doesn't exist.</returns>
-   public bool IsValidWord (string word) {
-      return dictionaryWords.Contains (word);
-   }
+   public bool IsValidWord (string word) => mDictWords.Contains (word);
    #endregion
 
    #region Fields ---------------------------------------------------
-   string[] availableWords;
-   string[] dictionaryWords;
-   Random randomizer = new Random ();
+   string[] mWords;
+   string[] mDictWords;
    #endregion
 }
 #endregion

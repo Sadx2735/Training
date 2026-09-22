@@ -22,6 +22,7 @@ class Wordle {
    /// <summary>Runs the Wordle game till the condition is met</summary>
    public void Run () {
       ClearScreen ();
+      // for duplicate letters in random word.
       SelectWord ();
       DisplayBoard ();
       while (!GameOver) {
@@ -37,7 +38,7 @@ class Wordle {
    // Clears the console window
    void ClearScreen () => Console.Clear ();
    // Randomly selects a word.
-   void SelectWord () => EXPECTED = wordBank.GetRandomWord ();
+   void SelectWord () => EXPECTED = "RIVER"; // wordBank.GetRandomWord ();
    // Processes the given key for the game.
    void UpdateGameState (ConsoleKeyInfo key) {
       statusMessage = "";
@@ -100,6 +101,7 @@ class Wordle {
    }
 
    void DisplayBoard () {
+      // Simplify the below display mode.
       ClearScreen ();
       for (int row = 0; row < TRIES; row++) {
          Console.SetCursorPosition (GridStart, Console.CursorTop);
@@ -131,6 +133,7 @@ class Wordle {
          Console.Write ($"{(char)(i + 64),-5}");
          Console.ResetColor ();
 
+         // TODO : Change the 8 to a constant value.
          if (i % 8 == 0) {
             Console.Write ("\n\n");
             Console.SetCursorPosition (KeyStart, Console.CursorTop);
@@ -161,6 +164,7 @@ class Wordle {
       DrawCell (MemBuffer[row * WORDSIZE + col], color);
    }
 
+   // make the below func to go inside the Draw allocated cell.
    void DrawCell (char character, ConsoleColor color) {
       Console.ForegroundColor = color;
       Console.Write ($"{character,-5}");
@@ -183,6 +187,8 @@ class Wordle {
    #region Fields ---------------------------------------------------
    int mRow = 0;
    int mCursor = 0;
+   // todo : 21 , 36 must be changed as a constant dependent thing.
+   // changing the variable names. ( as per standards )
    int GridStart = (Console.WindowWidth - 21) / 2;
    int KeyStart = (Console.WindowWidth - 36) / 2;
    char[] MemBuffer = new char[TRIES * WORDSIZE];

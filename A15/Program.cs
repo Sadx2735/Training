@@ -3,24 +3,15 @@
 // Copyright (c) TRUMPF Metamation India.
 // ------------------------------------------------------------------------------------------------
 // Program.cs
-// Entry point for the wordle game.
+// Entry point for testing the custom PriorityQueue implementation.
 // ------------------------------------------------------------------------------------------------
 
-using System.Text;
-using static System.Console;
+namespace CustomPriorityQueue;
 
-namespace WordleGame;
-
+#region Class Program -----------------------------------------------------------------------------
+/// <summary>Tests the CustomPriorityQueue implementation for various edge cases.</summary>
 class Program {
-   static void Main () {
-      OutputEncoding = Encoding.UTF8;
-      CursorVisible = false;
-      try {
-         var bank = new WordBank ();
-         var game = new Wordle (bank);
-         game.Run ();
-      } catch (Exception ex) {
-         WriteLine ($"Error loading files: {ex.Message}");
-      }
-   }
+   /// <summary>Runs all tests.</summary>
+   static void Main () => Test.Run ();
 }
+#endregion
