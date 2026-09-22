@@ -6,6 +6,8 @@
 // Controls the Game display by processing the user input.
 // ------------------------------------------------------------------------------------------------
 
+using static System.Console;
+
 namespace WordleGame;
 
 #region Class Wordle ------------------------------------------------------------------------------
@@ -14,18 +16,17 @@ class Wordle {
    #region Constructors ---------------------------------------------
    /// <summary>initializes the wordBank.</summary>
    /// <param name="bank">Object of WordBank.</param>
-   public Wordle (WordBank bank) => wordBank = bank;
- 
+   public Wordle (WordBank bank) => mWordBank = bank;
+
    #endregion
 
    #region Methods --------------------------------------------------
    /// <summary>Runs the Wordle game till the condition is met</summary>
    public void Run () {
       ClearScreen ();
-      // for duplicate letters in random word.
       SelectWord ();
       DisplayBoard ();
-      while (!GameOver) {
+      while (!iGameOver) {
          ConsoleKeyInfo key = Console.ReadKey (true);
          UpdateGameState (key);
          DisplayBoard ();
@@ -36,93 +37,84 @@ class Wordle {
 
    #region Implementation -------------------------------------------
    // Clears the console window
-   void ClearScreen () => Console.Clear ();
+   void ClearScreen () => Clear ();
    // Randomly selects a word.
-   void SelectWord () => EXPECTED = "RIVER"; // wordBank.GetRandomWord ();
+   void SelectWord () => mExpected = "RIVER"; // wordBank.GetRandomWord ();
    // Processes the given key for the game.
    void UpdateGameState (ConsoleKeyInfo key) {
-      statusMessage = "";
-      // if its A to Z and if the Cursor is 
-      if (key.Key is >= ConsoleKey.A and <= ConsoleKey.Z 
-                                     && mCursor >= 0 && mCursor < (mRow + 1) * WORDSIZE) {
-         MemBuffer[mCursor] = char.ToUpper (key.KeyChar);
+      mStatusMessage = "";
+      if (key.Key is >= ConsoleKey.A and <= ConsoleKey.Z
+                     && mCursor >= 0 && mCursor < (mRow + 1) * WORDSIZE) {
+         mMemBuffer[mCursor] = char.ToUpper (key.KeyChar);
          mCursor++;
       } else if (key.Key is ConsoleKey.Backspace && mCursor > mRow * WORDSIZE) {
          mCursor--;
-         MemBuffer[mCursor] = default;
+         mMemBuffer[mCursor] = default;
       } else if (key.Key is ConsoleKey.Enter && mCursor == (mRow + 1) * WORDSIZE) {
          ProcessGuess ();
       }
    }
 
    void ProcessGuess () {
-      string guessed = new string (MemBuffer, mRow * WORDSIZE, WORDSIZE);
-      if (!wordBank.IsValidWord (guessed)) {
-         statusMessage = $"{guessed} is not a word";
+      string guessed = new(mMemBuffer, mRow * WORDSIZE, WORDSIZE);
+      if (!mWordBank.IsValidWord (guessed)) {
+         mStatusMessage = $"{guessed} is not a word";
          return;
       }
-      CalculateColors (guessed);
-      mRow++;
-      if (guessed == EXPECTED) {
-         HasWon = true;
-         GameOver = true;
-      } else {
-         if (mRow >= TRIES) {
-            GameOver = true;
-         }
-      }
+      CalculateColors (guessed); mRow++;
+      if (guessed == mExpected) { iHasWon = true; iGameOver = true; } 
+      else if (mRow >= TRIES) { iGameOver = true; }
    }
 
    void CalculateColors (string guessed) {
-      HashSet<char> Seen = new HashSet<char> ();
+      HashSet<char> Seen = [];
       int[] cBuffer = Enumerable.Repeat (1, WORDSIZE).ToArray ();
       int rowOffset = mRow * WORDSIZE;
 
       for (int i = 0; i < WORDSIZE; i++) {
-         if (MemBuffer[rowOffset+i] == EXPECTED[i]) {
+         if (mMemBuffer[rowOffset + i] == mExpected[i]) {
             cBuffer[i] = 3;
-            Seen.Add (MemBuffer[rowOffset+i]);
+            Seen.Add (mMemBuffer[rowOffset + i]);
          }
       }
 
 
       for (int i = 0; i < WORDSIZE; i++) {
-         if (cBuffer[i] != 3 && !Seen.Contains (MemBuffer[rowOffset+i])) {
-            cBuffer[i] = EXPECTED.Contains (MemBuffer[rowOffset+i]) ? 2 : 1;
-            Seen.Add (MemBuffer[rowOffset+i]);
+         if (cBuffer[i] != 3 && !Seen.Contains (mMemBuffer[rowOffset + i])) {
+            cBuffer[i] = mExpected.Contains (mMemBuffer[rowOffset + i]) ? 2 : 1;
+            Seen.Add (mMemBuffer[rowOffset + i]);
          }
       }
 
       for (int idx = 0; idx < WORDSIZE; idx++) {
-         MemBufferColor[rowOffset + idx] = cBuffer[idx];
-         int keyIndex = MemBuffer[rowOffset + idx] - 'A';
-         KeyBuffer[keyIndex] = Math.Max (KeyBuffer[keyIndex], cBuffer[idx]);
+         mMemBufferColor[rowOffset + idx] = cBuffer[idx];
+         int keyIndex = mMemBuffer[rowOffset + idx] - 'A';
+         mKeyBuffer[keyIndex] = Math.Max (mKeyBuffer[keyIndex], cBuffer[idx]);
       }
    }
 
    void DisplayBoard () {
-      // Simplify the below display mode.
       ClearScreen ();
       for (int row = 0; row < TRIES; row++) {
-         Console.SetCursorPosition (GridStart, Console.CursorTop);
+         Console.SetCursorPosition (mGridStart, Console.CursorTop);
          for (int col = 0; col < WORDSIZE; col++) {
             if (mCursor / WORDSIZE == row && mCursor % WORDSIZE == col && mCursor < ((mRow + 1) * WORDSIZE))
                DrawCell ('◌', ConsoleColor.White);
-            else if (MemBuffer[row * WORDSIZE + col] == default)
+            else if (mMemBuffer[row * WORDSIZE + col] == default)
                DrawCell ('·', ConsoleColor.White);
             else
                DrawAllocatedCell (row, col);
          }
-         Console.WriteLine ("\n");
+         WriteLine ("\n");
       }
 
-      Console.SetCursorPosition (GridStart, Console.CursorTop);
+      Console.SetCursorPosition (mGridStart, Console.CursorTop);
       Console.WriteLine (string.Join ("*", Enumerable.Repeat ("-", 12)));
       Console.Write ('\n');
 
-      Console.SetCursorPosition (KeyStart, Console.CursorTop);
+      Console.SetCursorPosition (mKeyStart, Console.CursorTop);
       for (int i = 1; i <= 26; i++) {
-         ConsoleColor kbColor = KeyBuffer[i - 1] switch {
+         ConsoleColor kbColor = mKeyBuffer[i - 1] switch {
             1 => ConsoleColor.Red,
             2 => ConsoleColor.Blue,
             3 => ConsoleColor.Green,
@@ -133,20 +125,19 @@ class Wordle {
          Console.Write ($"{(char)(i + 64),-5}");
          Console.ResetColor ();
 
-         // TODO : Change the 8 to a constant value.
-         if (i % 8 == 0) {
+         if (i % KEYPERROW == 0) {
             Console.Write ("\n\n");
-            Console.SetCursorPosition (KeyStart, Console.CursorTop);
+            Console.SetCursorPosition (mKeyStart, Console.CursorTop);
          }
       }
       Console.WriteLine ();
 
-      if (!string.IsNullOrEmpty (statusMessage)) {
+      if (!string.IsNullOrEmpty (mStatusMessage)) {
          Console.ForegroundColor = ConsoleColor.Yellow;
          Console.WriteLine ('\n');
-         int MesStart = Math.Max (0, (Console.WindowWidth - statusMessage.Length) / 2);
+         int MesStart = Math.Max (0, (Console.WindowWidth - mStatusMessage.Length) / 2);
          Console.SetCursorPosition (MesStart, Console.CursorTop);
-         Console.WriteLine (statusMessage);
+         Console.WriteLine (mStatusMessage);
          Console.ResetColor ();
       }
    }
@@ -154,56 +145,50 @@ class Wordle {
    void DrawAllocatedCell (int row, int col) {
       ConsoleColor color = ConsoleColor.White;
       if (row < mRow) {
-         color = MemBufferColor[row * WORDSIZE + col] switch {
+         color = mMemBufferColor[row * WORDSIZE + col] switch {
             1 => ConsoleColor.Red,
             2 => ConsoleColor.Blue,
             3 => ConsoleColor.Green,
             _ => ConsoleColor.White
          };
       }
-      DrawCell (MemBuffer[row * WORDSIZE + col], color);
+      DrawCell (mMemBuffer[row * WORDSIZE + col], color);
    }
 
-   // make the below func to go inside the Draw allocated cell.
    void DrawCell (char character, ConsoleColor color) {
-      Console.ForegroundColor = color;
-      Console.Write ($"{character,-5}");
-      Console.ResetColor ();
+      ForegroundColor = color;
+      Write ($"{character,-SPACING}");
+      ResetColor ();
    }
 
    void PrintResult () {
-      Console.WriteLine ('\n');
-      string resultMsg = HasWon ? "YOU GUESSED IT CORRECTLY!" 
-                                : $"{EXPECTED} IS THE WORD! PLEASE TRY AGAIN!";
-      Console.ForegroundColor = HasWon ? ConsoleColor.Green : ConsoleColor.Red;
-      int MesStart = Math.Max (0, (Console.WindowWidth - resultMsg.Length) / 2);
-      Console.SetCursorPosition (MesStart, Console.CursorTop);
-      Console.WriteLine (resultMsg);
-      Console.ResetColor ();
-      Console.ReadKey (true);
+      WriteLine ('\n');
+      string resultMsg = iHasWon ? "YOU GUESSED IT CORRECTLY!"
+                                : $"{mExpected} IS THE WORD! PLEASE TRY AGAIN!";
+      ForegroundColor = iHasWon ? ConsoleColor.Green : ConsoleColor.Red;
+      int MesStart = Math.Max (0, (WindowWidth - resultMsg.Length) / 2);
+      SetCursorPosition (MesStart, CursorTop);
+      WriteLine (resultMsg);
+      ResetColor ();
+      ReadKey (true);
    }
    #endregion
 
    #region Fields ---------------------------------------------------
-   int mRow = 0;
-   int mCursor = 0;
-   // todo : 21 , 36 must be changed as a constant dependent thing.
-   // changing the variable names. ( as per standards )
-   int GridStart = (Console.WindowWidth - 21) / 2;
-   int KeyStart = (Console.WindowWidth - 36) / 2;
-   char[] MemBuffer = new char[TRIES * WORDSIZE];
-   int[] MemBufferColor = new int[TRIES * WORDSIZE];
-   int[] KeyBuffer = new int[26];
-   bool GameOver = false;
-   bool HasWon = false;
-   string EXPECTED = "";
-   string statusMessage = "";
-   WordBank wordBank;
+   int mCursor = 0, mRow = 0;
+   bool iGameOver = false, iHasWon = false;
+   string mExpected = "", mStatusMessage = "";
+   WordBank mWordBank;
+   int[] mKeyBuffer = new int[26];
+   int mGridStart = (WindowWidth - WORDSPACE) / 2, mKeyStart = (WindowWidth - KEYSPACE) / 2;
+   char[] mMemBuffer = new char[TRIES * WORDSIZE];
+   int[] mMemBufferColor = new int[TRIES * WORDSIZE];
    #endregion
 
    #region Constants ------------------------------------------------
-   const int WORDSIZE = 5;
-   const int TRIES = 6;
+   const int KEYPERROW = 8, SPACING = 5, TRIES = 6, WORDSIZE = 5;
+   const int KEYSPACE = ((KEYPERROW - 1) * SPACING) + 1;
+   const int WORDSPACE = ((WORDSIZE - 1) * SPACING) + 1;
    #endregion
 }
 #endregion
