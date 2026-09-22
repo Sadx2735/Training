@@ -16,7 +16,7 @@ class Program {
       var testPaths = new[] {
          @"Cz:\abc\def\r.txt", @"C:\abc\def\readme.txt", @"C:\Readme.txt", @"C:\abc\.bcf",
          @"C:\abc\bcf.", @"Readme.txt", @"C:\abc\def", @"C:\abc d", @"\abcd\Readme.txt", " ",
-         @"C:\ab.c\def\r.txt", @"C:\abc:d", @".\abc", ".abc", @"C:\abc6\def\r.txt",
+         @"C:\ab.c\def\r.txt", @"C:\abc:d", @".\abc", ".abc", "abc", @"C:\abc6\def\r.txt",
          @"C:\DIR\ARCHIVE.TAR.GZ", @"C:\work\r.txt", @"C:\\work~\\r.txt~",
          @"C:\A\B\C\D\E\F\G\FILE.TXT", @"C:\DIR\\FILE.TXT"
       };
