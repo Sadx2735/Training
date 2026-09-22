@@ -19,33 +19,25 @@ class Parser {
    /// <returns> A tuple containing (drive, folder, filename, extension). </returns>
    public static (string, string, string, string) Evaluate (string input) {
       var st = A;
-      Action<char> none = (char a) => { }, todo;
-      string drive = "", directory = "", extension = "";
+      Action none = () => { }, todo;
+      string drive = "", directory = "", extension = "", filename = "";
       /// State Diagram: docs/Diagram.png
       foreach (var ch in input.ToUpper () + '~') {
-         todo = none;
          (st, todo) = (st, ch) switch {
-            (A, >= 'A' and <= 'Z') => (B, (x) => drive += x),
+            (A, >= 'A' and <= 'Z') => (B, () => drive += ch),
             (B, ':') => (C, none),
             (C, '\\') => (D, none),
-            (D or E, >= 'A' and <= 'Z') => (E, (x) => directory += x),
-            (E, '\\') => (F, (x) => directory += x),
-            (F or G, >= 'A' and <= 'Z') => (G, (x) => directory += x),
-            (G, '\\') => (F, (x) => directory += x),
-            (G, '.') => (H, none),
-            (H or I, >= 'A' and <= 'Z') => (I, (x) => extension += x),
-            (I, '~') => (J, none),
+            (D or E, >= 'A' and <= 'Z') => (E, () => filename += ch),
+            (E, '\\') => (D, () => (directory, filename) = (string.IsNullOrEmpty (directory)
+                                                 ? filename : $"{directory}/{filename}", "")),
+            (E, '.') => (F, none),
+            (F or G, >= 'A' and <= 'Z') => (G, () => extension += ch),
+            (G, '~') => (H, none),
             _ => (Z, none)
          };
-         todo (ch);
+         todo ();
       }
-      if (st is J) {
-         var items = directory.Split ('\\');
-         string filename = items[^1];
-         directory = string.Join ("/", items.SkipLast (1));
-         return (drive, directory, filename, extension);
-      }
-      return (string.Empty, string.Empty, string.Empty, string.Empty);
+      return (st is H) ? (drive, directory, filename, extension) : ("", "", "", "");
    }
    #endregion
 
@@ -55,13 +47,11 @@ class Parser {
       A, // Starting state of the parser.
       B, // Drive letter.
       C, // Colon (:) after the drive letter.
-      D, // Backslash (\) after the colon.
-      E, // Primary folder name.
-      F, // Directory backslash (\) delimiter.
-      G, // Subfolder or file name.
-      H, // Extension dot (.) separator.
-      I, // File extension.
-      J, // Success / terminal end state.
+      D, // Backslash (\) separator - expecting a name.
+      E, // Folder or file name.
+      F, // Extension dot (.) separator.
+      G, // File extension.
+      H, // Success / terminal end state.
       Z  // Error state.
    }
    #endregion
