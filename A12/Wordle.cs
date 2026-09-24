@@ -6,6 +6,7 @@
 // Controls the Game display by processing the user input.
 // ------------------------------------------------------------------------------------------------
 
+using CustomTrie;
 using static System.Console;
 
 namespace WordleGame;
@@ -14,9 +15,13 @@ namespace WordleGame;
 /// <summary>Implements the wordle game.</summary>
 class Wordle {
    #region Constructors ---------------------------------------------
-   /// <summary>Initializes the wordBank.</summary>
+   /// <summary>Initializes the word bank and loads all its words into the suggestion engine.</summary>
    /// <param name="bank">Object of WordBank.</param>
-   public Wordle (WordBank bank) => mWordBank = bank;
+   public Wordle (WordBank bank) {
+      mWordBank = bank;
+      mAccWords = mWordBank.GetAllWords ();
+      foreach (var word in mAccWords) mSuggestionEngine.Insert (word);
+   }
    #endregion
 
    #region Methods --------------------------------------------------
@@ -34,7 +39,7 @@ class Wordle {
 
    #region Implementation -------------------------------------------
    // Randomly selects a word.
-   void SelectWord () => mExpected = "RIVER"; // mWordBank.GetRandomWord ();
+   void SelectWord () => mExpected = mWordBank.GetRandomWord (); // "RIVER";
 
    // Processes the given key for the game.
    void UpdateGameState (ConsoleKeyInfo key) {
@@ -53,7 +58,7 @@ class Wordle {
    // Validates the current row and updates the game state.
    void ProcessGuess () {
       string guess = new (mMemBuffer, mRow * WORDSIZE, WORDSIZE);
-      if (!mWordBank.IsValidWord (guess)) { mStatusMessage = $"{guess} is not a word"; return; }
+      //if (!mWordBank.IsValidWord (guess)) { mStatusMessage = $"{guess} is not a word"; return; }
       Evaluate (guess); mRow++;
       if (guess == mExpected) mState = EGameState.Won;
       else if (mRow == TRIES) mState = EGameState.Lost;
@@ -75,14 +80,18 @@ class Wordle {
       }
    }
 
-   // Draws the grid, keyboard and status message.
+   // Returns the hints for the current row (random words when nothing is typed yet).
+   string GetHints () {
+      if (mState != EGameState.Playing) return "";
+      string typed = new string (mMemBuffer, mRow * WORDSIZE, WORDSIZE).TrimEnd ('\0');
+      var words = (typed == "") ? mAccWords : mSuggestionEngine.GetSuggestion (typed).ToArray();
+      if (words.Length == 0) return "No Possible Words";
+      return "Hints : " + string.Join (" , ", words.Shuffle ().Take (HINTS)).ToUpper ();
+   }
+
+   // Draws the grid, keyboard, hints and status message.
    void DisplayBoard () {
       Clear ();
-      string tguess = new string (mMemBuffer, mRow * WORDSIZE, WORDSIZE).TrimEnd ('\0');
-      string TempMess;
-      if (tguess.Length==0) TempMess = $"Hints : BRAKE , DRIVE , ROAST";
-      else TempMess = $"Hints : BRAKE , DRIVE , {tguess}";
-
       for (int row = 0; row < TRIES; row++) {
          CursorLeft = mGridStart;
          for (int col = 0; col < WORDSIZE; col++) {
@@ -105,9 +114,10 @@ class Wordle {
       }
       WriteLine ();
 
-      if (TempMess != "") {
+      string hints = GetHints ();
+      if (hints != "") {
          WriteLine ('\n');
-         WriteCentered (TempMess, ConsoleColor.Gray);
+         WriteCentered (hints, ConsoleColor.Gray);
       }
 
       if (mStatusMessage != "") {
@@ -155,6 +165,8 @@ class Wordle {
    EGameState mState = EGameState.Playing;
    string mExpected = "", mStatusMessage = "";
    WordBank mWordBank;
+   Trie mSuggestionEngine = new ();
+   string[] mAccWords;
    int mGridStart = (WindowWidth - WORDSPACE) / 2, mKeyStart = (WindowWidth - KEYSPACE) / 2;
    char[] mMemBuffer = new char[TRIES * WORDSIZE];
    ELetterState[] mCellState = new ELetterState[TRIES * WORDSIZE];
@@ -162,7 +174,7 @@ class Wordle {
    #endregion
 
    #region Constants ------------------------------------------------
-   const int KEYPERROW = 8, SPACING = 5, TRIES = 6, WORDSIZE = 5;
+   const int HINTS = 3, KEYPERROW = 8, SPACING = 5, TRIES = 6, WORDSIZE = 5;
    const int KEYSPACE = ((KEYPERROW - 1) * SPACING) + 1;
    const int WORDSPACE = ((WORDSIZE - 1) * SPACING) + 1;
    #endregion

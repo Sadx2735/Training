@@ -22,6 +22,10 @@ class WordBank {
    #endregion
 
    #region Methods --------------------------------------------------
+   /// <summary>Gives all the words that are present in the dictionary</summary>
+   /// <returns>Returns array of all words in the dictionary.</returns>
+   public string[] GetAllWords () => mDictWords;
+
    /// <summary>Generates a random word from the dictionary</summary>
    /// <returns>The generated random word</returns>
    public string GetRandomWord () => mWords[Random.Shared.Next (mWords.Length)];

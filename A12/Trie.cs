@@ -62,6 +62,7 @@ public class Trie {
       // Helper .....................................................
       // Recursively attempts to search possible words.
       void DFS (Node node, string prefix) {
+         if (results.Count >= 3) return;
          if (node.IsEnd ()) results.Add (prefix);
          for (char st = 'A'; st <= 'Z'; st++) {
             var nde = node.GetNode (st);
