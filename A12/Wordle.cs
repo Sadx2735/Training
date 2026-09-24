@@ -15,7 +15,7 @@ namespace WordleGame;
 /// <summary>Implements the wordle game.</summary>
 class Wordle {
    #region Constructors ---------------------------------------------
-   /// <summary>Initializes the word bank and loads all its words into the suggestion engine.</summary>
+   /// <summary>Initializes the word bank and loads all its words into the engine.</summary>
    /// <param name="bank">Object of WordBank.</param>
    public Wordle (WordBank bank) {
       mWordBank = bank;
@@ -38,56 +38,13 @@ class Wordle {
    #endregion
 
    #region Implementation -------------------------------------------
-   // Randomly selects a word.
-   void SelectWord () => mExpected = mWordBank.GetRandomWord (); // "RIVER";
-
-   // Processes the given key for the game.
-   void UpdateGameState (ConsoleKeyInfo key) {
-      mStatusMessage = "";
-      int rowStart = mRow * WORDSIZE, rowEnd = rowStart + WORDSIZE;
-      switch (key.Key) {
-         case >= ConsoleKey.A and <= ConsoleKey.Z when mCursor < rowEnd:
-            mMemBuffer[mCursor++] = (char)key.Key; break;
-         case ConsoleKey.Backspace when mCursor > rowStart:
-            mMemBuffer[--mCursor] = default; break;
-         case ConsoleKey.Enter when mCursor == rowEnd:
-            ProcessGuess (); break;
-      }
-   }
-
-   // Validates the current row and updates the game state.
-   void ProcessGuess () {
-      string guess = new (mMemBuffer, mRow * WORDSIZE, WORDSIZE);
-      //if (!mWordBank.IsValidWord (guess)) { mStatusMessage = $"{guess} is not a word"; return; }
-      Evaluate (guess); mRow++;
-      if (guess == mExpected) mState = EGameState.Won;
-      else if (mRow == TRIES) mState = EGameState.Lost;
-   }
-
-   // Marks each letter of the guess as Correct, Present or Absent (handles repeated letters).
-   void Evaluate (string guess) {
-      int offset = mRow * WORDSIZE;
-      List<char> unmatched = [];
-      for (int i = 0; i < WORDSIZE; i++) {
-         if (guess[i] == mExpected[i]) mCellState[offset + i] = ELetterState.Correct;
-         else unmatched.Add (mExpected[i]);
-      }
-      for (int i = 0; i < WORDSIZE; i++) {
-         int idx = offset + i, key = guess[i] - 'A';
-         if (mCellState[idx] != ELetterState.Correct)
-            mCellState[idx] = unmatched.Remove (guess[i]) ? ELetterState.Present : ELetterState.Absent;
-         if (mCellState[idx] > mKeyState[key]) mKeyState[key] = mCellState[idx];
-      }
-   }
-
-   // Returns the hints for the current row (random words when nothing is typed yet).
-   string GetHints () {
-      if (mState != EGameState.Playing) return "";
-      string typed = new string (mMemBuffer, mRow * WORDSIZE, WORDSIZE).TrimEnd ('\0');
-      var words = (typed == "") ? mAccWords : mSuggestionEngine.GetSuggestion (typed).ToArray();
-      if (words.Length == 0) return "No Possible Words";
-      return "Hints : " + string.Join (" , ", words.Shuffle ().Take (HINTS)).ToUpper ();
-   }
+   // Maps a letter state to its display color.
+   static ConsoleColor ColorOf (ELetterState state) => state switch {
+      ELetterState.Absent => ConsoleColor.Red,
+      ELetterState.Present => ConsoleColor.Blue,
+      ELetterState.Correct => ConsoleColor.Green,
+      _ => ConsoleColor.White
+   };
 
    // Draws the grid, keyboard, hints and status message.
    void DisplayBoard () {
@@ -133,6 +90,33 @@ class Wordle {
       ResetColor ();
    }
 
+   // Marks each letter of the guess as Correct, Present or Absent.
+   void Evaluate (string guess) {
+      int offset = mRow * WORDSIZE;
+      List<char> unmatched = [];
+      for (int i = 0; i < WORDSIZE; i++) {
+         if (guess[i] == mExpected[i]) mCellState[offset + i] = ELetterState.Correct;
+         else unmatched.Add (mExpected[i]);
+      }
+      for (int i = 0; i < WORDSIZE; i++) {
+         int idx = offset + i, key = guess[i] - 'A';
+         if (mCellState[idx] != ELetterState.Correct)
+            mCellState[idx] = unmatched.Remove (guess[i]) ? ELetterState.Present
+                                                          : ELetterState.Absent;
+         if (mCellState[idx] > mKeyState[key]) mKeyState[key] = mCellState[idx];
+      }
+   }
+
+   // Returns the hints for the current row.
+   string GetHints () {
+      if (mState != EGameState.Playing) return "";
+      string typed = new string (mMemBuffer, mRow * WORDSIZE, WORDSIZE).TrimEnd ('\0');
+      var words = (typed == "") ? mAccWords : mSuggestionEngine.GetSuggestion (typed).ToArray ();
+      if (words.Length == 0) return "No Possible Words";
+      return "Hints : " + string.Join (" , ", words.Shuffle ().Take (HINTS)).ToUpper ();
+   }
+
+
    // Prints the final result of the game.
    void PrintResult () {
       WriteLine ('\n');
@@ -143,6 +127,32 @@ class Wordle {
       ReadKey (true);
    }
 
+   // Validates the current row and updates the game state.
+   void ProcessGuess () {
+      string guess = new (mMemBuffer, mRow * WORDSIZE, WORDSIZE);
+      if (!mWordBank.IsValidWord (guess)) return;
+      Evaluate (guess); mRow++;
+      if (guess == mExpected) mState = EGameState.Won;
+      else if (mRow == TRIES) mState = EGameState.Lost;
+   }
+
+   // Randomly selects a word.
+   void SelectWord () => mExpected = "RIVER"; // mWordBank.GetRandomWord (); 
+
+   // Processes the given key for the game.
+   void UpdateGameState (ConsoleKeyInfo key) {
+      mStatusMessage = "";
+      int rowStart = mRow * WORDSIZE, rowEnd = rowStart + WORDSIZE;
+      switch (key.Key) {
+         case >= ConsoleKey.A and <= ConsoleKey.Z when mCursor < rowEnd:
+            mMemBuffer[mCursor++] = (char)key.Key; break;
+         case ConsoleKey.Backspace when mCursor > rowStart:
+            mMemBuffer[--mCursor] = default; break;
+         case ConsoleKey.Enter when mCursor == rowEnd:
+            ProcessGuess (); break;
+      }
+   }
+
    // Writes the text centered on the current line in the given color.
    void WriteCentered (string text, ConsoleColor color) {
       ForegroundColor = color;
@@ -150,14 +160,6 @@ class Wordle {
       WriteLine (text);
       ResetColor ();
    }
-
-   // Maps a letter state to its display color.
-   static ConsoleColor ColorOf (ELetterState state) => state switch {
-      ELetterState.Absent => ConsoleColor.Red,
-      ELetterState.Present => ConsoleColor.Blue,
-      ELetterState.Correct => ConsoleColor.Green,
-      _ => ConsoleColor.White
-   };
    #endregion
 
    #region Fields ---------------------------------------------------
