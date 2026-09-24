@@ -14,21 +14,18 @@ namespace WordleGame;
 /// <summary>Implements the wordle game.</summary>
 class Wordle {
    #region Constructors ---------------------------------------------
-   /// <summary>initializes the wordBank.</summary>
+   /// <summary>Initializes the wordBank.</summary>
    /// <param name="bank">Object of WordBank.</param>
    public Wordle (WordBank bank) => mWordBank = bank;
-
    #endregion
 
    #region Methods --------------------------------------------------
-   /// <summary>Runs the Wordle game till the condition is met</summary>
+   /// <summary>Runs the Wordle game till the game is over.</summary>
    public void Run () {
-      ClearScreen ();
       SelectWord ();
       DisplayBoard ();
-      while (!iGameOver) {
-         ConsoleKeyInfo key = Console.ReadKey (true);
-         UpdateGameState (key);
+      while (mState == EGameState.Playing) {
+         UpdateGameState (ReadKey (true));
          DisplayBoard ();
       }
       PrintResult ();
@@ -36,159 +33,143 @@ class Wordle {
    #endregion
 
    #region Implementation -------------------------------------------
-   // Clears the console window
-   void ClearScreen () => Clear ();
    // Randomly selects a word.
-   void SelectWord () => mExpected = "RIVER"; // wordBank.GetRandomWord ();
+   void SelectWord () => mExpected = "RIVER"; // mWordBank.GetRandomWord ();
+
    // Processes the given key for the game.
    void UpdateGameState (ConsoleKeyInfo key) {
       mStatusMessage = "";
-      if (key.Key is >= ConsoleKey.A and <= ConsoleKey.Z
-                     && mCursor >= 0 && mCursor < (mRow + 1) * WORDSIZE) {
-         mMemBuffer[mCursor] = char.ToUpper (key.KeyChar);
-         mCursor++;
-      } else if (key.Key is ConsoleKey.Backspace && mCursor > mRow * WORDSIZE) {
-         mCursor--;
-         mMemBuffer[mCursor] = default;
-      } else if (key.Key is ConsoleKey.Enter && mCursor == (mRow + 1) * WORDSIZE) {
-         ProcessGuess ();
+      int rowStart = mRow * WORDSIZE, rowEnd = rowStart + WORDSIZE;
+      switch (key.Key) {
+         case >= ConsoleKey.A and <= ConsoleKey.Z when mCursor < rowEnd:
+            mMemBuffer[mCursor++] = (char)key.Key; break;
+         case ConsoleKey.Backspace when mCursor > rowStart:
+            mMemBuffer[--mCursor] = default; break;
+         case ConsoleKey.Enter when mCursor == rowEnd:
+            ProcessGuess (); break;
       }
    }
 
+   // Validates the current row and updates the game state.
    void ProcessGuess () {
-      string guessed = new(mMemBuffer, mRow * WORDSIZE, WORDSIZE);
-      if (!mWordBank.IsValidWord (guessed)) {
-         mStatusMessage = $"{guessed} is not a word";
-         return;
-      }
-      CalculateColors (guessed); mRow++;
-      if (guessed == mExpected) { iHasWon = true; iGameOver = true; } 
-      else if (mRow >= TRIES) { iGameOver = true; }
+      string guess = new (mMemBuffer, mRow * WORDSIZE, WORDSIZE);
+      if (!mWordBank.IsValidWord (guess)) { mStatusMessage = $"{guess} is not a word"; return; }
+      Evaluate (guess); mRow++;
+      if (guess == mExpected) mState = EGameState.Won;
+      else if (mRow == TRIES) mState = EGameState.Lost;
    }
 
-   void CalculateColors (string guessed) {
-      HashSet<char> Seen = [];
-      int[] cBuffer = Enumerable.Repeat (1, WORDSIZE).ToArray ();
-      int rowOffset = mRow * WORDSIZE;
-
+   // Marks each letter of the guess as Correct, Present or Absent (handles repeated letters).
+   void Evaluate (string guess) {
+      int offset = mRow * WORDSIZE;
+      List<char> unmatched = [];
       for (int i = 0; i < WORDSIZE; i++) {
-         if (mMemBuffer[rowOffset + i] == mExpected[i]) {
-            cBuffer[i] = 3;
-            Seen.Add (mMemBuffer[rowOffset + i]);
-         }
+         if (guess[i] == mExpected[i]) mCellState[offset + i] = ELetterState.Correct;
+         else unmatched.Add (mExpected[i]);
       }
-
-
       for (int i = 0; i < WORDSIZE; i++) {
-         if (cBuffer[i] != 3 && !Seen.Contains (mMemBuffer[rowOffset + i])) {
-            cBuffer[i] = mExpected.Contains (mMemBuffer[rowOffset + i]) ? 2 : 1;
-            Seen.Add (mMemBuffer[rowOffset + i]);
-         }
-      }
-
-      for (int idx = 0; idx < WORDSIZE; idx++) {
-         mMemBufferColor[rowOffset + idx] = cBuffer[idx];
-         int keyIndex = mMemBuffer[rowOffset + idx] - 'A';
-         mKeyBuffer[keyIndex] = Math.Max (mKeyBuffer[keyIndex], cBuffer[idx]);
+         int idx = offset + i, key = guess[i] - 'A';
+         if (mCellState[idx] != ELetterState.Correct)
+            mCellState[idx] = unmatched.Remove (guess[i]) ? ELetterState.Present : ELetterState.Absent;
+         if (mCellState[idx] > mKeyState[key]) mKeyState[key] = mCellState[idx];
       }
    }
 
+   // Draws the grid, keyboard and status message.
    void DisplayBoard () {
-      ClearScreen ();
+      Clear ();
+      string tguess = new string (mMemBuffer, mRow * WORDSIZE, WORDSIZE).TrimEnd ('\0');
+      string TempMess;
+      if (tguess.Length==0) TempMess = $"Hints : BRAKE , DRIVE , ROAST";
+      else TempMess = $"Hints : BRAKE , DRIVE , {tguess}";
+
       for (int row = 0; row < TRIES; row++) {
-         Console.SetCursorPosition (mGridStart, Console.CursorTop);
+         CursorLeft = mGridStart;
          for (int col = 0; col < WORDSIZE; col++) {
-            if (mCursor / WORDSIZE == row && mCursor % WORDSIZE == col && mCursor < ((mRow + 1) * WORDSIZE))
-               DrawCell ('◌', ConsoleColor.White);
-            else if (mMemBuffer[row * WORDSIZE + col] == default)
-               DrawCell ('·', ConsoleColor.White);
-            else
-               DrawAllocatedCell (row, col);
+            int idx = row * WORDSIZE + col;
+            char ch = idx == mCursor && row == mRow ? '◌'
+                    : mMemBuffer[idx] == default ? '·' : mMemBuffer[idx];
+            DrawCell (ch, mCellState[idx]);
          }
          WriteLine ("\n");
       }
 
-      Console.SetCursorPosition (mGridStart, Console.CursorTop);
-      Console.WriteLine (string.Join ("*", Enumerable.Repeat ("-", 12)));
-      Console.Write ('\n');
+      CursorLeft = mGridStart;
+      WriteLine (string.Join ("*", Enumerable.Repeat ("-", 12)));
+      Write ('\n');
 
-      Console.SetCursorPosition (mKeyStart, Console.CursorTop);
-      for (int i = 1; i <= 26; i++) {
-         ConsoleColor kbColor = mKeyBuffer[i - 1] switch {
-            1 => ConsoleColor.Red,
-            2 => ConsoleColor.Blue,
-            3 => ConsoleColor.Green,
-            _ => ConsoleColor.White
-         };
-
-         Console.ForegroundColor = kbColor;
-         Console.Write ($"{(char)(i + 64),-5}");
-         Console.ResetColor ();
-
-         if (i % KEYPERROW == 0) {
-            Console.Write ("\n\n");
-            Console.SetCursorPosition (mKeyStart, Console.CursorTop);
-         }
+      CursorLeft = mKeyStart;
+      for (int i = 0; i < 26; i++) {
+         DrawCell ((char)('A' + i), mKeyState[i]);
+         if ((i + 1) % KEYPERROW == 0) { Write ("\n\n"); CursorLeft = mKeyStart; }
       }
-      Console.WriteLine ();
+      WriteLine ();
 
-      if (!string.IsNullOrEmpty (mStatusMessage)) {
-         Console.ForegroundColor = ConsoleColor.Yellow;
-         Console.WriteLine ('\n');
-         int MesStart = Math.Max (0, (Console.WindowWidth - mStatusMessage.Length) / 2);
-         Console.SetCursorPosition (MesStart, Console.CursorTop);
-         Console.WriteLine (mStatusMessage);
-         Console.ResetColor ();
+      if (TempMess != "") {
+         WriteLine ('\n');
+         WriteCentered (TempMess, ConsoleColor.Gray);
+      }
+
+      if (mStatusMessage != "") {
+         WriteLine ('\n');
+         WriteCentered (mStatusMessage, ConsoleColor.Yellow);
       }
    }
 
-   void DrawAllocatedCell (int row, int col) {
-      ConsoleColor color = ConsoleColor.White;
-      if (row < mRow) {
-         color = mMemBufferColor[row * WORDSIZE + col] switch {
-            1 => ConsoleColor.Red,
-            2 => ConsoleColor.Blue,
-            3 => ConsoleColor.Green,
-            _ => ConsoleColor.White
-         };
-      }
-      DrawCell (mMemBuffer[row * WORDSIZE + col], color);
-   }
-
-   void DrawCell (char character, ConsoleColor color) {
-      ForegroundColor = color;
+   // Draws a single character in the color of its state.
+   void DrawCell (char character, ELetterState state) {
+      ForegroundColor = ColorOf (state);
       Write ($"{character,-SPACING}");
       ResetColor ();
    }
 
+   // Prints the final result of the game.
    void PrintResult () {
       WriteLine ('\n');
-      string resultMsg = iHasWon ? "YOU GUESSED IT CORRECTLY!"
-                                : $"{mExpected} IS THE WORD! PLEASE TRY AGAIN!";
-      ForegroundColor = iHasWon ? ConsoleColor.Green : ConsoleColor.Red;
-      int MesStart = Math.Max (0, (WindowWidth - resultMsg.Length) / 2);
-      SetCursorPosition (MesStart, CursorTop);
-      WriteLine (resultMsg);
-      ResetColor ();
+      bool won = mState == EGameState.Won;
+      WriteCentered (won ? "YOU GUESSED IT CORRECTLY!"
+                         : $"{mExpected} IS THE WORD! PLEASE TRY AGAIN!",
+                     won ? ConsoleColor.Green : ConsoleColor.Red);
       ReadKey (true);
    }
+
+   // Writes the text centered on the current line in the given color.
+   void WriteCentered (string text, ConsoleColor color) {
+      ForegroundColor = color;
+      CursorLeft = Math.Max (0, (WindowWidth - text.Length) / 2);
+      WriteLine (text);
+      ResetColor ();
+   }
+
+   // Maps a letter state to its display color.
+   static ConsoleColor ColorOf (ELetterState state) => state switch {
+      ELetterState.Absent => ConsoleColor.Red,
+      ELetterState.Present => ConsoleColor.Blue,
+      ELetterState.Correct => ConsoleColor.Green,
+      _ => ConsoleColor.White
+   };
    #endregion
 
    #region Fields ---------------------------------------------------
-   int mCursor = 0, mRow = 0;
-   bool iGameOver = false, iHasWon = false;
+   int mCursor, mRow;
+   EGameState mState = EGameState.Playing;
    string mExpected = "", mStatusMessage = "";
    WordBank mWordBank;
-   int[] mKeyBuffer = new int[26];
    int mGridStart = (WindowWidth - WORDSPACE) / 2, mKeyStart = (WindowWidth - KEYSPACE) / 2;
    char[] mMemBuffer = new char[TRIES * WORDSIZE];
-   int[] mMemBufferColor = new int[TRIES * WORDSIZE];
+   ELetterState[] mCellState = new ELetterState[TRIES * WORDSIZE];
+   ELetterState[] mKeyState = new ELetterState[26];
    #endregion
 
    #region Constants ------------------------------------------------
    const int KEYPERROW = 8, SPACING = 5, TRIES = 6, WORDSIZE = 5;
    const int KEYSPACE = ((KEYPERROW - 1) * SPACING) + 1;
    const int WORDSPACE = ((WORDSIZE - 1) * SPACING) + 1;
+   #endregion
+
+   #region Enums ----------------------------------------------------
+   public enum EGameState { Playing, Won, Lost }
+   public enum ELetterState { Unknown, Absent, Present, Correct }
    #endregion
 }
 #endregion
