@@ -66,7 +66,7 @@ class Wordle {
 
       CursorLeft = mKeyStart;
       for (int i = 0; i < 26; i++) {
-         DrawCell ((char)('A' + i), mKeyState[i]);
+         DrawCell (mKeyState[i] == ELetterState.Absent ? ' ' : (char)('A' + i), mKeyState[i]);
          if ((i + 1) % KEYPERROW == 0) { Write ("\n\n"); CursorLeft = mKeyStart; }
       }
       WriteLine ();
@@ -137,7 +137,7 @@ class Wordle {
    }
 
    // Randomly selects a word.
-   void SelectWord () => mExpected = "RIVER"; // mWordBank.GetRandomWord (); 
+   void SelectWord () => mExpected = mWordBank.GetRandomWord (); 
 
    // Processes the given key for the game.
    void UpdateGameState (ConsoleKeyInfo key) {
@@ -192,7 +192,7 @@ class Wordle {
       Unknown,       // Letter not yet evaluated (untyped cell or unused key)
       Absent,        // Letter is not in the word (RED)
       Present,       // Letter is in the word but at a different position (BLUE)
-      Correct        // Letter is in the word at the correct position (GREEN)
+      Correct,       // Letter is in the word at the correct position (GREEN)
    }
    #endregion
 }
