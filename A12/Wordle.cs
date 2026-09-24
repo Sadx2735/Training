@@ -29,7 +29,7 @@ class Wordle {
    public void Run () {
       SelectWord ();
       DisplayBoard ();
-      while (mState == EGameState.Playing) {
+      while (mState == EGameState.InProgress) {
          UpdateGameState (ReadKey (true));
          DisplayBoard ();
       }
@@ -109,21 +109,21 @@ class Wordle {
 
    // Returns the hints for the current row.
    string GetHints () {
-      if (mState != EGameState.Playing) return "";
+      if (mState != EGameState.InProgress) return "";
       string typed = new string (mMemBuffer, mRow * WORDSIZE, WORDSIZE).TrimEnd ('\0');
       var words = (typed == "") ? mAccWords : mSuggestionEngine.GetSuggestion (typed).ToArray ();
       if (words.Length == 0) return "No Possible Words";
-      return "Hints : " + string.Join (" , ", words.Shuffle ().Take (HINTS)).ToUpper ();
+      return "Hints : " + string.Join (" , ", words.Shuffle ().Take (HINTS));
    }
 
 
    // Prints the final result of the game.
    void PrintResult () {
-      WriteLine ('\n');
       bool won = mState == EGameState.Won;
-      WriteCentered (won ? "YOU GUESSED IT CORRECTLY!"
-                         : $"{mExpected} IS THE WORD! PLEASE TRY AGAIN!",
-                     won ? ConsoleColor.Green : ConsoleColor.Red);
+      WriteLine ('\n');
+      var (text,color) = won ? ("YOU GUESSED IT CORRECTLY!", ConsoleColor.Green) 
+                             : ($"{mExpected} IS THE WORD! PLEASE TRY AGAIN!", ConsoleColor.Red);
+      WriteCentered (text,color);
       ReadKey (true);
    }
 
@@ -164,7 +164,7 @@ class Wordle {
 
    #region Fields ---------------------------------------------------
    int mCursor, mRow;
-   EGameState mState = EGameState.Playing;
+   EGameState mState = EGameState.InProgress;
    string mExpected = "", mStatusMessage = "";
    WordBank mWordBank;
    Trie mSuggestionEngine = new ();
@@ -182,8 +182,18 @@ class Wordle {
    #endregion
 
    #region Enums ----------------------------------------------------
-   public enum EGameState { Playing, Won, Lost }
-   public enum ELetterState { Unknown, Absent, Present, Correct }
+   public enum EGameState {
+      InProgress,    // Game is running, the player can still enter guesses
+      Won,           // Player guessed the word within the allowed tries
+      Lost           // All tries are used up without guessing the word
+   }
+
+   public enum ELetterState {
+      Unknown,       // Letter not yet evaluated (untyped cell or unused key)
+      Absent,        // Letter is not in the word (RED)
+      Present,       // Letter is in the word but at a different position (BLUE)
+      Correct        // Letter is in the word at the correct position (GREEN)
+   }
    #endregion
 }
 #endregion
