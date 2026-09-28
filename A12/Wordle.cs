@@ -39,7 +39,7 @@ class Wordle {
 
    #region Implementation -------------------------------------------
    // Maps a letter state to its display color.
-   static ConsoleColor ColorOf (ELetterState state) => state switch {
+   ConsoleColor ColorOf (ELetterState state) => state switch {
       ELetterState.Absent => ConsoleColor.Red,
       ELetterState.Present => ConsoleColor.Blue,
       ELetterState.Correct => ConsoleColor.Green,
