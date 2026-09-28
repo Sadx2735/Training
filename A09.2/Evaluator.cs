@@ -33,7 +33,7 @@ class Evaluator {
       mOperands.Clear ();
       mOperators.Clear ();
       BasePriority = 0;
-      List<Token> tokens = new ();
+      List<Token> tokens = [];
       var tokenizer = new Tokenizer (this, text);
       for (; ; ) {
          var token = tokenizer.Next ();
@@ -55,7 +55,7 @@ class Evaluator {
       if (mOperators.Count > 0) throw new EvalException ("Too few operands.");
       if (mOperands.Count > 0) throw new EvalException ("Too few operators.");
       if (BasePriority > 0) throw new EvalException ("Missing closing parenthesis.");
-      if (tVariable != null) mVars[tVariable.Name] = f;
+      if (tVariable is not null) mVars[tVariable.Name] = f;
       return f;
    }
 
@@ -86,8 +86,7 @@ class Evaluator {
          case TOpArithmetic arith:
             if (mOperands.Count == 0)
                throw new EvalException ("Too few operands");
-            var f1 = mOperands.Pop ();
-            mOperands.Push (arith.Evaluate (f1, f2));
+            mOperands.Push (arith.Evaluate (mOperands.Pop (), f2));
             break;
          default:
             throw new EvalException ($"Unsupported operator type: {op.GetType ().Name}");
@@ -102,8 +101,7 @@ class Evaluator {
             break;
          case TOperator op:
             op.Priority += BasePriority;
-            bool iRightAssoc = op is TOpUnary
-               || op is TOpFunction || (op is TOpArithmetic opArith && opArith.Op == '^');
+            bool iRightAssoc = op is TOpUnary or TOpFunction or TOpArithmetic { Op: '^' };
             while (mOperators.Count > 0 && (iRightAssoc
                   ? mOperators.Peek ().Priority > op.Priority
                   : mOperators.Peek ().Priority >= op.Priority))

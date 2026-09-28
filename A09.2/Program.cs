@@ -43,7 +43,7 @@ class Program {
       Console.WriteLine ($"| {"Input",-19}| {"Output",-34}| Verdict");
       Console.WriteLine ($"{new string ('-', 20)} {new string ('-', 35)} {new string ('-', 10)}");
       // Valid test cases evaluation
-      foreach ((string qns, double ans) in validCases) {
+      foreach (var (qns, ans) in validCases) {
          var answer = double.NaN;
          try { answer = eval.Evaluate (qns); } catch { }
          bool passed = Math.Abs (answer - ans) < 1e-6

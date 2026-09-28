@@ -25,7 +25,7 @@ class TError : Token {
    #endregion
 
    #region Properties -----------------------------------------------
-   public string Message { get; private set; }
+   public string Message { get; }
    #endregion
 
    #region Methods --------------------------------------------------
@@ -77,7 +77,7 @@ class TOpArithmetic : TOperator {
    #endregion
 
    #region Properties -----------------------------------------------
-   public char Op { get; private set; }
+   public char Op { get; }
    public override int Priority { get; set; }
    #endregion
 
@@ -115,7 +115,7 @@ class TOpFunction : TOperator {
    #endregion
 
    #region Properties -----------------------------------------------
-   public string Func { get; private set; }
+   public string Func { get; }
    public override int Priority { get; set; }
    #endregion
 
@@ -172,7 +172,7 @@ class TOpUnary : TOperator {
 
    #region Properties -----------------------------------------------
    public override int Priority { get; set; }
-   public string Uname { get; private set; }
+   public string Uname { get; }
    #endregion
 
    #region Methods --------------------------------------------------
@@ -197,7 +197,7 @@ class TPunctuation : Token {
    #endregion
 
    #region Properties -----------------------------------------------
-   public char Punct { get; private set; }
+   public char Punct { get; }
    #endregion
 
    #region Methods --------------------------------------------------
@@ -214,7 +214,7 @@ class TVariable : TNumber {
    #endregion
 
    #region Properties -----------------------------------------------
-   public string Name { get; private set; }
+   public string Name { get; }
    public override double Value { get => mEval.GetVariable (Name); }
    #endregion
 
