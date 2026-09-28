@@ -7,6 +7,7 @@
 // ------------------------------------------------------------------------------------------------
 
 using CustomTrie;
+
 using static System.Console;
 
 namespace WordleGame;
