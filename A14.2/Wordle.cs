@@ -20,13 +20,13 @@ class Wordle {
    public Wordle (WordBank bank) {
       mWordBank = bank;
       mBuffer = new StringBuilder ();
+      mExpected = "STRAW"; //mWordBank.GetRandomWord ();
    }
    #endregion
 
    #region Methods --------------------------------------------------
    /// <summary>Runs the Wordle game till the game is over.</summary>
    public void Run () {
-      mExpected = "STRAW"; //mWordBank.GetRandomWord ();
       File.Delete (FILENAME);
       DisplayBoard ();
       while (mState == EGameState.InProgress) {

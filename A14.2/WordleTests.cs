@@ -14,7 +14,9 @@ namespace WordleGame;
 public class WordleTest {
 
    [TestMethod]
-   public void TestKeystrokes () => Play ("APPLE--\n");
+   public void TestKeystrokes () {
+      Play ("APPLE\nAPPLE\nAPPLE\nAPPLE\nAPPLE\nAPPLE\n");
+   }
 
    static void Play (string keys) {
       string output = $"OUTPUT.txt";
