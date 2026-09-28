@@ -1,6 +1,6 @@
 ﻿// ------------------------------------------------------------------------------------------------
 // Training ~ A training program for new joinees at Metamation, Batch - July 2026.
-// Copyright (c) Metamation India.
+// Copyright (c) TRUMPF Metamation India.
 // ------------------------------------------------------------------------------------------------
 // Program.cs
 // Entry point to execute predefined test cases and evaluate interactive user input.

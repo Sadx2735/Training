@@ -1,6 +1,6 @@
 ﻿// ------------------------------------------------------------------------------------------------
 // Training ~ A training program for new joinees at Metamation, Batch - July 2026.
-// Copyright (c) Metamation India.
+// Copyright (c) TRUMPF Metamation India.
 // ------------------------------------------------------------------------------------------------
 // Evaluator.cs
 // Converts input into tokens and processes them.

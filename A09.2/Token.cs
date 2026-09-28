@@ -1,6 +1,6 @@
 ﻿// ------------------------------------------------------------------------------------------------
 // Training ~ A training program for new joinees at Metamation, Batch - July 2026.
-// Copyright (c) Metamation India.
+// Copyright (c) TRUMPF Metamation India.
 // ------------------------------------------------------------------------------------------------
 // Token.cs
 // Defines token types representing numbers, operators, punctuation, and errors.
