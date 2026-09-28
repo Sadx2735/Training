@@ -11,28 +11,12 @@ namespace CustomTrie;
 #region Class Node --------------------------------------------------------------------------------
 /// <summary>A single node of the trie holding links to its child nodes.</summary>
 class Node {
-   #region Constructors ---------------------------------------------
-   /// <summary>Initializes the links for 26 letters.</summary>
-   public Node () => mLinks = new Node[26];
-   #endregion
+   #region Properties -----------------------------------------------
+   /// <summary>Child nodes, one for each letter from 'A' to 'Z'.</summary>
+   public Node[] Links { get; } = new Node[26];
 
-   #region Methods --------------------------------------------------
-   /// <summary>Returns the child node for the given letter.</summary>
-   public Node GetNode (char ch) => mLinks[ch - 'A'];
-
-   /// <summary>Returns true if a word ends at this node.</summary>
-   public bool IsEnd () => mEnd;
-
-   /// <summary>Sets the child node for the given letter.</summary>
-   public void PutNode (char ch, Node nde) => mLinks[ch - 'A'] = nde;
-
-   /// <summary>Marks that a word ends at this node.</summary>
-   public void SetEnd () => mEnd = true;
-   #endregion
-
-   #region Fields ---------------------------------------------------
-   Node[] mLinks;
-   bool mEnd;
+   /// <summary>True if a word ends at this node.</summary>
+   public bool IsEnd { get; set; }
    #endregion
 }
 #endregion
@@ -40,33 +24,28 @@ class Node {
 #region Class Trie --------------------------------------------------------------------------------
 /// <summary>Implements a Trie that stores words and suggests words for a given prefix.</summary>
 public class Trie {
-   #region Constructors ---------------------------------------------
-   /// <summary>Initializes the root node.</summary>
-   public Trie () => mRoot = new Node ();
-   #endregion
-
    #region Methods --------------------------------------------------
-   /// <summary>Returns all the words in the trie that start with the given prefix.</summary>
+   /// <summary>Returns up to 3 words in the trie that start with the given prefix.</summary>
    /// <param name="word">The prefix to search for.</param>
    /// <returns>List of matching words (empty if none).</returns>
    public List<string> GetSuggestion (string word) {
       var results = new List<string> ();
       Node temp = mRoot;
       foreach (var ch in word) {
-         if (temp.GetNode (ch) is null) return results;
-         temp = temp.GetNode (ch);
+         temp = temp.Links[ch - 'A'];
+         if (temp is null) return results;
       }
       DFS (temp, word);
       return results;
 
       // Helper .....................................................
-      // Recursively attempts to search possible words.
+      // Recursively collects the words below the given node.
       void DFS (Node node, string prefix) {
-         if (results.Count >= 3) return;
-         if (node.IsEnd ()) results.Add (prefix);
-         for (char st = 'A'; st <= 'Z'; st++) {
-            var nde = node.GetNode (st);
-            if (nde != null) DFS (nde, prefix + st);
+         if (results.Count == HINTCOUNT) return;
+         if (node.IsEnd) results.Add (prefix);
+         for (int i = 0; i < 26; i++) {
+            var nde = node.Links[i];
+            if (nde != null) DFS (nde, prefix + (char)('A' + i));
          }
       }
    }
@@ -75,16 +54,18 @@ public class Trie {
    /// <param name="word">The word to add.</param>
    public void Insert (string word) {
       Node temp = mRoot;
-      foreach (var ch in word) {
-         if (temp.GetNode (ch) is null) temp.PutNode (ch, new Node ());
-         temp = temp.GetNode (ch);
-      }
-      temp.SetEnd ();
+      foreach (var ch in word)
+         temp = ( temp.Links[ch - 'A'] ) ??= new Node ();
+      temp.IsEnd = true;
    }
    #endregion
 
    #region Fields ---------------------------------------------------
-   Node mRoot;
+   Node mRoot = new ();
+   #endregion
+
+   #region Constants ------------------------------------------------
+   const int HINTCOUNT = 3;
    #endregion
 }
 #endregion
