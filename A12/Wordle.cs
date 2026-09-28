@@ -27,7 +27,7 @@ class Wordle {
    #region Methods --------------------------------------------------
    /// <summary>Runs the Wordle game till the game is over.</summary>
    public void Run () {
-      SelectWord ();
+      mExpected = mWordBank.GetRandomWord ();
       DisplayBoard ();
       while (mState == EGameState.InProgress) {
          UpdateGameState (ReadKey (true));
@@ -72,12 +72,12 @@ class Wordle {
       WriteLine ();
 
       string hints = GetHints ();
-      if (hints != "") {
+      if (!string.IsNullOrEmpty (hints)) {
          WriteLine ('\n');
          WriteCentered (hints, ConsoleColor.Gray);
       }
 
-      if (mStatusMessage != "") {
+      if (!string.IsNullOrEmpty (mStatusMessage)) {
          WriteLine ('\n');
          WriteCentered (mStatusMessage, ConsoleColor.Yellow);
       }
@@ -111,7 +111,7 @@ class Wordle {
    string GetHints () {
       if (mState != EGameState.InProgress) return "";
       string typed = new string (mMemBuffer, mRow * WORDSIZE, WORDSIZE).TrimEnd ('\0');
-      var words = (typed == "") ? mAccWords : mSuggestionEngine.GetSuggestion (typed).ToArray ();
+      var words = string.IsNullOrEmpty (typed) ? mAccWords : mSuggestionEngine.GetSuggestion (typed).ToArray ();
       if (words.Length == 0) return "No Possible Words";
       return "Hints : " + string.Join (" , ", words.Shuffle ().Take (HINTS));
    }
@@ -130,14 +130,14 @@ class Wordle {
    // Validates the current row and updates the game state.
    void ProcessGuess () {
       string guess = new (mMemBuffer, mRow * WORDSIZE, WORDSIZE);
-      if (!mWordBank.IsValidWord (guess)) return;
-      Evaluate (guess); mRow++;
+      if (!mWordBank.IsValidWord (guess)) {
+         mStatusMessage = "Not a valid word";
+         return;
+      }
+      Evaluate (guess);
       if (guess == mExpected) mState = EGameState.Won;
-      else if (mRow == TRIES) mState = EGameState.Lost;
+      else if (++mRow == TRIES) mState = EGameState.Lost;
    }
-
-   // Randomly selects a word.
-   void SelectWord () => mExpected = mWordBank.GetRandomWord (); 
 
    // Processes the given key for the game.
    void UpdateGameState (ConsoleKeyInfo key) {
