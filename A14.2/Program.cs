@@ -16,8 +16,7 @@ class Program {
       OutputEncoding = Encoding.UTF8;
       CursorVisible = false;
       try {
-         var bank = new WordBank ();
-         var game = new Wordle (bank);
+         var game = new Wordle (new WordBank (),"STRAW");
          game.Run ();
       } catch (Exception ex) {
          WriteLine ($"Error loading files: {ex.Message}");

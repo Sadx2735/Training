@@ -15,19 +15,33 @@ public class WordleTest {
 
    [TestMethod]
    public void TestKeystrokes () {
-      Play ("APPLE\nAPPLE\nAPPLE\nAPPLE\nAPPLE\nAPPLE\n");
+      // TEST FOR COLOR CHECK & CORRECT PLAY.
+      Play ("APPLE\nMANGO\nJUICE\nSTORM\nDRAWN\nSTRAW\n", "REFERENCE-1.txt", "STRAW");
+      // TEST FOR COLOR CHECK & WRONG PLAY.
+      Play ("TRASH\nTARTS\nSTARS\nDRIVE\nCHILD\nFEVER\n", "REFERENCE-2.txt", "STRAW");
+      // TEST FOR SOMEOTHER WORD & INTERMEDIATE TERMINATION.
+      Play ("APPLE\nMANGO\n", "REFERENCE-3.txt", "BUILD");
+      // TEST FOR INTERMEDIATE EXIT.
+      Play ("STORM\nSTRAW\n", "REFERENCE-4.txt", "STRAW");
+      // TEST FOR SOMEOTHER WORD & BACKSPACE.
+      Play ("DRIVE\nDROVE\nCOAST\nCOST<<<<TOAST\nBUILD\n", "REFERENCE-5.txt", "BUILD");
+      // Invalid word shows the message, then a valid word on the same row.
+      Play ("APPLE\nZZZZZ\n<<<<<TRASH\n", "REFERENCE-6.txt", "STRAW");
+      // Enter on an incomplete row is ignored, and a 6th letter is ignored.
+      Play ("APP\nLES\n", "REFERENCE-7.txt", "STRAW");
+      // Backspace at the start of a new row must not touch the previous row.
+      Play ("APPLE\n<<MANGO\n", "REFERENCE-8.txt", "STRAW");
    }
 
-   static void Play (string keys) {
+   static void Play (string keys, string reference, string expected) {
       string output = $"OUTPUT.txt";
-      var game = new Wordle (new WordBank ());
+      var game = new Wordle (new WordBank (), expected);
       File.Delete (output);
       foreach (char ch in keys) {
          game.UpdateGameState (ToKey (ch));
          game.SaveBoard (output);
       }
-      string f1 = "TESTCASE.txt";
-      Assert.IsTrue(CheckTextFilesEqual(f1,output));
+      Assert.IsTrue (CheckTextFilesEqual (reference, output));
    }
 
    static bool CheckTextFilesEqual (string f1, string f2) {
@@ -39,7 +53,7 @@ public class WordleTest {
    // Converts a character into a key press: '\n' = Enter, '<' = Backspace, else a letter.
    static ConsoleKeyInfo ToKey (char ch) => ch switch {
       '\n' => new ('\r', ConsoleKey.Enter, false, false, false),
-      '-' => new ('\b', ConsoleKey.Backspace, false, false, false),
+      '<' => new ('\b', ConsoleKey.Backspace, false, false, false),
       _ => new (ch, (ConsoleKey)ch, false, false, false)
    };
 }

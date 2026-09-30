@@ -17,10 +17,19 @@ class Wordle {
    #region Constructors ---------------------------------------------
    /// <summary>Initializes the word bank.</summary>
    /// <param name="bank">Object of WordBank.</param>
+   /// <param name="word">Hardcoded secret word</param>
+   public Wordle (WordBank bank,string word) {
+      mWordBank = bank;
+      mBuffer = new StringBuilder ();
+      mExpected = word;
+   }
+
+   /// <summary>Initializes the word bank.</summary>
+   /// <param name="bank">Object of WordBank.</param>
    public Wordle (WordBank bank) {
       mWordBank = bank;
       mBuffer = new StringBuilder ();
-      mExpected = "STRAW"; //mWordBank.GetRandomWord ();
+      mExpected = mWordBank.GetRandomWord ();
    }
    #endregion
 
@@ -195,7 +204,7 @@ class Wordle {
    #endregion
 
    #region Constants ------------------------------------------------
-   const string FILENAME = "TESTCASE.txt";
+   const string FILENAME = "REFERENCE-10.txt";
    const int HINTS = 3, KEYPERROW = 8, SPACING = 5, TRIES = 6, WORDSIZE = 5;
    const int KEYSPACE = ((KEYPERROW - 1) * SPACING) + 1;
    const int WORDSPACE = ((WORDSIZE - 1) * SPACING) + 1;
