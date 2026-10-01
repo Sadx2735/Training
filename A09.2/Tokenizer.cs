@@ -23,7 +23,7 @@ class Tokenizer {
    public Token Next () => mPrev = FetchNext ();
    #endregion
 
-   #region Implementations ------------------------------------------
+   #region Implementation -------------------------------------------
    // Fetches the next available token from the current position in the text.
    Token FetchNext () {
       while (mN < mText.Length) {
