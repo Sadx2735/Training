@@ -21,7 +21,7 @@ class EvalException : Exception {
 /// <summary>Evaluates expressions and variable assignments.</summary>
 class Evaluator {
    #region Properties -----------------------------------------------
-   public int BasePriority { get; private set; }
+   public int BasePriority { get; set; }
    #endregion
 
    #region Methods --------------------------------------------------
