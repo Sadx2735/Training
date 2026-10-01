@@ -3,7 +3,7 @@
 // Copyright (c) TRUMPF Metamation India.
 // ------------------------------------------------------------------------------------------------
 // Words.cs
-// Helps us with accessing words from the word list.
+// Helps us with accessing words from the embedded word lists.
 // ------------------------------------------------------------------------------------------------
 
 using System.Reflection;
@@ -11,34 +11,22 @@ using System.Reflection;
 namespace WordleGame;
 
 #region Class WordBank ----------------------------------------------------------------------------
-/// <summary>Consists of the useful methods that helps us with accessing words for game.</summary>
+/// <summary>Gives access to the dictionary of valid guesses.</summary>
 class WordBank {
-   #region Constructor ----------------------------------------------
-   /// <summary>Loads all the words in the variables</summary>
-   /// <param name="puzzlePath">Name of the file from with the random word be taken</param>
-   /// <param name="dictPath">Name of the file in which the user guess is checked for valid</param>
-   public WordBank () {
-      mWords = LoadStrings ("puzzle-5.txt");
-      mDictWords = LoadStrings ("dict-5.txt");
-   }
+   #region Constructors ---------------------------------------------
+   /// <summary>Loads the dictionary from the embedded resources.</summary>
+   public WordBank () => mDictWords = LoadStrings ("dict-5.txt");
    #endregion
 
    #region Methods --------------------------------------------------
-   /// <summary>Gives all the words that are present in the dictionary</summary>
-   /// <returns>Returns array of all words in the dictionary.</returns>
-   public string[] GetAllWords () => mDictWords;
-
-   /// <summary>Generates a random word from the dictionary</summary>
-   /// <returns>The generated random word</returns>
-   public string GetRandomWord () => mWords[Random.Shared.Next (mWords.Length)];
-
-   /// <summary>Tells if the particular user input is valid or not</summary>
-   /// <param name="word">given by the user</param>
-   /// <returns>true if the word exist , false if it doesn't exist.</returns>
+   /// <summary>Checks if the given word is in the dictionary.</summary>
+   /// <param name="word">Word guessed by the user.</param>
+   /// <returns>True if the word exists, else false.</returns>
    public bool IsValidWord (string word) => mDictWords.Contains (word);
    #endregion
 
    #region Implementation -------------------------------------------
+   // Reads an embedded resource file and returns its lines (trimmed, without empty lines).
    string[] LoadStrings (string file) {
       using var reader = new StreamReader (Assembly.GetExecutingAssembly ()
          .GetManifestResourceStream ($"A14._2.data.{file}")!);
@@ -48,7 +36,6 @@ class WordBank {
    #endregion
 
    #region Fields ---------------------------------------------------
-   string[] mWords;
    string[] mDictWords;
    #endregion
 }
