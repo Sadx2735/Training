@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>A14._2</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="data\dict-5.txt" />
+    <None Remove="data\puzzle-5.txt" />
+    <None Remove="Reference\REFERENCE-1.txt" />
+    <None Remove="Reference\REFERENCE-2.txt" />
+    <None Remove="Reference\REFERENCE-3.txt" />
+    <None Remove="Reference\REFERENCE-4.txt" />
+    <None Remove="Reference\REFERENCE-5.txt" />
+    <None Remove="Reference\REFERENCE-6.txt" />
+    <None Remove="Reference\REFERENCE-7.txt" />
+    <None Remove="Reference\REFERENCE-8.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Reference\REFERENCE-1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reference\REFERENCE-2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reference\REFERENCE-3.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reference\REFERENCE-4.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reference\REFERENCE-5.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reference\REFERENCE-6.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reference\REFERENCE-7.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reference\REFERENCE-8.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="data\dict-5.txt" />
+    <EmbeddedResource Include="data\puzzle-5.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="4.3.3" />
+    <PackageReference Include="MSTest.TestFramework" Version="4.3.3" />
+  </ItemGroup>
+
+</Project>
