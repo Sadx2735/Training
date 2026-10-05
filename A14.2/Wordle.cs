@@ -3,7 +3,7 @@
 // Copyright (c) TRUMPF Metamation India.
 // ------------------------------------------------------------------------------------------------
 // Wordle.cs
-// Wordle game core logic.
+// Wordle game core logic
 // ------------------------------------------------------------------------------------------------
 
 using System.Text;
@@ -11,25 +11,22 @@ using System.Text;
 namespace WordleGame;
 
 #region Class Wordle ------------------------------------------------------------------------------
-/// <summary>Implements the wordle game logic.</summary>
+/// <summary>Implements the wordle game logic</summary>
 class Wordle {
    #region Constructors ---------------------------------------------
-   /// <summary>Initializes the word bank and the secret word.</summary>
-   /// <param name="bank">Object of WordBank.</param>
-   /// <param name="word">Secret word to use.</param>
+   /// <summary>Initializes the word bank and the secret word</summary>
    public Wordle (WordBank bank, string word) => (mWordBank, mExpected) = (bank, word);
    #endregion
 
    #region Methods --------------------------------------------------
-   /// <summary>Appends the current board with color annotations to a file.</summary>
-   /// <param name="file">File to which the board is saved.</param>
+   /// <summary>Appends the current board with color annotations to a file</summary>
    public void SaveBoard (string file) {
       var sb = new StringBuilder ();
       for (int row = 0; row < TRIES; row++) {
          for (int col = 0; col < WORDSIZE; col++) {
             int idx = row * WORDSIZE + col;
             char ch = idx == mCursor && row == mRow ? '◌'
-                    : mMemBuffer[idx] == default ? '·' : mMemBuffer[idx];
+                    : mGrid[idx] == default ? '·' : mGrid[idx];
             sb.Append (Annotate (ch, mCellState[idx]));
          }
          sb.AppendLine ();
@@ -45,17 +42,16 @@ class Wordle {
       File.AppendAllText (file, sb.ToString ());
    }
 
-   /// <summary>Processes the given key for the game (ignored once the game is over).</summary>
-   /// <param name="key">Details of the key which got pressed.</param>
+   /// <summary>Processes the given key for the game (ignored once the game is over)</summary>
    public void UpdateGameState (ConsoleKeyInfo key) {
       if (mState != EGameState.InProgress) return;
       mStatusMessage = "";
       int rowStart = mRow * WORDSIZE, rowEnd = rowStart + WORDSIZE;
       switch (key.Key) {
          case >= ConsoleKey.A and <= ConsoleKey.Z when mCursor < rowEnd:
-            mMemBuffer[mCursor++] = (char)key.Key; break;
+            mGrid[mCursor++] = (char)key.Key; break;
          case ConsoleKey.Backspace when mCursor > rowStart:
-            mMemBuffer[--mCursor] = default; break;
+            mGrid[--mCursor] = default; break;
          case ConsoleKey.Enter when mCursor == rowEnd:
             ProcessGuess (); break;
       }
@@ -63,15 +59,15 @@ class Wordle {
    #endregion
 
    #region Implementation -------------------------------------------
-   // Wraps a character in brackets based on its state: {} correct, [] present, () absent.
-   static string Annotate (char ch, ELetterState state) => state switch {
+   // Wraps a character in brackets based on its state: {} correct, [] present, () absent
+   string Annotate (char ch, ELetterState state) => state switch {
       ELetterState.Absent => $"({ch})",
       ELetterState.Present => $"[{ch}]",
       ELetterState.Correct => $"{{{ch}}}",
       _ => $" {ch} "
    };
 
-   // Marks each letter of the guess as Correct, Present or Absent.
+   // Marks each letter of the guess as Correct, Present or Absent
    void Evaluate (string guess) {
       int offset = mRow * WORDSIZE;
       List<char> unmatched = [];
@@ -88,9 +84,9 @@ class Wordle {
       }
    }
 
-   // Validates the current row and updates the game state.
+   // Validates the current row and updates the game state
    void ProcessGuess () {
-      string guess = new (mMemBuffer, mRow * WORDSIZE, WORDSIZE);
+      string guess = new (mGrid, mRow * WORDSIZE, WORDSIZE);
       if (!mWordBank.IsValidWord (guess)) {
          mStatusMessage = "Not a valid word";
          return;
@@ -100,17 +96,17 @@ class Wordle {
       else if (++mRow == TRIES) mState = EGameState.Lost;
    }
 
-   // Returns the final result message of the game.
+   // Returns the final result message of the game
    string ResultText () => mState == EGameState.Won ? "YOU GUESSED IT CORRECTLY!"
                                                     : $"{mExpected} IS THE WORD! PLEASE TRY AGAIN!";
    #endregion
 
    #region Fields ---------------------------------------------------
    int mCursor, mRow;
-   EGameState mState = EGameState.InProgress;
+   EGameState mState;
    string mExpected, mStatusMessage = "";
    WordBank mWordBank;
-   char[] mMemBuffer = new char[TRIES * WORDSIZE];
+   char[] mGrid = new char[TRIES * WORDSIZE];
    ELetterState[] mCellState = new ELetterState[TRIES * WORDSIZE];
    ELetterState[] mKeyState = new ELetterState[26];
    #endregion
