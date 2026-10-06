@@ -37,7 +37,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="data\dict-5.txt" />
-    <EmbeddedResource Include="data\puzzle-5.txt" />
   </ItemGroup>
 
   <ItemGroup>

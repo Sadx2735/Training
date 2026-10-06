@@ -79,11 +79,14 @@ public class WordleTest {
    }
 
    // Converts a character into a key press: '\n' = Enter, '<' = Backspace, else a letter
-   ConsoleKeyInfo ToKey (char ch) => ch switch {
-      '\n' => new ('\r', ConsoleKey.Enter, false, false, false),
-      '<' => new ('\b', ConsoleKey.Backspace, false, false, false),
-      _ => new (ch, (ConsoleKey)ch, false, false, false)
-   };
+   ConsoleKeyInfo ToKey (char ch) {
+      var (kc, key) = ch switch {
+         '\n' => ('\r', ConsoleKey.Enter),
+         '<' => ('\b', ConsoleKey.Backspace),
+         _ => (ch, (ConsoleKey)ch)
+      };
+      return new (kc, key, false, false, false);
+   }
    #endregion
 
    #region Fields ---------------------------------------------------
