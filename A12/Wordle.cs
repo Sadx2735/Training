@@ -112,19 +112,19 @@ class Wordle {
    string GetHints () {
       if (mState != EGameState.InProgress) return "";
       string typed = new string (mMemBuffer, mRow * WORDSIZE, WORDSIZE).TrimEnd ('\0');
-      var words = string.IsNullOrEmpty (typed) ? mAccWords : mSuggestionEngine.GetSuggestion (typed).ToArray ();
+      var words = string.IsNullOrEmpty (typed) ? Random.Shared.GetItems (mAccWords, HINTS) 
+                                               : mSuggestionEngine.GetSuggestion (typed).ToArray ();
       if (words.Length == 0) return "No Possible Words";
-      return "Hints : " + string.Join (" , ", words.Shuffle ().Take (HINTS));
+      return "Hints : " + string.Join (" , ", words);
    }
-
 
    // Prints the final result of the game.
    void PrintResult () {
       bool won = mState == EGameState.Won;
       WriteLine ('\n');
-      var (text,color) = won ? ("YOU GUESSED IT CORRECTLY!", ConsoleColor.Green) 
+      var (text, color) = won ? ("YOU GUESSED IT CORRECTLY!", ConsoleColor.Green)
                              : ($"{mExpected} IS THE WORD! PLEASE TRY AGAIN!", ConsoleColor.Red);
-      WriteCentered (text,color);
+      WriteCentered (text, color);
       ReadKey (true);
    }
 

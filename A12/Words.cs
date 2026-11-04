@@ -13,11 +13,9 @@ namespace WordleGame;
 class WordBank {
    #region Constructor ----------------------------------------------
    /// <summary>Loads all the words in the variables</summary>
-   /// <param name="puzzlePath">Name of the file from with the random word be taken</param>
-   /// <param name="dictPath">Name of the file in which the user guess is checked for valid</param>
    public WordBank () {
-      mWords = File.ReadAllLines ("puzzle-5.txt");
-      mDictWords = File.ReadAllLines ("dict-5.txt");
+      mWords = File.ReadAllLines (Path.Combine (AppContext.BaseDirectory, "puzzle-5.txt"));
+      mDictWords = File.ReadAllLines (Path.Combine (AppContext.BaseDirectory, "dict-5.txt"));
    }
    #endregion
 
@@ -26,7 +24,7 @@ class WordBank {
    /// <returns>Returns array of all words in the dictionary.</returns>
    public string[] GetAllWords () => mDictWords;
 
-   /// <summary>Generates a random word from the dictionary</summary>
+   /// <summary>Generates a random word from the puzzle list</summary>
    /// <returns>The generated random word</returns>
    public string GetRandomWord () => mWords[Random.Shared.Next (mWords.Length)];
 

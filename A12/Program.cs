@@ -22,6 +22,6 @@ class Program {
          game.Run ();
       } catch (Exception ex) {
          WriteLine ($"Error loading files: {ex.Message}");
-      }
+      } finally { CursorVisible = true; }
    }
 }
