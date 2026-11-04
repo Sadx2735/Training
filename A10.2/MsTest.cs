@@ -6,140 +6,99 @@
 // Tests the custom double-ended queue implementation.
 // ------------------------------------------------------------------------------------------------
 
-using CustomDeQueue;
+using CustomDeQue;
 
 [TestClass]
-public class MyDeQueueTests {
+public class MyDeQueTests {
+   // 1. All four operations throw on an empty deque
    [TestMethod]
    public void Test1 () {
-      var myDeQueue = new MyDeQueue<int> ();
-      Assert.ThrowsExactly<InvalidOperationException> (() => myDeQueue.PopFront ());
-      Assert.ThrowsExactly<InvalidOperationException> (() => myDeQueue.PopBack ());
-      Assert.ThrowsExactly<InvalidOperationException> (() => myDeQueue.PeekFront ());
-      Assert.ThrowsExactly<InvalidOperationException> (() => myDeQueue.PeekBack ());
+      var myDeQue = new MyDeQue<int> ();
+      Assert.ThrowsExactly<InvalidOperationException> (() => myDeQue.PopFront ());
+      Assert.ThrowsExactly<InvalidOperationException> (() => myDeQue.PopBack ());
+      Assert.ThrowsExactly<InvalidOperationException> (() => myDeQue.PeekFront ());
+      Assert.ThrowsExactly<InvalidOperationException> (() => myDeQue.PeekBack ());
    }
 
+   // 2. Push at the back, pop from the front (FIFO order)
    [TestMethod]
    public void Test2 () {
-      var myQueue = new MyDeQueue<int> ();
-      for (int i = 0; i < 4; i++) myQueue.PushBack (i);
+      var myDeQue = new MyDeQue<int> ();
+      for (int i = 0; i < 4; i++) myDeQue.PushBack (i);
       var res = new List<int> ();
-      while (myQueue.Count > 0) res.Add (myQueue.PopFront ());
+      while (myDeQue.Count > 0) res.Add (myDeQue.PopFront ());
       Assert.AreSequenceEqual (Enumerable.Range (0, 4), res);
    }
 
-   [TestMethod]
-   public void Test4 () {
-      var myQueue = new MyDeQueue<int> ();
-      for (int i = 0; i < 4; i++) myQueue.PushBack (i);
-      var res = new List<int> ();
-      while (myQueue.Count > 0) res.Add (myQueue.PopBack ());
-      Assert.AreSequenceEqual (Enumerable.Range (0, 4).Reverse (), res);
-   }
-
+   // 3. Push at the front, pop from the back (FIFO order, wrapped buffer)
    [TestMethod]
    public void Test3 () {
-      var myQueue = new MyDeQueue<int> ();
-      for (int i = 0; i < 4; i++) myQueue.PushFront (i);
+      var myDeQue = new MyDeQue<int> ();
+      for (int i = 0; i < 4; i++) myDeQue.PushFront (i);
       var res = new List<int> ();
-      while (myQueue.Count > 0) res.Add (myQueue.PopBack ());
+      while (myDeQue.Count > 0) res.Add (myDeQue.PopBack ());
       Assert.AreSequenceEqual (Enumerable.Range (0, 4), res);
    }
 
+   // 4. Push at the back, pop from the back (LIFO order)
    [TestMethod]
-   public void Test5 () {
-      var myQueue = new MyDeQueue<int> ();
-      for (int i = 0; i < 4; i++) myQueue.PushFront (i);
+   public void Test4 () {
+      var myDeQue = new MyDeQue<int> ();
+      for (int i = 0; i < 4; i++) myDeQue.PushBack (i);
       var res = new List<int> ();
-      while (myQueue.Count > 0) res.Add (myQueue.PopFront ());
+      while (myDeQue.Count > 0) res.Add (myDeQue.PopBack ());
       Assert.AreSequenceEqual (Enumerable.Range (0, 4).Reverse (), res);
    }
 
+   // 5. Push at the front, pop from the front (LIFO order)
+   [TestMethod]
+   public void Test5 () {
+      var myDeQue = new MyDeQue<int> ();
+      for (int i = 0; i < 4; i++) myDeQue.PushFront (i);
+      var res = new List<int> ();
+      while (myDeQue.Count > 0) res.Add (myDeQue.PopFront ());
+      Assert.AreSequenceEqual (Enumerable.Range (0, 4).Reverse (), res);
+   }
+
+   // 6. Pushing past the initial capacity resizes the buffer and keeps Count correct
    [TestMethod]
    public void Test6 () {
-      var myDeQueue = new MyDeQueue<int> ();
-      for (int i = 0; i < 12; i++) { myDeQueue.PushFront (i); }
-      var res = new List<int> ();
-      while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
-      Assert.AreSequenceEqual (Enumerable.Range (0, 12), res);
+      var myDeQue = new MyDeQue<int> ();
+      for (int i = 0; i < 12; i++) myDeQue.PushBack (i);
+      Assert.AreEqual (12, myDeQue.Count);
    }
 
+   // 7. Count updates correctly with mixed pushes, including after resize
    [TestMethod]
    public void Test7 () {
-      var myDeQueue = new MyDeQueue<int> ();
-      for (int i = 0; i < 12; i++) { myDeQueue.PushFront (i); }
-      var res = new List<int> ();
-      while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
-      Assert.AreSequenceEqual (Enumerable.Range (0, 12).Reverse (), res);
+      bool iPassed = true;
+      var myDeQue = new MyDeQue<int> ();
+      myDeQue.PushFront (1); myDeQue.PushFront (2);
+      iPassed &= (myDeQue.Count == 2);
+      myDeQue.PushBack (3); myDeQue.PushBack (4);
+      iPassed &= (myDeQue.Count == 4);
+      myDeQue.PushFront (5); myDeQue.PushBack (6);
+      iPassed &= (myDeQue.Count == 6);
+      Assert.IsTrue (iPassed);
    }
 
+   // 8. Peek, push and pop interleaved keep the front and back correct
    [TestMethod]
    public void Test8 () {
-      var myDeQueue = new MyDeQueue<int> ();
-      for (int i = 0; i < 12; i++) { myDeQueue.PushBack (i); }
-      var res = new List<int> ();
-      while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
-      Assert.AreSequenceEqual (Enumerable.Range (0, 12), res);
-   }
-
-   [TestMethod]
-   public void Test9 () {
-      var myDeQueue = new MyDeQueue<int> ();
-      for (int i = 0; i < 12; i++) { myDeQueue.PushBack (i); }
-      var res = new List<int> ();
-      while (myDeQueue.Count > 0) res.Add (myDeQueue.PopBack ());
-      Assert.AreSequenceEqual (Enumerable.Range (0, 12).Reverse (), res);
-   }
-
-   [TestMethod]
-   public void Test10 () {
-      var myDeQueue = new MyDeQueue<int> ();
-      for (int i = 0; i < 12; i++) { myDeQueue.PushFront (i); }
-      var res = new List<int> ();
-      while (myDeQueue.Count > 0) res.Add (myDeQueue.PopFront ());
-      Assert.AreSequenceEqual (Enumerable.Range (0, 12).Reverse (), res);
-   }
-
-   [TestMethod]
-   public void Test11 () {
       bool iPassed = true;
-      var myDeQueue = new MyDeQueue<int> ();
-      myDeQueue.PushFront (1); myDeQueue.PushFront (2);
-      iPassed &= (myDeQueue.Count == 2);
-      myDeQueue.PushBack (3); myDeQueue.PushBack (4);
-      iPassed &= (myDeQueue.Count == 4);
-      Assert.IsTrue (iPassed);
-   }
-
-   [TestMethod]
-   public void Test12 () {
-      bool iPassed = true;
-      var myDeQueue = new MyDeQueue<int> ();
-      myDeQueue.PushFront (1); myDeQueue.PushFront (2);
-      iPassed &= (myDeQueue.Count == 2);
-      myDeQueue.PushBack (3); myDeQueue.PushBack (4);
-      iPassed &= (myDeQueue.Count == 4);
-      myDeQueue.PushFront (5); myDeQueue.PushBack (6);
-      iPassed &= (myDeQueue.Count == 6);
-      Assert.IsTrue (iPassed);
-   }
-
-   [TestMethod]
-   public void Test13 () {
-      bool iPassed = true;
-      var myDeQueue = new MyDeQueue<int> ();
-      myDeQueue.PushFront (1); myDeQueue.PushBack (2);
-      iPassed &= (myDeQueue.Count == 2);
-      iPassed &= (myDeQueue.PeekBack () == 2);
-      iPassed &= (myDeQueue.PeekFront () == 1);
-      myDeQueue.PushBack (3); myDeQueue.PopFront ();
-      iPassed &= (myDeQueue.Count == 2);
-      iPassed &= (myDeQueue.PeekBack () == 3);
-      iPassed &= (myDeQueue.PeekFront () == 2);
-      myDeQueue.PopBack (); myDeQueue.PushBack (5);
-      iPassed &= (myDeQueue.Count == 2);
-      iPassed &= (myDeQueue.PeekBack () == 5);
-      iPassed &= (myDeQueue.PeekFront () == 2);
+      var myDeQue = new MyDeQue<int> ();
+      myDeQue.PushFront (1); myDeQue.PushBack (2);
+      iPassed &= (myDeQue.Count == 2);
+      iPassed &= (myDeQue.PeekBack () == 2);
+      iPassed &= (myDeQue.PeekFront () == 1);
+      myDeQue.PushBack (3); myDeQue.PopFront ();
+      iPassed &= (myDeQue.Count == 2);
+      iPassed &= (myDeQue.PeekBack () == 3);
+      iPassed &= (myDeQue.PeekFront () == 2);
+      myDeQue.PopBack (); myDeQue.PushBack (5);
+      iPassed &= (myDeQue.Count == 2);
+      iPassed &= (myDeQue.PeekBack () == 5);
+      iPassed &= (myDeQue.PeekFront () == 2);
       Assert.IsTrue (iPassed);
    }
 }

@@ -6,7 +6,7 @@
 // Entry point for testing the custom double-ended queue implementation.
 // ------------------------------------------------------------------------------------------------
 
-namespace CustomDeQueue;
+namespace CustomDeQue;
 
 #region Class Program -----------------------------------------------------------------------------
 /// <summary>Tests the custom double-ended queue implementation.</summary>

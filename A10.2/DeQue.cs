@@ -2,17 +2,17 @@
 // Training ~ A training program for new joinees at Metamation, Batch - July 2026.
 // Copyright (c) TRUMPF Metamation India.
 // ------------------------------------------------------------------------------------------------
-// DeQueue.cs
+// DeQue.cs
 // Custom double-ended queue implementation using a circular buffer.
 // ------------------------------------------------------------------------------------------------
 
-namespace CustomDeQueue;
+namespace CustomDeQue;
 
-#region Class DeQueue -----------------------------------------------------------------------------
+#region Class MyDeQue -----------------------------------------------------------------------------
 /// <summary>Implements a custom double ended Queue</summary>
-public class MyDeQueue<T> {
+public class MyDeQue<T> {
    #region Properties -----------------------------------------------
-   /// <summary>the total number of elements contained in the deque.</summary>
+   /// <summary>The total number of elements contained in the deque.</summary>
    public int Count { get; private set; }
    #endregion
 
@@ -20,7 +20,7 @@ public class MyDeQueue<T> {
    /// <summary>Returns the element at the back of the deque.</summary>
    public T PeekBack () {
       if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
-      return mBuffer[((mTail - 1) + mBuffer.Length) % mBuffer.Length];
+      return mBuffer[(mTail - 1 + mBuffer.Length) % mBuffer.Length];
    }
 
    /// <summary>Returns the element at the front of the deque.</summary>
@@ -31,10 +31,10 @@ public class MyDeQueue<T> {
 
    /// <summary>Removes and returns the element at the back of the deque.</summary>
    /// <returns>The element removed from the back.</returns>
-   /// <exception cref="InvalidOperationException">Thrown when the dequeue is empty.</exception>
+   /// <exception cref="InvalidOperationException">Thrown when the deque is empty.</exception>
    public T PopBack () {
       if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
-      mTail = ((mTail - 1) + mBuffer.Length) % mBuffer.Length;
+      mTail = (mTail - 1 + mBuffer.Length) % mBuffer.Length;
       T value = mBuffer[mTail];
       mBuffer[mTail] = default!;
       Count--;
@@ -43,7 +43,7 @@ public class MyDeQueue<T> {
 
    /// <summary>Removes and returns the element at the front of the deque.</summary>
    /// <returns>The element removed from the front.</returns>
-   /// <exception cref="InvalidOperationException">Thrown when the dequeue is empty.</exception>
+   /// <exception cref="InvalidOperationException">Thrown when the deque is empty.</exception>
    public T PopFront () {
       if (Count == 0) throw new InvalidOperationException ("Deque is empty!");
       T value = mBuffer[mHead];
@@ -66,7 +66,7 @@ public class MyDeQueue<T> {
    /// <param name="element">The item to push to the front.</param>
    public void PushFront (T element) {
       if (Count == mBuffer.Length) Resize ();
-      mHead = ((mHead - 1) + mBuffer.Length) % mBuffer.Length;
+      mHead = (mHead - 1 + mBuffer.Length) % mBuffer.Length;
       mBuffer[mHead] = element;
       Count++;
    }
@@ -84,7 +84,8 @@ public class MyDeQueue<T> {
 
    #region Fields ---------------------------------------------------
    T[] mBuffer = new T[4];
-   int mHead, mTail;
+   int mHead;   // mHead points to the current front element.
+   int mTail;   // mTail points to the next free slot at the back.
    #endregion
 }
 #endregion
