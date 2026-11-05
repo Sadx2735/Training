@@ -37,8 +37,8 @@ class Test {
 
    // 1. PopFront on an empty deque throws
    static void Test1 () {
-      bool iPassed = true;
       var myDeQue = new MyDeQue<int> ();
+      bool iPassed;
       try {
          myDeQue.PopFront ();
          iPassed = false;
@@ -50,7 +50,7 @@ class Test {
 
    // 2. PopBack on an empty deque throws
    static void Test2 () {
-      bool iPassed = true;
+      bool iPassed;
       var myDeQue = new MyDeQue<int> ();
       try {
          myDeQue.PopBack ();
@@ -63,7 +63,7 @@ class Test {
 
    // 3. PeekFront on an empty deque throws
    static void Test3 () {
-      bool iPassed = true;
+      bool iPassed;
       var myDeQue = new MyDeQue<int> ();
       try {
          myDeQue.PeekFront ();
@@ -76,7 +76,7 @@ class Test {
 
    // 4. PeekBack on an empty deque throws
    static void Test4 () {
-      bool iPassed = true;
+      bool iPassed;
       var myDeQue = new MyDeQue<int> ();
       try {
          myDeQue.PeekBack ();
