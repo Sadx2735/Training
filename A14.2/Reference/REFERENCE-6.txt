@@ -1,0 +1,279 @@
+ A  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ A  P  ◌  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ A  P  P  ◌  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ A  P  P  L  ◌ 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ A  P  P  L  E 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ ◌  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ Z  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ Z  Z  ◌  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ Z  Z  Z  ◌  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ Z  Z  Z  Z  ◌ 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ Z  Z  Z  Z  Z 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ Z  Z  Z  Z  Z 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+Not a valid word
+
+
+[A](P)(P)(L)(E)
+ Z  Z  Z  Z  ◌ 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ Z  Z  Z  ◌  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ Z  Z  ◌  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ Z  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ ◌  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ T  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ T  R  ◌  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ T  R  A  ◌  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ T  R  A  S  ◌ 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+ T  R  A  S  H 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G  H 
+ I  J  K (L) M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[A](P)(P)(L)(E)
+[T][R][A][S](H)
+ ◌  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D (E) F  G (H)
+ I  J  K (L) M  N  O (P)
+ Q [R][S][T] U  V  W  X 
+ Y  Z 
+

@@ -1,0 +1,433 @@
+ T  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ T  R  ◌  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ T  R  A  ◌  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ T  R  A  S  ◌ 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ T  R  A  S  H 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+ ◌  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q [R][S][T] U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+ T  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q [R][S][T] U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+ T  A  ◌  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q [R][S][T] U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+ T  A  R  ◌  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q [R][S][T] U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+ T  A  R  T  ◌ 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q [R][S][T] U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+ T  A  R  T  S 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q [R][S][T] U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+ ◌  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q {R}[S][T] U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+ S  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q {R}[S][T] U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+ S  T  ◌  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q {R}[S][T] U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+ S  T  A  ◌  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q {R}[S][T] U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+ S  T  A  R  ◌ 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q {R}[S][T] U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+ S  T  A  R  S 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q {R}[S][T] U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+ ◌  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q {R}{S}{T} U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+ D  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q {R}{S}{T} U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+ D  R  ◌  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q {R}{S}{T} U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+ D  R  I  ◌  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q {R}{S}{T} U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+ D  R  I  V  ◌ 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q {R}{S}{T} U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+ D  R  I  V  E 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C  D  E  F  G (H)
+ I  J  K  L  M  N  O  P 
+ Q {R}{S}{T} U  V  W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+ ◌  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C (D)(E) F  G (H)
+(I) J  K  L  M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+ C  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C (D)(E) F  G (H)
+(I) J  K  L  M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+ C  H  ◌  ·  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C (D)(E) F  G (H)
+(I) J  K  L  M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+ C  H  I  ◌  · 
+ ·  ·  ·  ·  · 
+
+[A] B  C (D)(E) F  G (H)
+(I) J  K  L  M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+ C  H  I  L  ◌ 
+ ·  ·  ·  ·  · 
+
+[A] B  C (D)(E) F  G (H)
+(I) J  K  L  M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+ C  H  I  L  D 
+ ·  ·  ·  ·  · 
+
+[A] B  C (D)(E) F  G (H)
+(I) J  K  L  M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+(C)(H)(I)(L)(D)
+ ◌  ·  ·  ·  · 
+
+[A] B (C)(D)(E) F  G (H)
+(I) J  K (L) M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+(C)(H)(I)(L)(D)
+ F  ◌  ·  ·  · 
+
+[A] B (C)(D)(E) F  G (H)
+(I) J  K (L) M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+(C)(H)(I)(L)(D)
+ F  E  ◌  ·  · 
+
+[A] B (C)(D)(E) F  G (H)
+(I) J  K (L) M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+(C)(H)(I)(L)(D)
+ F  E  V  ◌  · 
+
+[A] B (C)(D)(E) F  G (H)
+(I) J  K (L) M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+(C)(H)(I)(L)(D)
+ F  E  V  E  ◌ 
+
+[A] B (C)(D)(E) F  G (H)
+(I) J  K (L) M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+(C)(H)(I)(L)(D)
+ F  E  V  E  R 
+
+[A] B (C)(D)(E) F  G (H)
+(I) J  K (L) M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+[T][R][A][S](H)
+[T][A]{R}(T)[S]
+{S}{T}[A][R](S)
+(D)[R](I)(V)(E)
+(C)(H)(I)(L)(D)
+(F)(E)(V)(E)[R]
+
+[A] B (C)(D)(E)(F) G (H)
+(I) J  K (L) M  N  O  P 
+ Q {R}{S}{T} U (V) W  X 
+ Y  Z 
+
+STRAW IS THE WORD! PLEASE TRY AGAIN!

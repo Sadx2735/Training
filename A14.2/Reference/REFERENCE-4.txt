@@ -1,0 +1,145 @@
+ S  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ S  T  ◌  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ S  T  O  ◌  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ S  T  O  R  ◌ 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ S  T  O  R  M 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+{S}{T}(O)[R](M)
+ ◌  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L (M) N (O) P 
+ Q [R]{S}{T} U  V  W  X 
+ Y  Z 
+
+{S}{T}(O)[R](M)
+ S  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L (M) N (O) P 
+ Q [R]{S}{T} U  V  W  X 
+ Y  Z 
+
+{S}{T}(O)[R](M)
+ S  T  ◌  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L (M) N (O) P 
+ Q [R]{S}{T} U  V  W  X 
+ Y  Z 
+
+{S}{T}(O)[R](M)
+ S  T  R  ◌  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L (M) N (O) P 
+ Q [R]{S}{T} U  V  W  X 
+ Y  Z 
+
+{S}{T}(O)[R](M)
+ S  T  R  A  ◌ 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L (M) N (O) P 
+ Q [R]{S}{T} U  V  W  X 
+ Y  Z 
+
+{S}{T}(O)[R](M)
+ S  T  R  A  W 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L (M) N (O) P 
+ Q [R]{S}{T} U  V  W  X 
+ Y  Z 
+
+{S}{T}(O)[R](M)
+{S}{T}{R}{A}{W}
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+{A} B  C  D  E  F  G  H 
+ I  J  K  L (M) N (O) P 
+ Q {R}{S}{T} U  V {W} X 
+ Y  Z 
+
+YOU GUESSED IT CORRECTLY!

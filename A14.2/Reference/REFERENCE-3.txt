@@ -1,0 +1,144 @@
+ A  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ A  P  ◌  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ A  P  P  ◌  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ A  P  P  L  ◌ 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+ A  P  P  L  E 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+ A  B  C  D  E  F  G  H 
+ I  J  K  L  M  N  O  P 
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+(A)(P)(P){L}(E)
+ ◌  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+(A) B  C  D (E) F  G  H 
+ I  J  K {L} M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+(A)(P)(P){L}(E)
+ M  ◌  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+(A) B  C  D (E) F  G  H 
+ I  J  K {L} M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+(A)(P)(P){L}(E)
+ M  A  ◌  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+(A) B  C  D (E) F  G  H 
+ I  J  K {L} M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+(A)(P)(P){L}(E)
+ M  A  N  ◌  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+(A) B  C  D (E) F  G  H 
+ I  J  K {L} M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+(A)(P)(P){L}(E)
+ M  A  N  G  ◌ 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+(A) B  C  D (E) F  G  H 
+ I  J  K {L} M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+(A)(P)(P){L}(E)
+ M  A  N  G  O 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+(A) B  C  D (E) F  G  H 
+ I  J  K {L} M  N  O (P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
+(A)(P)(P){L}(E)
+(M)(A)(N)(G)(O)
+ ◌  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+ ·  ·  ·  ·  · 
+
+(A) B  C  D (E) F (G) H 
+ I  J  K {L}(M)(N)(O)(P)
+ Q  R  S  T  U  V  W  X 
+ Y  Z 
+
